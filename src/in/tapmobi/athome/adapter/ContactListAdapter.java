@@ -1,7 +1,7 @@
 package in.tapmobi.athome.adapter;
 
 import in.tapmobi.athome.R;
-import in.tapmobi.athome.models.Glossary;
+import in.tapmobi.athome.models.ContactsModel;
 
 import java.util.ArrayList;
 
@@ -21,28 +21,28 @@ import android.widget.TextView;
 public class ContactListAdapter extends BaseAdapter implements Filterable {
 
 	private Context mContext;
-	private ArrayList<Glossary> glossariesList;
+	private ArrayList<ContactsModel> contactsList;
 	/** This is mainly for listview search **/
-	private ArrayList<Glossary> glossariesListForSearch;
+	private ArrayList<ContactsModel> contactsListForSearch;
 	private LayoutInflater mInflater;
 	private AlphabetIndexer mIndexer;
 
-	public ContactListAdapter(Context context, ArrayList<Glossary> glossaries) {
+	public ContactListAdapter(Context context, ArrayList<ContactsModel> contacts) {
 		super();
 		this.mContext = context;
-		this.glossariesList = glossaries;
-		glossariesListForSearch = glossaries;
+		this.contactsList = contacts;
+		contactsListForSearch = contacts;
 		mInflater = LayoutInflater.from(mContext);
 	}
 
 	@Override
 	public int getCount() {
-		return glossariesList.size();
+		return contactsList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return glossariesList.get(position);
+		return contactsList.get(position);
 	}
 
 	@Override
@@ -60,12 +60,14 @@ public class ContactListAdapter extends BaseAdapter implements Filterable {
 			holder.sortKey = (TextView) convertView.findViewById(R.id.sort_key);
 			holder.contactName = (TextView) convertView.findViewById(R.id.Name);
 			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
+			holder.contactNumber = (TextView) convertView.findViewById(R.id.Number);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Glossary glossary = glossariesList.get(position);
+		ContactsModel glossary = contactsList.get(position);
 		holder.contactName.setText(glossary.getName());
+		holder.contactNumber.setText(glossary.getNumber());
 		holder.thumb.setImageURI(glossary.getContactPhotoUri());
 		if (holder.thumb.getDrawable() == null)
 			holder.thumb.setImageResource(R.drawable.def_contact);
@@ -99,6 +101,7 @@ public class ContactListAdapter extends BaseAdapter implements Filterable {
 		LinearLayout sortKeyLayout;
 		TextView sortKey;
 		TextView contactName;
+		TextView contactNumber;
 		ImageView thumb;
 	}
 
@@ -113,7 +116,7 @@ public class ContactListAdapter extends BaseAdapter implements Filterable {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void publishResults(CharSequence constraint, FilterResults results) {
-			glossariesList = (ArrayList<Glossary>) results.values;
+			contactsList = (ArrayList<ContactsModel>) results.values;
 			if (results.count > 0) {
 				notifyDataSetChanged();
 			} else {
@@ -125,23 +128,23 @@ public class ContactListAdapter extends BaseAdapter implements Filterable {
 		@Override
 		public FilterResults performFiltering(CharSequence constraint) {
 			FilterResults filterResults = new FilterResults();
-			ArrayList<Glossary> tempGlossaryList = new ArrayList<Glossary>();
+			ArrayList<ContactsModel> tempContactsList = new ArrayList<ContactsModel>();
 
-			if (constraint != null && glossariesListForSearch != null) {
-				int length = glossariesListForSearch.size();
+			if (constraint != null && contactsListForSearch != null) {
+				int length = contactsListForSearch.size();
 				Log.i("Filtering", "glossaries size" + length);
 				int i = 0;
 				while (i < length) {
-					Glossary item = glossariesListForSearch.get(i);
+					ContactsModel item = contactsListForSearch.get(i);
 					// Real filtering:
 					if (item.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
-						tempGlossaryList.add(item);
+						tempContactsList.add(item);
 					}
 					i++;
 				}
 
-				filterResults.values = tempGlossaryList;
-				filterResults.count = tempGlossaryList.size();
+				filterResults.values = tempContactsList;
+				filterResults.count = tempContactsList.size();
 				Log.i("Filtering", "Filter result count size" + filterResults.count);
 			}
 			return filterResults;

@@ -9,10 +9,11 @@ public class MainActivity extends FragmentActivity {
 
 	private ViewPager mViewPager;
 	private TabsPagerAdapter mAdapter;
-
+	
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
 		// Create an adapter that when requested, will return a fragment
@@ -35,5 +36,18 @@ public class MainActivity extends FragmentActivity {
 		// Set up the ViewPager, attaching the adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mAdapter);
+		
+		
+		// CallLogs l1 =new CallLogs();
+		// l1.setCallDuration("20 mins ago");
+		// l1.setContactName("Rajnikanth Jr");
+		// l1.setContactNumber("1234345345");
+		// sCallLogs.add(l1);
+		//
+		// CallLogs l2 = new CallLogs();
+		// l2.setContactName("Leonardo");
+		// l2.setContactNumber("560560");
+		// l2.setCallDuration("10 mins ago");
+		// sCallLogs.add(l2);
 	}
 }

@@ -21,6 +21,7 @@ public class CallLogsAdapter extends BaseAdapter {
 	public CallLogsAdapter(Context c, ArrayList<CallLogs> callLogs) {
 		mContext = c;
 		this.mCallLogs = callLogs;
+		mInflater = LayoutInflater.from(mContext);
 
 	}
 

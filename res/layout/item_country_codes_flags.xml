@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@color/theme_background" >
+    android:background="@color/theme_background"
+    android:orientation="horizontal" >
 
     <ImageView
         android:id="@+id/imgViewFlag"
@@ -16,13 +16,15 @@
         android:id="@+id/txtViewCountryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/imgViewFlag" />
+        android:layout_toRightOf="@id/imgViewFlag"
+        android:textColor="@color/theme_text" />
 
     <TextView
         android:id="@+id/txtViewCountryCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:textColor="@color/theme_text" />
 
 </RelativeLayout>

@@ -39,7 +39,7 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_subscribe);
+		setContentView(R.layout.activity_registger);
 		mSubscribe = new Subscribe(SubscriptionActivity.this);
 
 		initViews();

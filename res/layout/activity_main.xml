@@ -1,8 +1,8 @@
 <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pager"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@color/theme_background">
+    android:layout_height="match_parent"
+    android:background="@color/theme_background" >
 
     <!--
     This title strip will display the currently visible page title, as well as the page
@@ -11,12 +11,10 @@
 
     <android.support.v4.view.PagerTitleStrip
         android:id="@+id/pager_title_strip"
+        style="@style/PagerTabStripText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@color/theme_headers"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:textColor="#fff" />
+        android:background="@color/theme_headers" />
 
 </android.support.v4.view.ViewPager>

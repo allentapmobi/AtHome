@@ -2,20 +2,25 @@ package in.tapmobi.athome.contacts;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.ContactListAdapter;
-import in.tapmobi.athome.models.Glossary;
+import in.tapmobi.athome.models.ContactsModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Data;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -44,7 +49,7 @@ public class ContactsFragment extends Fragment {
 	private TextView mTitleText;
 	private RelativeLayout mSectionToastLayout;
 	private TextView mSectionToastText;
-	private ArrayList<Glossary> glossaries = new ArrayList<Glossary>();
+	public static ArrayList<ContactsModel> mContactsList = new ArrayList<ContactsModel>();
 	private String alphabet = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private AlphabetIndexer mIndexer;
 	private int lastSelectedPosition = -1;
@@ -78,6 +83,7 @@ public class ContactsFragment extends Fragment {
 		// /////////////////////////////////////
 
 		for (int i = 0; i < alphabet.length(); i++) {
+			
 			TextView letterTextView = new TextView(getActivity().getApplicationContext());
 			letterTextView.setText(alphabet.charAt(i) + "");
 			letterTextView.setTextSize(14f);
@@ -116,7 +122,7 @@ public class ContactsFragment extends Fragment {
 		});
 
 		Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-		Cursor cur = getActivity().getContentResolver().query(uri, new String[] { "display_name", "sort_key", Data.CONTACT_ID }, null, null,
+		Cursor cur = getActivity().getContentResolver().query(uri, new String[] { "display_name", "sort_key", Data.CONTACT_ID ,Phone.NUMBER}, null, null,
 				"sort_key");
 
 		if (cur.moveToFirst()) {
@@ -124,9 +130,12 @@ public class ContactsFragment extends Fragment {
 				do {
 					String id = cur.getString(cur.getColumnIndex(Data.CONTACT_ID));
 					String name = cur.getString(0);
+					String number = cur.getString(cur.getColumnIndex(Phone.NUMBER));
 					String sortKey = getSortKey(cur.getString(1));
+				
 					Log.e("sortKey from cursor", "" + sortKey);
-					Glossary glossary = new Glossary();
+					ContactsModel contacts = new ContactsModel();
+					
 
 					// long userId =
 					// cur.getLong(cur.getColumnIndex(ContactsContract.Contacts._ID));
@@ -134,10 +143,11 @@ public class ContactsFragment extends Fragment {
 					// ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,
 					// userId);
 
-					glossary.setContactPhotoUri(getContactPhotoUri(Long.parseLong(id)));
-					glossary.setName(name);
-					glossary.setSortKey(sortKey);
-					glossaries.add(glossary);
+					contacts.setContactPhotoUri(getContactPhotoUri(Long.parseLong(id)));
+					contacts.setName(name);
+					contacts.setNumber(number);
+					contacts.setSortKey(sortKey);
+					mContactsList.add(contacts);
 				} while (cur.moveToNext());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -145,12 +155,12 @@ public class ContactsFragment extends Fragment {
 			}
 		}
 
-		mAdapter = new ContactListAdapter(getActivity().getApplicationContext(), glossaries);
+		mAdapter = new ContactListAdapter(getActivity().getApplicationContext(), mContactsList);
 
 		mIndexer = new AlphabetIndexer(cur, 1, alphabet);
 		mAdapter.setIndexer(mIndexer);
 
-		if (glossaries != null && glossaries.size() > 0) {
+		if (mContactsList != null && mContactsList.size() > 0) {
 			mListView.setAdapter(mAdapter);
 			mListView.setOnScrollListener(mOnScrollListener);
 			mIndexerLayout.setOnTouchListener(mOnTouchListener);
@@ -239,6 +249,7 @@ public class ContactsFragment extends Fragment {
 
 	private OnTouchListener mOnTouchListener = new OnTouchListener() {
 
+		@SuppressLint("NewApi")
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			float alphabetHeight = mIndexerLayout.getHeight();
