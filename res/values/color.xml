@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="theme_background">#FFFFFF</color>
+    <color name="theme_headers">#3FA580</color>
+    <color name="theme_btn">#E6F9F2</color>
+    <color name="theme_contact_txt">#B0F8DE</color>
+    <color name="letter_bg_color">#1C86EE</color>
+    <color name="WhiteSmoke">#F5F5F5</color>
+
+</resources>
