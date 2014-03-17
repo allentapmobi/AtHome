@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ProfileView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_background" >
+
+    <ImageView
+        android:id="@+id/accImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/generic_icon" />
+
+    <TextView
+        android:id="@+id/txtLabelName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accImage"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:padding="5dp"
+        android:text="Name"
+        android:textColor="#000000" />
+
+    <View
+        android:id="@+id/lineSeperator"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:layout_below="@id/txtLabelName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#000000" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/txtLabelName"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:padding="5dp"
+        android:text="User Name"
+        android:textColor="#000000" />
+
+    <ImageButton
+        android:id="@+id/btnAccEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lineSeperator"
+        android:layout_margin="10dp"
+        android:background="#00000000"
+        android:src="@drawable/edit_icon" />
+
+    <View
+        android:id="@+id/lineSeperator1"
+        android:layout_width="0.8dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/lineSeperator"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/btnAccEdit"
+        android:background="#000000" />
+
+    
+
+</RelativeLayout>

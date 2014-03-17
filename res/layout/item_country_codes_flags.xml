@@ -10,6 +10,7 @@
         android:layout_width="16dp"
         android:layout_height="11dp"
         android:layout_alignParentLeft="true"
+        android:contentDescription="@string/app_name"
         android:layout_margin="5dp" />
 
     <TextView

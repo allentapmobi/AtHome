@@ -1,7 +1,7 @@
 package in.tapmobi.athome.adapter;
 
 import in.tapmobi.athome.R;
-import in.tapmobi.athome.models.Contact;
+import in.tapmobi.athome.models.ContactsModel;
 
 import java.util.ArrayList;
 
@@ -19,17 +19,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ContactAdapter extends BaseAdapter implements Filterable {
-	private ArrayList<Contact> contactList;
-	public ArrayList<Contact> originalList;
+	private ArrayList<ContactsModel> contactList;
+	public ArrayList<ContactsModel> originalList;
 	private Context mContext;
 	private LayoutInflater mInflater;
 	private AlphabetIndexer mIndexer;
 
-	public ContactAdapter(Context context, ArrayList<Contact> items) {
+	public ContactAdapter(Context context, ArrayList<ContactsModel> items) {
 		super();
 		this.mContext = context;
-		this.contactList = new ArrayList<Contact>();
-		this.originalList = new ArrayList<Contact>();
+		this.contactList = new ArrayList<ContactsModel>();
+		this.originalList = new ArrayList<ContactsModel>();
 
 		this.contactList.addAll(items);
 		this.originalList.addAll(items);
@@ -53,12 +53,12 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		final Contact contact = contactList.get(position);
+		final ContactsModel contact = contactList.get(position);
 		holder.thumb.setImageURI(contact.getContactPhotoUri());
 		if (holder.thumb.getDrawable() == null)
 			holder.thumb.setImageResource(R.drawable.def_contact);
 
-		holder.Name.setText(contact.getContactName());
+		holder.Name.setText(contact.getName());
 
 		return convertView;
 	}
@@ -105,7 +105,7 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void publishResults(CharSequence constraint, FilterResults results) {
-			contactList = (ArrayList<Contact>) results.values;
+			contactList = (ArrayList<ContactsModel>) results.values;
 			if (results.count > 0) {
 				notifyDataSetChanged();
 			} else {
@@ -117,16 +117,16 @@ public class ContactAdapter extends BaseAdapter implements Filterable {
 		@Override
 		public FilterResults performFiltering(CharSequence constraint) {
 			FilterResults filterResults = new FilterResults();
-			ArrayList<Contact> tempContactList = new ArrayList<Contact>();
+			ArrayList<ContactsModel> tempContactList = new ArrayList<ContactsModel>();
 
 			if (constraint != null && contactList != null) {
 				int length = contactList.size();
 				Log.i("Filtering", "glossaries size" + length);
 				int i = 0;
 				while (i < length) {
-					Contact item = contactList.get(i);
+					ContactsModel item = contactList.get(i);
 					// Real filtering:
-					if (item.getContactName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+					if (item.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
 						tempContactList.add(item);
 					}
 					i++;

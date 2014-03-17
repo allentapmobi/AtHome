@@ -6,6 +6,7 @@ import android.net.Uri;
 public class CallLogs {
 	private String callId;
 	private String contactName;
+	private int count;
 	private String contactNumber;
 	private String contactEmail;
 	private String callDuration;
@@ -13,7 +14,16 @@ public class CallLogs {
 	private Uri contactPhotoUri;
 	private boolean IsIncoming;
 
-	
+	public CallLogs() {
+
+	}
+
+	public CallLogs(String Name, String Number, String time) {
+		this.contactName = Name;
+		this.contactNumber = Number;
+		this.callDuration = time;
+
+	}
 
 	public String getCallId() {
 		return callId;
@@ -77,6 +87,14 @@ public class CallLogs {
 
 	public void setCallDuration(String callDuration) {
 		this.callDuration = callDuration;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 }

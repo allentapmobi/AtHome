@@ -4,9 +4,7 @@ import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.models.ContactsModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
@@ -20,7 +18,6 @@ import android.provider.ContactsContract.Data;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,7 +39,7 @@ import android.widget.TextView;
 
 public class ContactsFragment extends Fragment {
 
-	protected static final String TAG = "MainActivity";
+	protected static final String TAG = "ContactsFragment";
 	private LinearLayout mIndexerLayout;
 	private ListView mListView;
 	private FrameLayout mTitleLayout;

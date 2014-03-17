@@ -2,6 +2,7 @@ package in.tapmobi.athome.dialpad;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.contacts.ContactsFragment;
+import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.models.CallLogs;
 
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +26,15 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 	TextView txtPhoneNo;
 	Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnCall, btnClear, btnHash, btnAstrix;
 	private String phoneNumber = "";
-	public static ArrayList<CallLogs> sLogs = new ArrayList<CallLogs>();
+	ArrayList<CallLogs> sLogs = new ArrayList<CallLogs>();
 	int count = 0;
+	public DataBaseHandler db;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_dialpad, container, false);
 		txtPhoneNo = (TextView) rootView.findViewById(R.id.txtPhoneNo);
 		txtPhoneNo.setText("");
+		db = new DataBaseHandler(getActivity().getApplicationContext());
 
 		btn1 = (Button) rootView.findViewById(R.id.btnNum1);
 		btn1.setOnClickListener(this);
@@ -117,35 +121,55 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 		String currentTime = getCurrentTime();
 
 		for (int i = 0; i < ContactsFragment.mContactsList.size(); i++) {
-			if (ContactsFragment.mContactsList.get(i).getNumber().equals(Msisdn)) {
+			if (ContactsFragment.mContactsList.get(i).getNumber().contains(Msisdn)) {
 				UserName = ContactsFragment.mContactsList.get(i).getName();
 				contactImg = ContactsFragment.mContactsList.get(i).getContactPhoto();
 				contactImgUri = ContactsFragment.mContactsList.get(i).getContactPhotoUri();
 			}
 		}
 
+		if (sLogs.size() > 0) {
+			int pos = sLogs.size() - 1;
+			String prevContactNumber = sLogs.get(pos).getContactNumber();
+
+			count = 1;
+			if (prevContactNumber.contains(Msisdn)) {
+				count++;
+				callLogs.setContactName(UserName);
+				callLogs.setContactNumber(Msisdn);
+				callLogs.setContactPhoto(contactImg);
+				callLogs.setCount(count);
+				callLogs.setContactPhotoUri(contactImgUri);
+				callLogs.setCallDuration(currentTime);
+				sLogs.add(pos, callLogs);
+			} else {
+				count = 0;
+			}
+		}
 		callLogs.setContactName(UserName);
 		callLogs.setContactNumber(Msisdn);
 		callLogs.setContactPhoto(contactImg);
 		callLogs.setContactPhotoUri(contactImgUri);
 		callLogs.setCallDuration(currentTime);
-
-		// contactLogs.setContactPhoto(contactImg);
-		// contactLogs.setContactPhotoUri(contactImgUri);
-		// contactLogs.setName(UserName);
-		// contactLogs.setNumber(Msisdn);
 		sLogs.add(callLogs);
 
 		// logs.get(count).setContactName(contactName);
 
+		Log.d("Insert: ", "Inserting ..");
+		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
+		db.addCallLogs(new CallLogs(UserName, Msisdn, currentTime));
 	}
 
 	@SuppressLint("SimpleDateFormat")
 	private String getCurrentTime() {
 		Calendar c = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
-		String strDate = sdf.format(c.getTime());
-		return strDate;
+		// SimpleDateFormat sdf = new
+		// SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+		String strTime = sdf.format(c.getTime());
+		SimpleDateFormat sdf1 = new SimpleDateFormat("dd:MMMM:yyyy");
+		String strDate = sdf1.format(c.getTime());
+		return strTime;
 	}
 
 }

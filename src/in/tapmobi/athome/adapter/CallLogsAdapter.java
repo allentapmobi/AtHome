@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CallLogsAdapter extends BaseAdapter {
 	Context mContext;
-	ArrayList<CallLogs> mCallLogs= new ArrayList<CallLogs>();
+	ArrayList<CallLogs> mCallLogs = new ArrayList<CallLogs>();
 	private LayoutInflater mInflater;
 
 	public CallLogsAdapter(Context c, ArrayList<CallLogs> callLogs) {
@@ -50,10 +51,12 @@ public class CallLogsAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.call_log_items, null);
 			holder = new ViewHolder();
+			holder.sectionHeaderDate = (LinearLayout) convertView.findViewById(R.id.sort_by_date);
 			holder.ContactName = (TextView) convertView.findViewById(R.id.txtContactName);
 			holder.contactNumber = (TextView) convertView.findViewById(R.id.txtContactNumber);
 			holder.timeDuration = (TextView) convertView.findViewById(R.id.txtCallTime);
 			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
+			holder.sectionHeaderDate.setVisibility(View.GONE);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -66,12 +69,12 @@ public class CallLogsAdapter extends BaseAdapter {
 		holder.ContactName.setText(Logs.getContactName());
 		holder.contactNumber.setText(Logs.getContactNumber());
 		holder.timeDuration.setText(Logs.getCallDuration());
-		
 
 		return convertView;
 	}
 
 	private static class ViewHolder {
+		LinearLayout sectionHeaderDate;
 		TextView ContactName;
 		TextView contactNumber;
 		TextView timeDuration;
