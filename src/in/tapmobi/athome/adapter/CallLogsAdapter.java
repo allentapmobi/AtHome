@@ -3,8 +3,11 @@ package in.tapmobi.athome.adapter;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.models.CallLogs;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +47,7 @@ public class CallLogsAdapter extends BaseAdapter {
 		return 0;
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -68,7 +72,10 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.thumb.setImageResource(R.drawable.def_contact);
 		holder.ContactName.setText(Logs.getContactName());
 		holder.contactNumber.setText(Logs.getContactNumber());
-		holder.timeDuration.setText(Logs.getCallDuration());
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+		Date dt = Logs.getmDateTimeStamp();
+		String now = sdf.format(dt);
+		holder.timeDuration.setText(now);
 
 		return convertView;
 	}

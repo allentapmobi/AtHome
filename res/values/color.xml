@@ -9,5 +9,10 @@
     <color name="WhiteSmoke">#F5F5F5</color>
     <color name="theme_text">#380B61</color>
     <color name="theme_sub_header_text">#7F7F7F</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="transparent">#00000000</color>
+    <color name="theme_button_selector">#e4e4e4</color>
+    <color name="darkgrey">#6E6E6E</color>
 
 </resources>

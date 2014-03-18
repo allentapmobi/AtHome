@@ -3,15 +3,20 @@ package in.tapmobi.athome.dialpad;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.contacts.ContactsFragment;
 import in.tapmobi.athome.database.DataBaseHandler;
+import in.tapmobi.athome.incall.InCallActivity;
 import in.tapmobi.athome.models.CallLogs;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,10 +27,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class DialpadFragment extends Fragment implements View.OnClickListener {
-
+	Date date;
 	TextView txtPhoneNo;
 	Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnCall, btnClear, btnHash, btnAstrix;
 	private String phoneNumber = "";
+	String UserName = null;
 	ArrayList<CallLogs> sLogs = new ArrayList<CallLogs>();
 	int count = 0;
 	public DataBaseHandler db;
@@ -104,24 +110,23 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 
 		case R.id.btnCall:
 			if (phoneNumber != null) {
-				regInCallLogs(phoneNumber);
-
+				new RegisterCallLogsAsync().execute();
 			}
-
+			break;
 		}
 
 	}
 
 	private void regInCallLogs(String Msisdn) {
 
-		String UserName = null;
 		Bitmap contactImg = null;
 		Uri contactImgUri = null;
 		CallLogs callLogs = new CallLogs();
 		String currentTime = getCurrentTime();
 
 		for (int i = 0; i < ContactsFragment.mContactsList.size(); i++) {
-			if (ContactsFragment.mContactsList.get(i).getNumber().contains(Msisdn)) {
+			String ContactNumber = ContactsFragment.mContactsList.get(i).getNumber();
+			if (ContactNumber.contains(Msisdn)) {
 				UserName = ContactsFragment.mContactsList.get(i).getName();
 				contactImg = ContactsFragment.mContactsList.get(i).getContactPhoto();
 				contactImgUri = ContactsFragment.mContactsList.get(i).getContactPhotoUri();
@@ -165,11 +170,40 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 		Calendar c = Calendar.getInstance();
 		// SimpleDateFormat sdf = new
 		// SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
-		String strTime = sdf.format(c.getTime());
-		SimpleDateFormat sdf1 = new SimpleDateFormat("dd:MMMM:yyyy");
-		String strDate = sdf1.format(c.getTime());
+		String strTime = null;
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			strTime = sdf.format(c.getTime());
+
+			SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm:ss aa");
+			String strDate = sdf1.format(c.getTime());
+			date = sdf.parse(strDate);
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.d("DATE EXCEPTION", "PARSING ISSUE IN  DATE FORMAT");
+		}
 		return strTime;
+	}
+
+	public class RegisterCallLogsAsync extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			regInCallLogs(phoneNumber);
+			return null;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
+			i.putExtra("CONTACT_NAME", UserName);
+			i.putExtra("CONTACT_NUMBER", phoneNumber);
+			startActivity(i);
+		}
 	}
 
 }

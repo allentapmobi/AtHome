@@ -2,13 +2,19 @@ package in.tapmobi.athome.database;
 
 import in.tapmobi.athome.models.CallLogs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.DateFormat;
 
 public class DataBaseHandler extends SQLiteOpenHelper {
 	// All Static variables
@@ -74,15 +80,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Getting All Contacts
+	@SuppressLint("SimpleDateFormat")
 	public ArrayList<CallLogs> getAllCallLogs() {
 		ArrayList<CallLogs> contactList = new ArrayList<CallLogs>();
 
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_CALL_LOGS;
 
+		String callDateTime = null;
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
-
+		Date date = new Date();
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
@@ -94,7 +102,21 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				// logs.setCallId(Integer.parseInt(cursor.getString(0)));
 				logs.setContactName(cursor.getString(1));
 				logs.setContactNumber(cursor.getString(2));
-				logs.setCallDuration(cursor.getString(3));
+				callDateTime = cursor.getString(3);
+				// SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy");
+
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+				try {
+					date = formatter.parse(callDateTime);
+					Date date1 = formatter.parse(callDateTime);
+					System.out.println(date);
+					System.out.println(date1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				logs.setmDateTimeStamp(date);
 				// Adding contact to list
 				contactList.add(logs);
 			} while (cursor.moveToNext());

@@ -1,5 +1,7 @@
 package in.tapmobi.athome.models;
 
+import java.util.Date;
+
 import android.graphics.Bitmap;
 import android.net.Uri;
 
@@ -13,6 +15,7 @@ public class CallLogs {
 	private Bitmap contactPhoto;
 	private Uri contactPhotoUri;
 	private boolean IsIncoming;
+	private Date mDateTimeStamp;
 
 	public CallLogs() {
 
@@ -95,6 +98,14 @@ public class CallLogs {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public Date getmDateTimeStamp() {
+		return mDateTimeStamp;
+	}
+
+	public void setmDateTimeStamp(Date mDateTimeStamp) {
+		this.mDateTimeStamp = mDateTimeStamp;
 	}
 
 }
