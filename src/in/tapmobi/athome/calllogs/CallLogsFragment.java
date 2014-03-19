@@ -29,7 +29,7 @@ public class CallLogsFragment extends Fragment {
 	DataBaseHandler db;
 	LinearLayout mSectionHeader;
 	ArrayList<CallLogs> logs;
-	String Msisdn, UserName = null;
+	String Msisdn, ContactName = null;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_calllogs, container, false);
@@ -67,7 +67,7 @@ public class CallLogsFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
 				Msisdn = logs.get(pos).getContactNumber();
-				UserName = logs.get(pos).getContactName();
+				ContactName = logs.get(pos).getContactName();
 				if (Msisdn != null) {
 					new RegisterCallLogsAsync().execute();
 				}
@@ -90,7 +90,7 @@ public class CallLogsFragment extends Fragment {
 			super.onPreExecute();
 
 			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
-			i.putExtra("CONTACT_NAME", UserName);
+			i.putExtra("CONTACT_NAME", ContactName);
 			i.putExtra("CONTACT_NUMBER", Msisdn);
 			startActivity(i);
 		}

@@ -14,5 +14,6 @@
     <color name="transparent">#00000000</color>
     <color name="theme_button_selector">#e4e4e4</color>
     <color name="darkgrey">#6E6E6E</color>
+    <color name="black">#000000</color>
 
 </resources>

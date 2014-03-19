@@ -61,6 +61,7 @@
         <TableRow>
 
             <LinearLayout
+                android:id="@+id/layoutMuteButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -80,6 +81,7 @@
                     android:src="@drawable/mute" />
 
                 <TextView
+                    android:id="@+id/txtMute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/txtMute"
@@ -87,6 +89,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutHoldButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -106,6 +109,7 @@
                     android:src="@drawable/hold" />
 
                 <TextView
+                    android:id="@+id/txtHold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/txtHold"
@@ -116,6 +120,7 @@
         <TableRow>
 
             <LinearLayout
+                android:id="@+id/layoutSpeakerButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -135,6 +140,7 @@
                     android:src="@drawable/speaker" />
 
                 <TextView
+                    android:id="@+id/txtSpeaker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/txtSpeaker"
