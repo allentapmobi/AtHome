@@ -50,4 +50,10 @@ public class MainActivity extends FragmentActivity {
 		// l2.setCallDuration("10 mins ago");
 		// sCallLogs.add(l2);
 	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mAdapter.notifyDataSetChanged();
+	}
 }

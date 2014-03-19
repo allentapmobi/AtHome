@@ -8,13 +8,14 @@
         android:id="@+id/txtPhoneNo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:background="#ffffff"
         android:gravity="right"
         android:padding="10dp"
         android:singleLine="true"
-        android:textColor="#000000"
-        android:textSize="32sp" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/theme_text"
+        android:textSize="38sp" />
 
     <TableLayout
         android:id="@+id/tableId"

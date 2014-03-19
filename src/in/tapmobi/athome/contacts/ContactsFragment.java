@@ -2,14 +2,20 @@ package in.tapmobi.athome.contacts;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.ContactListAdapter;
+import in.tapmobi.athome.database.DataBaseHandler;
+import in.tapmobi.athome.incall.InCallActivity;
+import in.tapmobi.athome.models.CallLogs;
 import in.tapmobi.athome.models.ContactsModel;
+import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -29,6 +35,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AlphabetIndexer;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -53,6 +61,10 @@ public class ContactsFragment extends Fragment {
 	private ContactListAdapter mAdapter;
 	RelativeLayout progressLayout;
 	private EditText myFilter;
+	Cursor cur;
+	String Msisdn, UserName = null;
+	ArrayList<CallLogs> logs;
+	DataBaseHandler db;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +77,7 @@ public class ContactsFragment extends Fragment {
 		mSectionToastLayout = (RelativeLayout) rootView.findViewById(R.id.section_toast_layout);
 		mSectionToastText = (TextView) rootView.findViewById(R.id.section_toast_text);
 		myFilter = (EditText) rootView.findViewById(R.id.search_txt);
+		db = new DataBaseHandler(getActivity().getApplicationContext());
 
 		// /////////// Custom progress Layout //////////////////////
 		progressLayout = (RelativeLayout) rootView.findViewById(R.id.progress_layout);
@@ -80,7 +93,7 @@ public class ContactsFragment extends Fragment {
 		// /////////////////////////////////////
 
 		for (int i = 0; i < alphabet.length(); i++) {
-			
+
 			TextView letterTextView = new TextView(getActivity().getApplicationContext());
 			letterTextView.setText(alphabet.charAt(i) + "");
 			letterTextView.setTextSize(14f);
@@ -114,12 +127,14 @@ public class ContactsFragment extends Fragment {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// call the filter with the current text on the editbox
-				 mAdapter.getFilter().filter(s.toString());
+				mAdapter.getFilter().filter(s.toString());
 			}
 		});
 
+		// if (mContactsList == null && mContactsList.size() < 0) {
+
 		Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-		Cursor cur = getActivity().getContentResolver().query(uri, new String[] { "display_name", "sort_key", Data.CONTACT_ID ,Phone.NUMBER}, null, null,
+		cur = getActivity().getContentResolver().query(uri, new String[] { "display_name", "sort_key", Data.CONTACT_ID, Phone.NUMBER }, null, null,
 				"sort_key");
 
 		if (cur.moveToFirst()) {
@@ -129,10 +144,9 @@ public class ContactsFragment extends Fragment {
 					String name = cur.getString(0);
 					String number = cur.getString(cur.getColumnIndex(Phone.NUMBER));
 					String sortKey = getSortKey(cur.getString(1));
-				
+
 					Log.e("sortKey from cursor", "" + sortKey);
 					ContactsModel contacts = new ContactsModel();
-					
 
 					// long userId =
 					// cur.getLong(cur.getColumnIndex(ContactsContract.Contacts._ID));
@@ -151,6 +165,7 @@ public class ContactsFragment extends Fragment {
 				e.printStackTrace();
 			}
 		}
+		// }
 
 		mAdapter = new ContactListAdapter(getActivity().getApplicationContext(), mContactsList);
 
@@ -161,6 +176,17 @@ public class ContactsFragment extends Fragment {
 			mListView.setAdapter(mAdapter);
 			mListView.setOnScrollListener(mOnScrollListener);
 			mIndexerLayout.setOnTouchListener(mOnTouchListener);
+			mListView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+					Msisdn = mContactsList.get(pos).getNumber();
+					UserName = mContactsList.get(pos).getName();
+					if (Msisdn != null) {
+						new RegisterCallLogsAsync().execute();
+					}
+				}
+			});
 		}
 
 	}
@@ -318,4 +344,22 @@ public class ContactsFragment extends Fragment {
 		return false;
 	}
 
+	public class RegisterCallLogsAsync extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			Utility.regInCallLogs(Msisdn);
+			return null;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
+			i.putExtra("CONTACT_NAME", UserName);
+			i.putExtra("CONTACT_NUMBER", Msisdn);
+			startActivity(i);
+		}
+	}
 }

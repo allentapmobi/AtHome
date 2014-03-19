@@ -5,10 +5,13 @@ import in.tapmobi.athome.adapter.CallLogsAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.incall.InCallActivity;
 import in.tapmobi.athome.models.CallLogs;
+import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,6 +29,7 @@ public class CallLogsFragment extends Fragment {
 	DataBaseHandler db;
 	LinearLayout mSectionHeader;
 	ArrayList<CallLogs> logs;
+	String Msisdn, UserName = null;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_calllogs, container, false);
@@ -37,24 +41,58 @@ public class CallLogsFragment extends Fragment {
 		// Reading all contacts
 		Log.d("Reading: ", "Reading all contacts..");
 		logs = db.getAllCallLogs();
+		// ArrayList<CallLogs> logsIter = new ArrayList<CallLogs>();
+
+		// Iterator<CallLogs> mIterator = logs.iterator();
+		// while (mIterator.hasNext()) {
+		// CallLogs clgs = (CallLogs) mIterator.next();
+		// if(!logsIter.contains(clgs)){
+		// logsIter.add(clgs);
+		// }
+		// }
+
+		Collections.sort(logs, new CallLogs.DateComparator());
 
 		// Sort based on time;
 
 		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), logs);
 		lvCallLogs = (ListView) rootView.findViewById(R.id.lvCallLogs);
 		lvCallLogs.setAdapter(mLogAdapter);
+
+		// Refresh call logs array.
+		lvCallLogs.invalidateViews();
+
 		lvCallLogs.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
-				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
-				i.putExtra("CONTACT_NAME", logs.get(pos).getContactName());
-				i.putExtra("CONTACT_NUMBER", logs.get(pos).getContactNumber());
-				startActivity(i);
+				Msisdn = logs.get(pos).getContactNumber();
+				UserName = logs.get(pos).getContactName();
+				if (Msisdn != null) {
+					new RegisterCallLogsAsync().execute();
+				}
 			}
 		});
 
 		return rootView;
 	}
 
+	public class RegisterCallLogsAsync extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			Utility.regInCallLogs(Msisdn);
+			return null;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
+			i.putExtra("CONTACT_NAME", UserName);
+			i.putExtra("CONTACT_NUMBER", Msisdn);
+			startActivity(i);
+		}
+	}
 }

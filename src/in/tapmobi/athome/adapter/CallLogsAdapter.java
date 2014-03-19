@@ -20,6 +20,7 @@ import android.widget.TextView;
 public class CallLogsAdapter extends BaseAdapter {
 	Context mContext;
 	ArrayList<CallLogs> mCallLogs = new ArrayList<CallLogs>();
+	String Name, number = null;
 	private LayoutInflater mInflater;
 
 	public CallLogsAdapter(Context c, ArrayList<CallLogs> callLogs) {
@@ -70,8 +71,17 @@ public class CallLogsAdapter extends BaseAdapter {
 		holder.thumb.setImageURI(Logs.getContactPhotoUri());
 		if (holder.thumb.getDrawable() == null)
 			holder.thumb.setImageResource(R.drawable.def_contact);
-		holder.ContactName.setText(Logs.getContactName());
-		holder.contactNumber.setText(Logs.getContactNumber());
+
+		Name = Logs.getContactName();
+		number = Logs.getContactNumber();
+		if (Name != null) {
+			holder.ContactName.setText(Name);
+			holder.contactNumber.setText(number);
+		} else {
+			holder.ContactName.setText(number);
+			holder.contactNumber.setText("");
+		}
+
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
 		Date dt = Logs.getmDateTimeStamp();
 		String now = sdf.format(dt);

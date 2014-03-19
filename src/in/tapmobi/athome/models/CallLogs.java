@@ -1,11 +1,12 @@
 package in.tapmobi.athome.models;
 
+import java.util.Comparator;
 import java.util.Date;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-public class CallLogs {
+public class CallLogs implements Comparable<CallLogs> {
 	private String callId;
 	private String contactName;
 	private int count;
@@ -108,4 +109,22 @@ public class CallLogs {
 		this.mDateTimeStamp = mDateTimeStamp;
 	}
 
+	@Override
+	public int compareTo(CallLogs cl) {
+
+		return getmDateTimeStamp().compareTo(cl.getmDateTimeStamp());
+	}
+
+	public static class DateComparator implements Comparator<CallLogs> {
+		@Override
+		public int compare(CallLogs lhs, CallLogs rhs) {
+
+			if (lhs.getmDateTimeStamp().getTime() < rhs.getmDateTimeStamp().getTime())
+				return 1;
+			else if (lhs.getmDateTimeStamp().getTime() == rhs.getmDateTimeStamp().getTime())
+				return 0;
+			else
+				return -1;
+		}
+	}
 }
