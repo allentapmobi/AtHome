@@ -3,12 +3,17 @@ package in.tapmobi.athome.subscription;
 import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.CountriesListAdapter;
+import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.util.Utility;
+
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +34,9 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 	public static String sCode = null;
 	public static String sCountry = null;
 	SessionManager session;
+	Utility util;
 	public static RelativeLayout progressLayout;
+	public static ArrayList<ContactsModel> mContact = new ArrayList<ContactsModel>();
 
 	Dialog dialog;
 	Subscribe mSubscribe;
@@ -41,6 +48,7 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_registger);
 		mSubscribe = new Subscribe(SubscriptionActivity.this);
+		util = new Utility(SubscriptionActivity.this);
 
 		initViews();
 		session = new SessionManager(SubscriptionActivity.this);
@@ -121,9 +129,29 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		if (session.isVerfied()) {
+			progressLayout.setVisibility(View.VISIBLE);
+			new getContactsAsync().execute();
+		}
+	}
+
+	private class getContactsAsync extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			mContact.addAll(Utility.getContactsList());
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+		
 			Intent i = new Intent(SubscriptionActivity.this, MainActivity.class);
 			startActivity(i);
+			progressLayout.setVisibility(View.GONE);
 			SubscriptionActivity.this.finish();
+			super.onPostExecute(result);
 		}
+
 	}
 }

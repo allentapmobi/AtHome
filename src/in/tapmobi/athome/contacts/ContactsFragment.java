@@ -5,22 +5,15 @@ import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.incall.InCallActivity;
 import in.tapmobi.athome.models.CallLogs;
-import in.tapmobi.athome.models.ContactsModel;
+import in.tapmobi.athome.subscription.SubscriptionActivity;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
-import android.content.ContentUris;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.Data;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -54,14 +47,14 @@ public class ContactsFragment extends Fragment {
 	private TextView mTitleText;
 	private RelativeLayout mSectionToastLayout;
 	private TextView mSectionToastText;
-	public static ArrayList<ContactsModel> mContactsList = new ArrayList<ContactsModel>();
+	// public static ArrayList<ContactsModel> mContactsList = new
+	// ArrayList<ContactsModel>();
 	private String alphabet = "#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private AlphabetIndexer mIndexer;
 	private int lastSelectedPosition = -1;
 	private ContactListAdapter mAdapter;
 	RelativeLayout progressLayout;
 	private EditText myFilter;
-	Cursor cur;
 	String Msisdn, UserName = null;
 	ArrayList<CallLogs> logs;
 	DataBaseHandler db;
@@ -131,79 +124,30 @@ public class ContactsFragment extends Fragment {
 			}
 		});
 
-		// if (mContactsList == null && mContactsList.size() < 0) {
-
-		Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-		cur = getActivity().getContentResolver().query(uri, new String[] { "display_name", "sort_key", Data.CONTACT_ID, Phone.NUMBER }, null, null,
-				"sort_key");
-
-		if (cur.moveToFirst()) {
-			try {
-				do {
-					String id = cur.getString(cur.getColumnIndex(Data.CONTACT_ID));
-					String name = cur.getString(0);
-					String number = cur.getString(cur.getColumnIndex(Phone.NUMBER));
-					String sortKey = getSortKey(cur.getString(1));
-
-					Log.e("sortKey from cursor", "" + sortKey);
-					ContactsModel contacts = new ContactsModel();
-
-					// long userId =
-					// cur.getLong(cur.getColumnIndex(ContactsContract.Contacts._ID));
-					// photoUri =
-					// ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI,
-					// userId);
-
-					contacts.setContactPhotoUri(getContactPhotoUri(Long.parseLong(id)));
-					contacts.setName(name);
-					contacts.setNumber(number);
-					contacts.setSortKey(sortKey);
-					mContactsList.add(contacts);
-				} while (cur.moveToNext());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if (SubscriptionActivity.mContact.size() == 0) {
+			SubscriptionActivity.mContact.addAll(Utility.getContactsList());
 		}
-		// }
+		mAdapter = new ContactListAdapter(getActivity().getApplicationContext(), SubscriptionActivity.mContact);
 
-		mAdapter = new ContactListAdapter(getActivity().getApplicationContext(), mContactsList);
-
-		mIndexer = new AlphabetIndexer(cur, 1, alphabet);
+		mIndexer = new AlphabetIndexer(Utility.cur, 1, alphabet);
 		mAdapter.setIndexer(mIndexer);
 
-		if (mContactsList != null && mContactsList.size() > 0) {
-			mListView.setAdapter(mAdapter);
-			mListView.setOnScrollListener(mOnScrollListener);
-			mIndexerLayout.setOnTouchListener(mOnTouchListener);
-			mListView.setOnItemClickListener(new OnItemClickListener() {
+		mListView.setAdapter(mAdapter);
+		mListView.setOnScrollListener(mOnScrollListener);
+		mIndexerLayout.setOnTouchListener(mOnTouchListener);
+		mListView.setOnItemClickListener(new OnItemClickListener() {
 
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-					Msisdn = mContactsList.get(pos).getNumber();
-					UserName = mContactsList.get(pos).getName();
-					if (Msisdn != null) {
-						new RegisterCallLogsAsync().execute();
-					}
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+				Msisdn = SubscriptionActivity.mContact.get(pos).getNumber();
+				UserName = SubscriptionActivity.mContact.get(pos).getName();
+				if (Msisdn != null) {
+					new RegisterCallLogsAsync().execute();
 				}
-			});
-		}
-
+			}
+		});
 	}
 
-	public Uri getContactPhotoUri(long contactId) {
-		Uri photoUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-		photoUri = Uri.withAppendedPath(photoUri, Contacts.Photo.CONTENT_DIRECTORY);
-		return photoUri;
-	}
-
-	private String getSortKey(String sortKeyString) {
-		String key = sortKeyString.substring(0, 1).toUpperCase();
-		if (key.matches("[A-Z]")) {
-			return key;
-		}
-		return "#";
-	}
 
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
 

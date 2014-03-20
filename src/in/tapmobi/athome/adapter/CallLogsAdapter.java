@@ -61,6 +61,7 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.contactNumber = (TextView) convertView.findViewById(R.id.txtContactNumber);
 			holder.timeDuration = (TextView) convertView.findViewById(R.id.txtCallTime);
 			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
+			holder.count = (TextView) convertView.findViewById(R.id.txtCallCount);
 			holder.sectionHeaderDate.setVisibility(View.GONE);
 			convertView.setTag(holder);
 		} else {
@@ -72,6 +73,13 @@ public class CallLogsAdapter extends BaseAdapter {
 		if (holder.thumb.getDrawable() == null)
 			holder.thumb.setImageResource(R.drawable.def_contact);
 
+		holder.count.setVisibility(View.GONE);
+		// if(Logs.getCount() == 0){
+		// holder.count.setVisibility(View.GONE);
+		// }else{
+		// holder.count.setVisibility(View.VISIBLE);
+		// holder.count.setText("("+String.valueOf(Logs.getCount())+")");
+		// }
 		Name = Logs.getContactName();
 		number = Logs.getContactNumber();
 		if (Name != null) {
@@ -96,6 +104,7 @@ public class CallLogsAdapter extends BaseAdapter {
 		TextView contactNumber;
 		TextView timeDuration;
 		ImageView thumb;
+		TextView count;
 
 	}
 

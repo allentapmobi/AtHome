@@ -5,6 +5,7 @@ import in.tapmobi.athome.adapter.CallLogsAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.incall.InCallActivity;
 import in.tapmobi.athome.models.CallLogs;
+import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class CallLogsFragment extends Fragment {
 	CallLogsAdapter mLogAdapter;
 	DataBaseHandler db;
 	LinearLayout mSectionHeader;
-	ArrayList<CallLogs> logs;
+
+	ArrayList<ContactsModel> mContacts = new ArrayList<ContactsModel>();
 	String Msisdn, ContactName = null;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,22 +42,17 @@ public class CallLogsFragment extends Fragment {
 
 		// Reading all contacts
 		Log.d("Reading: ", "Reading all contacts..");
-		logs = db.getAllCallLogs();
-		// ArrayList<CallLogs> logsIter = new ArrayList<CallLogs>();
+		// logs = db.getAllCallLogs();
+		// logs.addAll(Utility.getCallLogs());
+		if (Utility.CallLogs.size() > 0)
+			Utility.CallLogs.clear();
+		Utility.CallLogs.addAll(Utility.getCallLogs());
 
-		// Iterator<CallLogs> mIterator = logs.iterator();
-		// while (mIterator.hasNext()) {
-		// CallLogs clgs = (CallLogs) mIterator.next();
-		// if(!logsIter.contains(clgs)){
-		// logsIter.add(clgs);
-		// }
-		// }
-
-		Collections.sort(logs, new CallLogs.DateComparator());
+		Collections.sort(Utility.CallLogs, new CallLogs.DateComparator());
 
 		// Sort based on time;
 
-		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), logs);
+		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), Utility.CallLogs);
 		lvCallLogs = (ListView) rootView.findViewById(R.id.lvCallLogs);
 		lvCallLogs.setAdapter(mLogAdapter);
 
@@ -66,8 +63,8 @@ public class CallLogsFragment extends Fragment {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
-				Msisdn = logs.get(pos).getContactNumber();
-				ContactName = logs.get(pos).getContactName();
+				Msisdn = Utility.CallLogs.get(pos).getContactNumber();
+				ContactName = Utility.CallLogs.get(pos).getContactName();
 				if (Msisdn != null) {
 					new RegisterCallLogsAsync().execute();
 				}

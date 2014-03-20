@@ -2,8 +2,10 @@ package in.tapmobi.athome.dialpad;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.incall.InCallActivity;
+import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.util.Utility;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Intent;
@@ -14,22 +16,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class DialpadFragment extends Fragment implements View.OnClickListener {
 	Date date;
-	TextView txtPhoneNo;
+	// TextView txtPhoneNo;
+	EditText txtPhoneNo;
 	Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btnCall, btnClear, btnHash, btnAstrix;
 	private String phoneNumber = "";
 	String UserName = null;
 	Utility util;
+
 	// ArrayList<CallLogs> sLogs = new ArrayList<CallLogs>();
 	// int count = 0;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_dialpad, container, false);
-		txtPhoneNo = (TextView) rootView.findViewById(R.id.txtPhoneNo);
+		txtPhoneNo = (EditText) rootView.findViewById(R.id.txtPhoneNo);
 		txtPhoneNo.setText("");
+		txtPhoneNo.setKeyListener(null);
+
 		util = new Utility(getActivity().getApplicationContext());
 		btn1 = (Button) rootView.findViewById(R.id.btnNum1);
 		btn1.setOnClickListener(this);
@@ -100,6 +106,7 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 		case R.id.btnCall:
 			if (phoneNumber != null) {
 				new RegisterCallLogsAsync().execute();
+				txtPhoneNo.setText("");
 			}
 			break;
 		}
