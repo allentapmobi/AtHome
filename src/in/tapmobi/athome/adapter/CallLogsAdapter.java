@@ -2,6 +2,7 @@ package in.tapmobi.athome.adapter;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.models.CallLogs;
+import in.tapmobi.athome.util.Utility;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class CallLogsAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.call_log_items, null);
 			holder = new ViewHolder();
 			holder.sectionHeaderDate = (LinearLayout) convertView.findViewById(R.id.sort_by_date);
+			holder.sectionHeaderText = (TextView) convertView.findViewById(R.id.sort_date_text);
 			holder.ContactName = (TextView) convertView.findViewById(R.id.txtContactName);
 			holder.contactNumber = (TextView) convertView.findViewById(R.id.txtContactNumber);
 			holder.timeDuration = (TextView) convertView.findViewById(R.id.txtCallTime);
@@ -90,16 +92,25 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.contactNumber.setText("");
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa dd-mmm-yyyy");
 		Date dt = Logs.getmDateTimeStamp();
-		String now = sdf.format(dt);
-		holder.timeDuration.setText(now);
+		String timeNow = sdf.format(dt);
+		holder.timeDuration.setText(timeNow);
+		Date currentTime = Utility.getCurrentDateTime();
+		if (dt.before(currentTime)) {// returns true if current greater
+			holder.sectionHeaderDate.setVisibility(View.GONE);
+			holder.sectionHeaderText.setText("Yesterday");
+
+		} else if (dt.after(currentTime)) {
+			holder.sectionHeaderDate.setVisibility(View.GONE);
+		}
 
 		return convertView;
 	}
 
 	private static class ViewHolder {
 		LinearLayout sectionHeaderDate;
+		TextView sectionHeaderText;
 		TextView ContactName;
 		TextView contactNumber;
 		TextView timeDuration;

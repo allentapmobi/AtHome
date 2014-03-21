@@ -1,4 +1,4 @@
-package in.tapmobi.athome.subscription;
+package in.tapmobi.athome.registration;
 
 import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.server.ServerAPI;
@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
 
-public class Subscribe {
+public class Register {
 
 	private String virtualNumber = "+919793015544";
 	String message;
@@ -39,7 +39,7 @@ public class Subscribe {
 	Runnable updateUserVerifyRunnable, updateRunnable;
 	Handler myHandler = new Handler();
 
-	public Subscribe(Context ctx) {
+	public Register(Context ctx) {
 		this.mContext = ctx;
 		session = new SessionManager(mContext);
 	}
@@ -49,15 +49,15 @@ public class Subscribe {
 		MSISDN = msisdn;
 		if (msisdn.length() > 2) {
 			isVerified = false;
-			SubscriptionActivity.progressLayout.setVisibility(View.VISIBLE);
-			SubscriptionActivity.progressLayout.setOnTouchListener(new OnTouchListener() {
+			RegisterationActivity.progressLayout.setVisibility(View.VISIBLE);
+			RegisterationActivity.progressLayout.setOnTouchListener(new OnTouchListener() {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					return true;
 				}
 			});
 
-			SubscriptionActivity.progressLayout.setVisibility(View.GONE);
+			RegisterationActivity.progressLayout.setVisibility(View.GONE);
 
 			int phoneNo;
 			try {
@@ -109,7 +109,7 @@ public class Subscribe {
 	}
 
 	private void createMsg(String msisdn) {
-		SubscriptionActivity.progressLayout.setVisibility(View.VISIBLE);
+		RegisterationActivity.progressLayout.setVisibility(View.VISIBLE);
 		// phoneNumber = etPhoneNo.getText().toString();
 
 		if (msisdn != null && msisdn != "" && msisdn.length() != 0) {
@@ -197,12 +197,12 @@ public class Subscribe {
 													.setTitle("").setCancelable(true)
 													.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 														public void onClick(DialogInterface dialog, int whichButton) {
-															SubscriptionActivity.progressLayout.setVisibility(View.GONE);
+															RegisterationActivity.progressLayout.setVisibility(View.GONE);
 														}
 													}).show();
 
 										} else {
-											SubscriptionActivity.progressLayout.setVisibility(View.GONE);
+											RegisterationActivity.progressLayout.setVisibility(View.GONE);
 											// createRealm(phoneNumber);
 											session.createPhoneNumber(MSISDN);
 											updateUI();
@@ -222,19 +222,19 @@ public class Subscribe {
 					break;
 				case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
 					Toast.makeText(mContext, "Verification failed!", Toast.LENGTH_SHORT).show();
-					SubscriptionActivity.progressLayout.setVisibility(View.GONE);
+					RegisterationActivity.progressLayout.setVisibility(View.GONE);
 					break;
 				case SmsManager.RESULT_ERROR_NO_SERVICE:
 					Toast.makeText(mContext, "No service", Toast.LENGTH_SHORT).show();
-					SubscriptionActivity.progressLayout.setVisibility(View.GONE);
+					RegisterationActivity.progressLayout.setVisibility(View.GONE);
 					break;
 				case SmsManager.RESULT_ERROR_NULL_PDU:
 					Toast.makeText(mContext, "Verification failed!", Toast.LENGTH_SHORT).show();
-					SubscriptionActivity.progressLayout.setVisibility(View.GONE);
+					RegisterationActivity.progressLayout.setVisibility(View.GONE);
 					break;
 				case SmsManager.RESULT_ERROR_RADIO_OFF:
 					Toast.makeText(mContext, "Verification failed!", Toast.LENGTH_SHORT).show();
-					SubscriptionActivity.progressLayout.setVisibility(View.GONE);
+					RegisterationActivity.progressLayout.setVisibility(View.GONE);
 					break;
 				}
 			}

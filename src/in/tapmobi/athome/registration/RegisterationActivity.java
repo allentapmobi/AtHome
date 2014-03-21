@@ -1,4 +1,4 @@
-package in.tapmobi.athome.subscription;
+package in.tapmobi.athome.registration;
 
 import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.R;
@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class SubscriptionActivity extends Activity implements OnClickListener {
+public class RegisterationActivity extends Activity implements OnClickListener {
 
 	EditText etMsisdn;
 	Button btnCountryCodes, btnContinue;
@@ -39,7 +39,7 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 	public static ArrayList<ContactsModel> mContact = new ArrayList<ContactsModel>();
 
 	Dialog dialog;
-	Subscribe mSubscribe;
+	Register mSubscribe;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,11 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_registger);
-		mSubscribe = new Subscribe(SubscriptionActivity.this);
-		util = new Utility(SubscriptionActivity.this);
+		mSubscribe = new Register(RegisterationActivity.this);
+		util = new Utility(RegisterationActivity.this);
 
 		initViews();
-		session = new SessionManager(SubscriptionActivity.this);
+		session = new SessionManager(RegisterationActivity.this);
 
 	}
 
@@ -77,11 +77,11 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.btnRegister:
-			Utility.hideSoftKeyboard(SubscriptionActivity.this);
-			if (Utility.isNetworkAvailable(SubscriptionActivity.this)) {
+			Utility.hideSoftKeyboard(RegisterationActivity.this);
+			if (Utility.isNetworkAvailable(RegisterationActivity.this)) {
 				mSubscribe.RegisterMsisdn(etMsisdn.getEditableText().toString());
 			} else {
-				Toast.makeText(SubscriptionActivity.this, "No Network connectivity.Please try later", Toast.LENGTH_SHORT).show();
+				Toast.makeText(RegisterationActivity.this, "No Network connectivity.Please try later", Toast.LENGTH_SHORT).show();
 			}
 
 			break;
@@ -95,7 +95,7 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 
 		final String[] recourseList = this.getResources().getStringArray(R.array.CountryCodes);
 
-		AlertDialog.Builder alertDialog = new AlertDialog.Builder(SubscriptionActivity.this);
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegisterationActivity.this);
 
 		LayoutInflater inflater = getLayoutInflater();
 		alertDialog.setCancelable(true);
@@ -146,10 +146,10 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(Void result) {
 		
-			Intent i = new Intent(SubscriptionActivity.this, MainActivity.class);
+			Intent i = new Intent(RegisterationActivity.this, MainActivity.class);
 			startActivity(i);
 			progressLayout.setVisibility(View.GONE);
-			SubscriptionActivity.this.finish();
+			RegisterationActivity.this.finish();
 			super.onPostExecute(result);
 		}
 

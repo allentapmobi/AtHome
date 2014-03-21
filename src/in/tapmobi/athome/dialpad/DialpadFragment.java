@@ -2,10 +2,8 @@ package in.tapmobi.athome.dialpad;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.incall.InCallActivity;
-import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.util.Utility;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Intent;

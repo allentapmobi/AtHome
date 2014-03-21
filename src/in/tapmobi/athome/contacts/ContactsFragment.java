@@ -5,7 +5,7 @@ import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.incall.InCallActivity;
 import in.tapmobi.athome.models.CallLogs;
-import in.tapmobi.athome.subscription.SubscriptionActivity;
+import in.tapmobi.athome.registration.RegisterationActivity;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
@@ -124,10 +124,10 @@ public class ContactsFragment extends Fragment {
 			}
 		});
 
-		if (SubscriptionActivity.mContact.size() == 0) {
-			SubscriptionActivity.mContact.addAll(Utility.getContactsList());
+		if (RegisterationActivity.mContact.size() == 0) {
+			RegisterationActivity.mContact.addAll(Utility.getContactsList());
 		}
-		mAdapter = new ContactListAdapter(getActivity().getApplicationContext(), SubscriptionActivity.mContact);
+		mAdapter = new ContactListAdapter(getActivity().getApplicationContext(), RegisterationActivity.mContact);
 
 		mIndexer = new AlphabetIndexer(Utility.cur, 1, alphabet);
 		mAdapter.setIndexer(mIndexer);
@@ -139,8 +139,8 @@ public class ContactsFragment extends Fragment {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Msisdn = SubscriptionActivity.mContact.get(pos).getNumber();
-				UserName = SubscriptionActivity.mContact.get(pos).getName();
+				Msisdn = RegisterationActivity.mContact.get(pos).getNumber();
+				UserName = RegisterationActivity.mContact.get(pos).getName();
 				if (Msisdn != null) {
 					new RegisterCallLogsAsync().execute();
 				}

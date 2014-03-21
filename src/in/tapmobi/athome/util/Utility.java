@@ -3,7 +3,7 @@ package in.tapmobi.athome.util;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.models.CallLogs;
 import in.tapmobi.athome.models.ContactsModel;
-import in.tapmobi.athome.subscription.SubscriptionActivity;
+import in.tapmobi.athome.registration.RegisterationActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -126,6 +126,23 @@ public class Utility {
 		return strTime;
 	}
 
+	@SuppressLint("SimpleDateFormat")
+	public static Date getCurrentDateTime() {
+		Calendar c = Calendar.getInstance();
+		try {
+
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			String strDate = sdf1.format(c.getTime());
+			date = sdf1.parse(strDate);
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.d("DATE EXCEPTION", "PARSING ISSUE IN  DATE FORMAT");
+		}
+		return date;
+	}
+
 	public static ArrayList<ContactsModel> getContactsList() {
 
 		if (sContacts.size() == 0) {
@@ -186,13 +203,13 @@ public class Utility {
 			CallLogs = db.getAllCallLogs();
 		}
 		for (int i = 0; i < CallLogs.size(); i++) {
-			for (int j = 0; j < SubscriptionActivity.mContact.size(); j++) {
+			for (int j = 0; j < RegisterationActivity.mContact.size(); j++) {
 
 				String logNumber = CallLogs.get(i).getContactNumber();
-				String contactNumber = SubscriptionActivity.mContact.get(j).getNumber();
+				String contactNumber = RegisterationActivity.mContact.get(j).getNumber();
 				if (logNumber.equals(contactNumber)) {
-					CallLogs.get(i).setContactPhoto(SubscriptionActivity.mContact.get(j).getContactPhoto());
-					CallLogs.get(i).setContactPhotoUri(SubscriptionActivity.mContact.get(j).getContactPhotoUri());
+					CallLogs.get(i).setContactPhoto(RegisterationActivity.mContact.get(j).getContactPhoto());
+					CallLogs.get(i).setContactPhotoUri(RegisterationActivity.mContact.get(j).getContactPhotoUri());
 					break;
 				}
 			}

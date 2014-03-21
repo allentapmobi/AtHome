@@ -2,6 +2,7 @@ package in.tapmobi.athome.session;
 
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -38,8 +39,11 @@ public class SessionManager {
 	public static final String KEY_NAME = "UserName";
 	public static final String KEY_PHOTO = "UserPhoto";
 	public static final String KEY_STATUS = "UserStatus";
+	public static final String KEY_PASSWORD = "UserPassword";
+	public static final String KEY_DOMAIN = "UserDomian";
 
 	// Constructor
+	@SuppressLint("CommitPrefEdits")
 	public SessionManager(Context context) {
 		this._context = context;
 		pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -75,8 +79,6 @@ public class SessionManager {
 		return user;
 	}
 
-
-	
 	public String getUserPhoneNumber() {
 
 		String phone = pref.getString(KEY_PHONE_NUMBER, null);
@@ -85,7 +87,6 @@ public class SessionManager {
 		// return Phone Number
 		return phone;
 	}
-
 
 	public void createPhoneNumber(String number) {
 		// Storing login value as TRUE
