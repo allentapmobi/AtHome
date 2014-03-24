@@ -34,13 +34,15 @@ public class SessionManager {
 
 	// Email address
 	public static final String KEY_PHONE_NUMBER = "PhoneNumber";
+	
 
 	// User Profile
 	public static final String KEY_NAME = "UserName";
 	public static final String KEY_PHOTO = "UserPhoto";
 	public static final String KEY_STATUS = "UserStatus";
-	public static final String KEY_PASSWORD = "UserPassword";
-	public static final String KEY_DOMAIN = "UserDomian";
+	public static final String SIP_PASSWORD = "SipPassword";
+	public static final String SIP_DOMAIN = "SipDomian";
+	public static final String SIP_USERNAME = "SipUsername";
 
 	// Constructor
 	@SuppressLint("CommitPrefEdits")
@@ -64,6 +66,41 @@ public class SessionManager {
 		editor.commit();
 	}
 
+	/**
+	 * Create Sip sessions
+	 */
+	public void createSipProfile(String Name, String domain, String password) {
+		// Storing username
+		editor.putString(SIP_USERNAME, Name);
+		// Storing domain
+		editor.putString(SIP_DOMAIN, domain);
+		// Storing password
+		editor.putString(SIP_PASSWORD, password);
+	}
+	/**
+	 * Get stored sip session user
+	 */
+	public String getSipUserName(){
+		String username = pref.getString(SIP_USERNAME, null);
+		editor.commit();
+		
+		return username;
+	}
+	
+	public String getSipPassword(){
+		String password = pref.getString(SIP_PASSWORD, null);
+		editor.commit();
+		
+		return password;
+	}
+	
+	public String getSipDomain(){
+		String domain = pref.getString(SIP_DOMAIN, null);
+		editor.commit();
+		
+		return domain;
+	}
+	
 	/**
 	 * Get stored session data
 	 * */

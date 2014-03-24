@@ -1,4 +1,4 @@
-package in.tapmobi.athome.SIP;
+package in.tapmobi.athome.sip;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

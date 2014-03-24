@@ -1,34 +1,43 @@
-package in.tapmobi.athome.SIP;
+package in.tapmobi.athome.sip;
 
+import in.tapmobi.athome.session.SessionManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ParseException;
 import android.net.sip.SipAudioCall;
+import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
+import android.net.sip.SipRegistrationListener;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SipRegisteration {
 
-	Context mContext;
+	public Context mContext;
 	public String sipAddress = null;
 
 	public SipManager mSipManager = null;
 	public SipProfile mProfile = null;
 	public SipAudioCall mCall = null;
-	// public IncomingCallReceiver callReceiver;
+	public IncommingCallReceiver callReceiver;
+	SessionManager session;
 
-	private static final int CALL_ADDRESS = 1;
-	private static final int SET_AUTH_INFO = 2;
-	private static final int UPDATE_SETTINGS_DIALOG = 3;
-	private static final int HANG_UP = 4;
+	// private static final int CALL_ADDRESS = 1;
+	// private static final int SET_AUTH_INFO = 2;
+	// private static final int UPDATE_SETTINGS_DIALOG = 3;
+	// private static final int HANG_UP = 4;
 
 	public SipRegisteration(Context ctx) {
 		this.mContext = ctx;
+		session = new SessionManager(mContext);
 	}
 
-	public void initializeManager() {
+	public void initializeManager() throws java.text.ParseException {
 		if (mSipManager == null) {
 			mSipManager = SipManager.newInstance(mContext);
+
 		}
 		initializeLocalProfile();
 	}
@@ -36,8 +45,10 @@ public class SipRegisteration {
 	/**
 	 * Logs you into your SIP provider, registering this device as the location
 	 * to send SIP calls to for your SIP address.
+	 * 
+	 * @throws java.text.ParseException
 	 */
-	public void initializeLocalProfile() {
+	public void initializeLocalProfile() throws java.text.ParseException {
 		if (mSipManager == null) {
 			return;
 
@@ -45,6 +56,55 @@ public class SipRegisteration {
 
 		if (mProfile != null) {
 			closeLocalProfile();
+		}
+		String password = session.getSipPassword();
+		String username = session.getSipUserName();
+		String domain = session.getSipDomain();
+
+		if (username == null || domain == null || password == null) {
+			Intent intent = new Intent(mContext, SipDetails.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			mContext.startActivity(intent);
+		} else {
+
+			try {
+				SipProfile.Builder builder = new SipProfile.Builder(username, domain);
+				builder.setPassword(password);
+				mProfile = builder.build();
+
+				Intent i = new Intent();
+				i.setAction("android.SipDemo.INCOMING_CALL");
+				PendingIntent pi = PendingIntent.getBroadcast(mContext, 0, i, Intent.FILL_IN_DATA);
+				mSipManager.open(mProfile, pi, null);
+
+				// This listener must be added AFTER manager.open is
+				// called,Otherwise the methods arent guaranteed to fire.
+
+				mSipManager.setRegistrationListener(mProfile.getUriString(), new SipRegistrationListener() {
+
+					@Override
+					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
+						Toast.makeText(mContext, "Registration failed.  Please check your settings.", Toast.LENGTH_SHORT).show();
+
+					}
+
+					@Override
+					public void onRegistrationDone(String localProfileUri, long expiryTime) {
+						Toast.makeText(mContext, "Ready - Registered with SIP server", Toast.LENGTH_SHORT).show();
+
+					}
+
+					@Override
+					public void onRegistering(String localProfileUri) {
+						Toast.makeText(mContext, "Registering with SIP server", Toast.LENGTH_SHORT).show();
+					}
+				});
+
+			} catch (ParseException pe) {
+				pe.printStackTrace();
+			} catch (SipException se) {
+				se.printStackTrace();
+			}
 		}
 	}
 
@@ -67,7 +127,7 @@ public class SipRegisteration {
 	 */
 	public void initiateCall() {
 
-		updateStatus(sipAddress);
+		// updateStatus(sipAddress);
 
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
@@ -80,12 +140,12 @@ public class SipRegisteration {
 					call.startAudio();
 					call.setSpeakerMode(true);
 					call.toggleMute();
-					updateStatus(mCall);
+					// updateStatus(mCall);
 				}
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
-					updateStatus("Ready.");
+					// updateStatus("Ready.");
 				}
 			};
 
@@ -105,37 +165,6 @@ public class SipRegisteration {
 				mCall.close();
 			}
 		}
-	}
-
-	/**
-	 * Updates the status box at the top of the UI with a messege of your
-	 * choice.
-	 * 
-	 * @param status
-	 *            The String to display in the status box.
-	 */
-	public void updateStatus(final String status) {
-		// Be a good citizen. Make sure UI changes fire on the UI thread.
-		// this.runOnUiThread(new Runnable() {
-		// public void run() {
-		// TextView labelView = (TextView) findViewById(R.id.sipLabel);
-		// labelView.setText(status);
-		// }
-		// });
-	}
-
-	/**
-	 * Updates the status box with the SIP address of the current call.
-	 * 
-	 * @param call
-	 *            The current, active call.
-	 */
-	public void updateStatus(SipAudioCall call) {
-		String useName = call.getPeerProfile().getDisplayName();
-		if (useName == null) {
-			useName = call.getPeerProfile().getUserName();
-		}
-		updateStatus(useName + "@" + call.getPeerProfile().getSipDomain());
 	}
 
 	public void updatePreferences() {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package in.tapmobi.athome.SIP;
+package in.tapmobi.athome.sip;
 
 import in.tapmobi.athome.R;
 import android.os.Bundle;

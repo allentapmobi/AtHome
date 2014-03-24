@@ -1573,7 +1573,7 @@ containing a value of this type.
         public static final int abs__title=0x7f050020;
         public static final int abs__up=0x7f050010;
         public static final int accImage=0x7f050075;
-        public static final int action_settings=0x7f050081;
+        public static final int action_settings=0x7f050088;
         public static final int album_item=0x7f050037;
         public static final int bottom=0x7f050003;
         public static final int btnAccEdit=0x7f050079;
@@ -1598,6 +1598,7 @@ containing a value of this type.
         public static final int btnNum9=0x7f05006e;
         public static final int btnRegister=0x7f05004d;
         public static final int btnSpeaker=0x7f050045;
+        public static final int btnSubmit=0x7f050087;
         public static final int btnTabLayout=0x7f05003d;
         public static final int callStatus=0x7f05003b;
         public static final int contactList=0x7f05005f;
@@ -1606,6 +1607,9 @@ containing a value of this type.
         public static final int disableHome=0x7f05000e;
         public static final int edit_query=0x7f05002b;
         public static final int etAddPhone=0x7f05004c;
+        public static final int etPassword=0x7f050086;
+        public static final int etSipDomain=0x7f050084;
+        public static final int etUserName=0x7f050082;
         public static final int homeAsUp=0x7f05000b;
         public static final int imgViewFlag=0x7f05007b;
         public static final int indexer_layout=0x7f050060;
@@ -1654,7 +1658,10 @@ containing a value of this type.
         public static final int txtMute=0x7f050040;
         public static final int txtName=0x7f050078;
         public static final int txtPhoneNo=0x7f050063;
+        public static final int txtSipDomain=0x7f050083;
+        public static final int txtSipPassword=0x7f050085;
         public static final int txtSpeaker=0x7f050046;
+        public static final int txtUserName=0x7f050081;
         public static final int txtViewCountryCode=0x7f05007d;
         public static final int txtViewCountryName=0x7f05007c;
         public static final int underline=0x7f050002;
@@ -1706,6 +1713,7 @@ containing a value of this type.
         public static final int progress_dialog_custom=0x7f030021;
         public static final int sherlock_spinner_dropdown_item=0x7f030022;
         public static final int sherlock_spinner_item=0x7f030023;
+        public static final int sip_details_activity=0x7f030024;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;
@@ -1753,36 +1761,39 @@ containing a value of this type.
         public static final int abs__shareactionprovider_share_with_application=0x7f0b0007;
         public static final int action_settings=0x7f0b000e;
         public static final int app_name=0x7f0b000d;
-        public static final int astrix=0x7f0b0029;
-        public static final int call=0x7f0b002b;
-        public static final int clear=0x7f0b002c;
-        public static final int eight=0x7f0b0026;
+        public static final int astrix=0x7f0b002c;
+        public static final int call=0x7f0b002e;
+        public static final int clear=0x7f0b002f;
+        public static final int eight=0x7f0b0029;
         public static final int enter_no=0x7f0b0013;
         public static final int et_enter_name=0x7f0b0011;
-        public static final int five=0x7f0b0023;
-        public static final int four=0x7f0b0022;
-        public static final int hash=0x7f0b002a;
-        public static final int header_incall=0x7f0b002d;
+        public static final int five=0x7f0b0026;
+        public static final int four=0x7f0b0025;
+        public static final int hash=0x7f0b002d;
+        public static final int header_incall=0x7f0b0030;
         public static final int hello_world=0x7f0b000f;
-        public static final int nine=0x7f0b0027;
-        public static final int one=0x7f0b001f;
+        public static final int nine=0x7f0b002a;
+        public static final int one=0x7f0b0022;
         public static final int press_continue=0x7f0b0014;
         public static final int register_header=0x7f0b0012;
-        public static final int seven=0x7f0b0025;
-        public static final int six=0x7f0b0024;
-        public static final int three=0x7f0b0021;
-        public static final int two=0x7f0b0020;
+        public static final int seven=0x7f0b0028;
+        public static final int six=0x7f0b0027;
+        public static final int three=0x7f0b0024;
+        public static final int two=0x7f0b0023;
         public static final int txtCallIncoming=0x7f0b001b;
         public static final int txtCallStatus=0x7f0b001a;
         public static final int txtHold=0x7f0b001e;
         public static final int txtMute=0x7f0b001c;
+        public static final int txtSipDomain=0x7f0b0021;
+        public static final int txtSipPassword=0x7f0b0020;
+        public static final int txtSipUserName=0x7f0b001f;
         public static final int txtSpeaker=0x7f0b001d;
         public static final int txt_btn_Continue=0x7f0b0017;
         public static final int txt_mobile_safe=0x7f0b0016;
         public static final int txt_name=0x7f0b0010;
         public static final int txt_privacy_pol=0x7f0b0018;
         public static final int txt_validation_sent=0x7f0b0015;
-        public static final int zero=0x7f0b0028;
+        public static final int zero=0x7f0b002b;
     }
     public static final class style {
         /** 
