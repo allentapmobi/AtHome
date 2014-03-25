@@ -22,7 +22,7 @@
     <string name="txtSipUserName">Username :</string>
     <string name="txtSipPassword">Password :</string>
     <string name="txtSipDomain">Domain :</string>
-
+    <string name="txtEditUserProfile">Sip Configuration</string>
     <!-- Country Codes Array -->
     <string-array name="CountryCodes">
         <item>93,AF</item>

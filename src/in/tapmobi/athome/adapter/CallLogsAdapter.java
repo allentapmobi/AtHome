@@ -92,7 +92,7 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.contactNumber.setText("");
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa dd-mmm-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa dd-MM-yyyy");
 		Date dt = Logs.getmDateTimeStamp();
 		String timeNow = sdf.format(dt);
 		holder.timeDuration.setText(timeNow);

@@ -138,14 +138,14 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			
+
 			mContact.addAll(Utility.getContactsList());
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
-		
+
 			Intent i = new Intent(RegisterationActivity.this, MainActivity.class);
 			startActivity(i);
 			progressLayout.setVisibility(View.GONE);

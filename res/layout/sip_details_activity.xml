@@ -7,13 +7,25 @@
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/txtHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_headers"
+        android:gravity="center_horizontal"
+        android:padding="15dp"
+        android:text="@string/txtEditUserProfile"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/txtUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_margin="10dp"
-        android:textColor="@color/theme_text"
-        android:text="@string/txtSipUserName" />
+        android:layout_marginTop="15dp"
+        android:text="@string/txtSipUserName"
+        android:textColor="@color/theme_text" />
 
     <EditText
         android:id="@+id/etUserName"
@@ -21,52 +33,50 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:ems="10"
-        android:textColor="@color/theme_sub_header_text"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColor="@color/theme_sub_header_text" />
 
     <TextView
         android:id="@+id/txtSipDomain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textColor="@color/theme_text"
-        android:text="@string/txtSipDomain" />
+        android:text="@string/txtSipDomain"
+        android:textColor="@color/theme_text" />
 
     <EditText
         android:id="@+id/etSipDomain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textColor="@color/theme_sub_header_text"
+        android:ems="10"
         android:inputType="textWebEmailAddress"
-        android:ems="10" />
+        android:textColor="@color/theme_sub_header_text" />
 
     <TextView
         android:id="@+id/txtSipPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textColor="@color/theme_text"
-        android:text="@string/txtSipPassword" />
+        android:text="@string/txtSipPassword"
+        android:textColor="@color/theme_text" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textColor="@color/theme_sub_header_text"
         android:ems="10"
-        android:inputType="textPassword" >
-
-        <requestFocus />
+        android:inputType="textPassword"
+        android:textColor="@color/theme_sub_header_text" >
     </EditText>
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="SIP Setup" 
-        android:layout_gravity="center_horizontal"/>
+        android:text="SIP Setup" />
 
 </LinearLayout>

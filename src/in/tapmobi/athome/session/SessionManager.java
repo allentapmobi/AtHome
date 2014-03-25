@@ -34,7 +34,6 @@ public class SessionManager {
 
 	// Email address
 	public static final String KEY_PHONE_NUMBER = "PhoneNumber";
-	
 
 	// User Profile
 	public static final String KEY_NAME = "UserName";
@@ -76,31 +75,34 @@ public class SessionManager {
 		editor.putString(SIP_DOMAIN, domain);
 		// Storing password
 		editor.putString(SIP_PASSWORD, password);
+		// commit changes
+		editor.commit();
 	}
+
 	/**
 	 * Get stored sip session user
 	 */
-	public String getSipUserName(){
+	public String getSipUserName() {
 		String username = pref.getString(SIP_USERNAME, null);
 		editor.commit();
-		
+
 		return username;
 	}
-	
-	public String getSipPassword(){
+
+	public String getSipPassword() {
 		String password = pref.getString(SIP_PASSWORD, null);
 		editor.commit();
-		
+
 		return password;
 	}
-	
-	public String getSipDomain(){
+
+	public String getSipDomain() {
 		String domain = pref.getString(SIP_DOMAIN, null);
 		editor.commit();
-		
+
 		return domain;
 	}
-	
+
 	/**
 	 * Get stored session data
 	 * */

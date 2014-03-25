@@ -1,6 +1,7 @@
 package in.tapmobi.athome.sip;
 
 import in.tapmobi.athome.session.SessionManager;
+import in.tapmobi.athome.userprofile.ProfileFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.net.sip.SipRegistrationListener;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SipRegisteration {
 
@@ -22,7 +22,8 @@ public class SipRegisteration {
 	public SipProfile mProfile = null;
 	public SipAudioCall mCall = null;
 	public IncommingCallReceiver callReceiver;
-	SessionManager session;
+
+	private SessionManager session;
 
 	// private static final int CALL_ADDRESS = 1;
 	// private static final int SET_AUTH_INFO = 2;
@@ -32,6 +33,7 @@ public class SipRegisteration {
 	public SipRegisteration(Context ctx) {
 		this.mContext = ctx;
 		session = new SessionManager(mContext);
+
 	}
 
 	public void initializeManager() throws java.text.ParseException {
@@ -51,7 +53,6 @@ public class SipRegisteration {
 	public void initializeLocalProfile() throws java.text.ParseException {
 		if (mSipManager == null) {
 			return;
-
 		}
 
 		if (mProfile != null) {
@@ -84,19 +85,18 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
-						Toast.makeText(mContext, "Registration failed.  Please check your settings.", Toast.LENGTH_SHORT).show();
-
+						ProfileFragment.updateStatus("Registration failed.  Please check your settings.");
 					}
 
 					@Override
 					public void onRegistrationDone(String localProfileUri, long expiryTime) {
-						Toast.makeText(mContext, "Ready - Registered with SIP server", Toast.LENGTH_SHORT).show();
+						ProfileFragment.updateStatus("Ready - Registered with SIP server");
 
 					}
 
 					@Override
 					public void onRegistering(String localProfileUri) {
-						Toast.makeText(mContext, "Registering with SIP server", Toast.LENGTH_SHORT).show();
+						ProfileFragment.updateStatus("Registering with SIP Server...");
 					}
 				});
 
@@ -145,7 +145,7 @@ public class SipRegisteration {
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
-					// updateStatus("Ready.");
+					ProfileFragment.updateStatus("Ready.");
 				}
 			};
 

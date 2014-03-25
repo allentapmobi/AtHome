@@ -74,33 +74,6 @@ public class Utility {
 			}
 		}
 
-		// if (sLogs.size() > 0) {
-		// int pos = sLogs.size() - 1;
-		// String prevContactNumber = sLogs.get(pos).getContactNumber();
-		//
-		// count = 1;
-		// if (prevContactNumber.contains(Msisdn)) {
-		// count++;
-		// callLogs.setContactName(UserName);
-		// callLogs.setContactNumber(Msisdn);
-		// callLogs.setContactPhoto(contactImg);
-		// callLogs.setCount(count);
-		// callLogs.setContactPhotoUri(contactImgUri);
-		// callLogs.setCallDuration(currentTime);
-		// sLogs.add(pos, callLogs);
-		// } else {
-		// count = 0;
-		// }
-		// } else {
-		// callLogs.setContactName(UserName);
-		// callLogs.setContactNumber(Msisdn);
-		// callLogs.setContactPhoto(contactImg);
-		// callLogs.setContactPhotoUri(contactImgUri);
-		// callLogs.setCallDuration(currentTime);
-		// sLogs.add(callLogs);
-		// }
-		// logs.get(count).setContactName(contactName);
-
 		Log.d("Insert: ", "Inserting ..");
 		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
 		db.addCallLogs(new CallLogs(UserName, Msisdn, currentTime));
