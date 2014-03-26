@@ -1,7 +1,6 @@
 package in.tapmobi.athome.sip;
 
 import in.tapmobi.athome.session.SessionManager;
-import in.tapmobi.athome.userprofile.ProfileFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +20,7 @@ public class SipRegisteration {
 	public static SipManager mSipManager = null;
 	public static SipProfile mProfile = null;
 	public static SipAudioCall mCall = null;
+	public static String sUpdateStatus = null;
 
 	public IncommingCallReceiver callReceiver;
 
@@ -86,20 +86,20 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
-						ProfileFragment.updateStatus("Registration failed.  Please check your settings.");
+						sUpdateStatus = "Registration failed.  Please check your settings.";
 						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings.");
 					}
 
 					@Override
 					public void onRegistrationDone(String localProfileUri, long expiryTime) {
-						ProfileFragment.updateStatus("Ready - Registered with SIP server");
+						sUpdateStatus = "Ready - Registered with SIP server";
 						Log.v("UpdateStatus---->", "Ready - Registered with SIP server");
 
 					}
 
 					@Override
 					public void onRegistering(String localProfileUri) {
-						ProfileFragment.updateStatus("Registering with SIP Server...");
+						sUpdateStatus = "Registering with SIP Server...";
 
 						Log.v("UpdateStatus---->", "Registering with SIP Server...");
 					}
@@ -133,7 +133,7 @@ public class SipRegisteration {
 	public static void initiateCall(String msisdn) {
 
 		sipAddress = msisdn + "@home.tapmobi.in";
-		ProfileFragment.updateStatus(sipAddress);
+		// ProfileFragment.updateStatus(sipAddress);
 		Log.e("Initiating Call", sipAddress + "-----------------------");
 
 		try {
@@ -153,7 +153,7 @@ public class SipRegisteration {
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
-					ProfileFragment.updateStatus("Ready.");
+					sUpdateStatus = "Ready";
 				}
 			};
 

@@ -1,9 +1,8 @@
-package in.tapmobi.athome.contacts;
+package in.tapmobi.athome;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
-import in.tapmobi.athome.incall.InCallActivity;
 import in.tapmobi.athome.models.CallLogs;
 import in.tapmobi.athome.registration.RegisterationActivity;
 import in.tapmobi.athome.util.Utility;

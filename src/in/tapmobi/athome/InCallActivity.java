@@ -1,4 +1,4 @@
-package in.tapmobi.athome.incall;
+package in.tapmobi.athome;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.sip.SipRegisteration;

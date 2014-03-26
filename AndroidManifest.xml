@@ -45,7 +45,7 @@
             android:name="in.tapmobi.athome.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="in.tapmobi.athome.incall.InCallActivity"
+            android:name="in.tapmobi.athome.InCallActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="in.tapmobi.athome.sip.SipDetails"

@@ -49,8 +49,8 @@ public class MainActivity extends FragmentActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (sipReg.mCall != null) {
-			sipReg.mCall.close();
+		if (SipRegisteration.mCall != null) {
+			SipRegisteration.mCall.close();
 		}
 
 		sipReg.closeLocalProfile();
