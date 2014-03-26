@@ -1,9 +1,11 @@
 package in.tapmobi.athome.incall;
 
 import in.tapmobi.athome.R;
+import in.tapmobi.athome.sip.SipRegisteration;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -32,6 +34,16 @@ public class InCallActivity extends Activity {
 		mNumber = intent.getStringExtra("CONTACT_NUMBER");
 
 		initViews();
+
+		// Initiate the call directly
+		try {
+			if (mNumber.length() > 4)
+				SipRegisteration.initiateCall(mNumber);
+			Log.v("Initiating the call", mNumber);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 	}
 
 	private void initViews() {
@@ -73,11 +85,14 @@ public class InCallActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (isMute) {
-					layoutMute.setBackgroundColor(getResources().getColor(R.color.darkgrey));
-					txtMute.setTextColor(getResources().getColor(R.color.WhiteSmoke));
+					layoutMute.setBackgroundColor(getResources().getColor(
+							R.color.darkgrey));
+					txtMute.setTextColor(getResources().getColor(
+							R.color.WhiteSmoke));
 					isMute = false;
 				} else {
-					layoutMute.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
+					layoutMute.setBackgroundColor(getResources().getColor(
+							R.color.theme_button_selector));
 					txtMute.setTextColor(getResources().getColor(R.color.black));
 					isMute = true;
 				}
@@ -90,11 +105,14 @@ public class InCallActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (isHold) {
-					layoutHold.setBackgroundColor(getResources().getColor(R.color.darkgrey));
-					txtHold.setTextColor(getResources().getColor(R.color.WhiteSmoke));
+					layoutHold.setBackgroundColor(getResources().getColor(
+							R.color.darkgrey));
+					txtHold.setTextColor(getResources().getColor(
+							R.color.WhiteSmoke));
 					isHold = false;
 				} else {
-					layoutHold.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
+					layoutHold.setBackgroundColor(getResources().getColor(
+							R.color.theme_button_selector));
 					txtHold.setTextColor(getResources().getColor(R.color.black));
 					isHold = true;
 				}
@@ -107,12 +125,16 @@ public class InCallActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (isSpeaker) {
-					layoutSpeaker.setBackgroundColor(getResources().getColor(R.color.darkgrey));
-					txtSpeaker.setTextColor(getResources().getColor(R.color.WhiteSmoke));
+					layoutSpeaker.setBackgroundColor(getResources().getColor(
+							R.color.darkgrey));
+					txtSpeaker.setTextColor(getResources().getColor(
+							R.color.WhiteSmoke));
 					isSpeaker = false;
 				} else {
-					layoutSpeaker.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
-					txtSpeaker.setTextColor(getResources().getColor(R.color.black));
+					layoutSpeaker.setBackgroundColor(getResources().getColor(
+							R.color.theme_button_selector));
+					txtSpeaker.setTextColor(getResources().getColor(
+							R.color.black));
 					isSpeaker = true;
 				}
 

@@ -16,11 +16,12 @@ import android.util.Log;
 public class SipRegisteration {
 
 	public Context mContext;
-	public String sipAddress = null;
+	public static String sipAddress = null;
 
-	public SipManager mSipManager = null;
-	public SipProfile mProfile = null;
-	public SipAudioCall mCall = null;
+	public static SipManager mSipManager = null;
+	public static SipProfile mProfile = null;
+	public static SipAudioCall mCall = null;
+
 	public IncommingCallReceiver callReceiver;
 
 	private SessionManager session;
@@ -45,8 +46,7 @@ public class SipRegisteration {
 	}
 
 	/**
-	 * Logs you into your SIP provider, registering this device as the location
-	 * to send SIP calls to for your SIP address.
+	 * Logs you into your SIP provider, registering this device as the location to send SIP calls to for your SIP address.
 	 * 
 	 * @throws java.text.ParseException
 	 */
@@ -71,6 +71,7 @@ public class SipRegisteration {
 			try {
 				SipProfile.Builder builder = new SipProfile.Builder(username, domain);
 				builder.setPassword(password);
+				builder.setProtocol("TCP");
 				mProfile = builder.build();
 
 				Intent i = new Intent();
@@ -86,17 +87,21 @@ public class SipRegisteration {
 					@Override
 					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
 						ProfileFragment.updateStatus("Registration failed.  Please check your settings.");
+						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings.");
 					}
 
 					@Override
 					public void onRegistrationDone(String localProfileUri, long expiryTime) {
 						ProfileFragment.updateStatus("Ready - Registered with SIP server");
+						Log.v("UpdateStatus---->", "Ready - Registered with SIP server");
 
 					}
 
 					@Override
 					public void onRegistering(String localProfileUri) {
 						ProfileFragment.updateStatus("Registering with SIP Server...");
+
+						Log.v("UpdateStatus---->", "Registering with SIP Server...");
 					}
 				});
 
@@ -125,9 +130,11 @@ public class SipRegisteration {
 	/**
 	 * Make an outgoing call.
 	 */
-	public void initiateCall() {
+	public static void initiateCall(String msisdn) {
 
-		// updateStatus(sipAddress);
+		sipAddress = msisdn + "@home.tapmobi.in";
+		ProfileFragment.updateStatus(sipAddress);
+		Log.e("Initiating Call", sipAddress + "-----------------------");
 
 		try {
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
@@ -138,8 +145,9 @@ public class SipRegisteration {
 				@Override
 				public void onCallEstablished(SipAudioCall call) {
 					call.startAudio();
-					call.setSpeakerMode(true);
-					call.toggleMute();
+
+					// call.setSpeakerMode(true);
+					// call.toggleMute();
 					// updateStatus(mCall);
 				}
 
@@ -167,9 +175,9 @@ public class SipRegisteration {
 		}
 	}
 
-	public void updatePreferences() {
-		Intent settingsActivity = new Intent(mContext, SipSettings.class);
-		mContext.startActivity(settingsActivity);
-	}
+	// public void updatePreferences() {
+	// Intent settingsActivity = new Intent(mContext, SipSettings.class);
+	// mContext.startActivity(settingsActivity);
+	// }
 
 }
