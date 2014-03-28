@@ -19,6 +19,7 @@ public class IncommingCallReceiver extends BroadcastReceiver {
 				public void onRinging(SipAudioCall call, SipProfile caller) {
 					try {
 						call.answerCall(30);
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

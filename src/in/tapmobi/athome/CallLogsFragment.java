@@ -1,14 +1,12 @@
 package in.tapmobi.athome;
 
-import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.CallLogsAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
-import in.tapmobi.athome.models.CallLogs;
 import in.tapmobi.athome.models.ContactsModel;
+import in.tapmobi.athome.sip.SipRegisteration;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,26 +28,48 @@ public class CallLogsFragment extends Fragment {
 	LinearLayout mSectionHeader;
 
 	ArrayList<ContactsModel> mContacts = new ArrayList<ContactsModel>();
-	String Msisdn, ContactName = null;
+	// HashMap<String, CallLogs> groupedCallLogs = new HashMap<String, CallLogs>();
+	static String Msisdn, ContactName = null;
 
+	/**
+	 * Fragment creation for call logs
+	 * 
+	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_calllogs, container, false);
 		mSectionHeader = (LinearLayout) rootView.findViewById(R.id.sort_by_date);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					MainActivity.initSipManager();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
 
 		db = new DataBaseHandler(getActivity().getApplicationContext());
 		// List<CallLogs> contacts = db.getAllContacts();
 
 		// Reading all contacts
-		Log.d("Reading: ", "Reading all contacts..");
+		Log.d("Reading: ", ".......Reading all contacts........");
 		// logs = db.getAllCallLogs();
 		// logs.addAll(Utility.getCallLogs());
 		if (Utility.CallLogs.size() > 0)
 			Utility.CallLogs.clear();
 		Utility.CallLogs.addAll(Utility.getCallLogs());
-
-		Collections.sort(Utility.CallLogs, new CallLogs.DateComparator());
-
-		// Sort based on time;
+		/**
+		 * Loop to iterate the call logs based on call type and and time TODO:Once working fine create a method in Utility
+		 */
+		// for (int i = 0; i < Utility.CallLogs.size(); i++) {
+		//
+		// groupedCallLogs.put(Utility.CallLogs.get(i).getContactNumber(), Utility.CallLogs.get(i));
+		// Log.v("Hash Map", Utility.CallLogs.get(i).getContactNumber());
+		// }
 
 		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), Utility.CallLogs);
 		lvCallLogs = (ListView) rootView.findViewById(R.id.lvCallLogs);
@@ -84,7 +104,7 @@ public class CallLogsFragment extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-
+			SipRegisteration.initiateCall(Msisdn);
 			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
 			i.putExtra("CONTACT_NAME", ContactName);
 			i.putExtra("CONTACT_NUMBER", Msisdn);

@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
@@ -34,6 +35,7 @@ public class Utility {
 	public static ArrayList<CallLogs> sLogs = new ArrayList<CallLogs>();
 	public static ArrayList<ContactsModel> sContacts = new ArrayList<ContactsModel>();
 	public static ArrayList<CallLogs> CallLogs = new ArrayList<CallLogs>();
+	static ArrayList<CallLogs> groupedCallLogs = new ArrayList<CallLogs>();
 	public static Cursor cur;
 
 	public Utility(Context ctx) {
@@ -120,8 +122,7 @@ public class Utility {
 
 		if (sContacts.size() == 0) {
 			Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-			cur = mContext.getContentResolver().query(uri, new String[] { "display_name", "sort_key", Data.CONTACT_ID, Phone.NUMBER }, null, null,
-					"sort_key");
+			cur = mContext.getContentResolver().query(uri, new String[] { "display_name", "sort_key", Data.CONTACT_ID, Phone.NUMBER }, null, null, "sort_key");
 
 			if (cur.moveToFirst()) {
 				try {
@@ -172,8 +173,13 @@ public class Utility {
 
 	public static ArrayList<CallLogs> getCallLogs() {
 		db = new DataBaseHandler(mContext);
-		if (CallLogs.size() == 0) {
-			CallLogs = db.getAllCallLogs();
+		try {
+			if (CallLogs.size() == 0) {
+				CallLogs = db.getAllCallLogs();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		for (int i = 0; i < CallLogs.size(); i++) {
 			for (int j = 0; j < RegisterationActivity.mContact.size(); j++) {
@@ -187,6 +193,37 @@ public class Utility {
 				}
 			}
 		}
+
+		Collections.sort(CallLogs, new CallLogs.DateComparator());
+		// CallLogs clgs = new CallLogs();
+		// for (int i = 0, j = 0; i < CallLogs.size(); i++, j++) {
+		// if (i < CallLogs.size() - 1) {
+		// String no1 = CallLogs.get(i).getContactNumber();
+		// String no2 = CallLogs.get(i + 1).getContactNumber();
+		// Log.v("Compare Nos", no1);
+		// Log.v("Compare Nos", no2);
+		// if (no1.equals(no2)) {
+		// clgs.setContactName(CallLogs.get(i + 1).getContactName());
+		// clgs.setContactNumber(CallLogs.get(i + 1).getContactNumber());
+		// clgs.setCallDuration(CallLogs.get(i + 1).getCallDuration());
+		// clgs.setContactPhoto(CallLogs.get(i + 1).getContactPhoto());
+		// clgs.setContactPhotoUri(CallLogs.get(i + 1).getContactPhotoUri());
+		// clgs.setCount((CallLogs.get(i).getCount()) + 1);
+		// groupedCallLogs.add(j, clgs);
+		// i++;
+		//
+		// } else {
+		//
+		// clgs.setContactName(CallLogs.get(i).getContactName());
+		// clgs.setContactNumber(CallLogs.get(i).getContactNumber());
+		// clgs.setCallDuration(CallLogs.get(i).getCallDuration());
+		// clgs.setContactPhoto(CallLogs.get(i).getContactPhoto());
+		// clgs.setContactPhotoUri(CallLogs.get(i).getContactPhotoUri());
+		// groupedCallLogs.add(j, clgs);
+		// }
+		// }
+		// }
+
 		// if (CallLogs.size() > 2) {
 		// for (int i = 0; i < CallLogs.size(); i++) {
 		// for (int j = 1; j < CallLogs.size() - 1; j++) {

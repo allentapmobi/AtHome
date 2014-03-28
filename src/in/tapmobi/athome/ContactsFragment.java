@@ -5,6 +5,7 @@ import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.models.CallLogs;
 import in.tapmobi.athome.registration.RegisterationActivity;
+import in.tapmobi.athome.sip.SipRegisteration;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
@@ -62,6 +63,9 @@ public class ContactsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
+		// Initialize SipManager
+		MainActivity.initSipManager();
+
 		mIndexerLayout = (LinearLayout) rootView.findViewById(R.id.indexer_layout);
 		mListView = (ListView) rootView.findViewById(R.id.contactList);
 		mTitleLayout = (FrameLayout) rootView.findViewById(R.id.title_layout);
@@ -147,7 +151,6 @@ public class ContactsFragment extends Fragment {
 		});
 	}
 
-
 	private OnScrollListener mOnScrollListener = new OnScrollListener() {
 
 		private int lastFirstVisibleItem = -1;
@@ -169,8 +172,7 @@ public class ContactsFragment extends Fragment {
 			int sectionIndex = mIndexer.getSectionForPosition(firstVisibleItem);
 			// next section Index corresponding to the positon in the listview
 			int nextSectionPosition = mIndexer.getPositionForSection(sectionIndex + 1);
-			Log.d(TAG, "onScroll()-->firstVisibleItem=" + firstVisibleItem + ", sectionIndex=" + sectionIndex + ", nextSectionPosition="
-					+ nextSectionPosition);
+			Log.d(TAG, "onScroll()-->firstVisibleItem=" + firstVisibleItem + ", sectionIndex=" + sectionIndex + ", nextSectionPosition=" + nextSectionPosition);
 			if (firstVisibleItem != lastFirstVisibleItem) {
 				MarginLayoutParams params = (MarginLayoutParams) mTitleLayout.getLayoutParams();
 				params.topMargin = 0;
@@ -183,8 +185,7 @@ public class ContactsFragment extends Fragment {
 			// update AlphabetIndexer background
 			if (sectionIndex != lastSelectedPosition) {
 				if (lastSelectedPosition != -1) {
-					((TextView) mIndexerLayout.getChildAt(lastSelectedPosition)).setBackgroundColor(getResources().getColor(
-							android.R.color.transparent));
+					((TextView) mIndexerLayout.getChildAt(lastSelectedPosition)).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 				}
 				lastSelectedPosition = sectionIndex;
 			}
@@ -196,10 +197,8 @@ public class ContactsFragment extends Fragment {
 					int bottom = childView.getBottom();
 					MarginLayoutParams params = (MarginLayoutParams) mTitleLayout.getLayoutParams();
 					/*
-					 * if(bottom < sortKeyHeight) { float pushedDistance =
-					 * bottom - sortKeyHeight; params.topMargin = (int)
-					 * pushedDistance; mTitleLayout.setLayoutParams(params); }
-					 * else {
+					 * if(bottom < sortKeyHeight) { float pushedDistance = bottom - sortKeyHeight; params.topMargin = (int) pushedDistance;
+					 * mTitleLayout.setLayoutParams(params); } else {
 					 */
 					if (params.topMargin != 0) {
 						params.topMargin = 0;
@@ -228,8 +227,7 @@ public class ContactsFragment extends Fragment {
 			}
 			if (lastSelectedPosition != sectionPosition) {
 				if (-1 != lastSelectedPosition) {
-					((TextView) mIndexerLayout.getChildAt(lastSelectedPosition)).setBackgroundColor(getResources().getColor(
-							android.R.color.transparent));
+					((TextView) mIndexerLayout.getChildAt(lastSelectedPosition)).setBackgroundColor(getResources().getColor(android.R.color.transparent));
 				}
 				lastSelectedPosition = sectionPosition;
 			}

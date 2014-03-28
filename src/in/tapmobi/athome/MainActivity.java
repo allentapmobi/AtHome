@@ -1,9 +1,12 @@
 package in.tapmobi.athome;
 
+import in.tapmobi.athome.adapter.TabsPagerAdapter;
+import in.tapmobi.athome.sip.IncommingCallReceiver;
+import in.tapmobi.athome.sip.SipRegisteration;
+
 import java.text.ParseException;
 
-import in.tapmobi.athome.adapter.TabsPagerAdapter;
-import in.tapmobi.athome.sip.SipRegisteration;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -12,7 +15,9 @@ public class MainActivity extends FragmentActivity {
 
 	private ViewPager mViewPager;
 	private TabsPagerAdapter mAdapter;
-	SipRegisteration sipReg;
+
+	public static SipRegisteration sipReg;
+	public IncommingCallReceiver callReceiver;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,9 +26,38 @@ public class MainActivity extends FragmentActivity {
 
 		sipReg = new SipRegisteration(MainActivity.this);
 
+		// Set up the intent filter. This will be used to fire an
+		// IncomingCallReceiver when someone calls the SIP address used by this
+		// application.
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("android.AtHome.INCOMING_CALL");
+		callReceiver = new IncommingCallReceiver();
+		this.registerReceiver(callReceiver, filter);
+
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mAdapter);
+
+	}
+
+	public static void initSipManager() {
+		// When we get back from the preference setting Activity, assume
+		// settings have changed, and re-login with new auth info.
+		try {
+			sipReg.initializeManager();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void delSipProfile() {
+		if (SipRegisteration.mCall != null) {
+			SipRegisteration.mCall.close();
+		}
+		sipReg.closeLocalProfile();
+		if (sipReg.callReceiver != null) {
+			this.unregisterReceiver(sipReg.callReceiver);
+		}
 
 	}
 
@@ -36,27 +70,12 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		// When we get back from the preference setting Activity, assume
-		// settings have changed, and re-login with new auth info.
-		try {
-			sipReg.initializeManager();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		initSipManager();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
-		if (SipRegisteration.mCall != null) {
-			SipRegisteration.mCall.close();
-		}
-
-		sipReg.closeLocalProfile();
-
-		if (sipReg.callReceiver != null) {
-			this.unregisterReceiver(sipReg.callReceiver);
-		}
+		delSipProfile();
 	}
 }

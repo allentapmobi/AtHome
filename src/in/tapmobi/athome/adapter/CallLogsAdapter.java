@@ -76,12 +76,12 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.thumb.setImageResource(R.drawable.def_contact);
 
 		holder.count.setVisibility(View.GONE);
-		// if(Logs.getCount() == 0){
-		// holder.count.setVisibility(View.GONE);
-		// }else{
-		// holder.count.setVisibility(View.VISIBLE);
-		// holder.count.setText("("+String.valueOf(Logs.getCount())+")");
-		// }
+		if (Logs.getCount() == 0) {
+			holder.count.setVisibility(View.GONE);
+		} else {
+			holder.count.setVisibility(View.VISIBLE);
+			holder.count.setText("(" + String.valueOf(Logs.getCount()) + ")");
+		}
 		Name = Logs.getContactName();
 		number = Logs.getContactNumber();
 		if (Name != null) {
