@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/album_item"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/theme_background"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/generic_icon" />
+
+    <TextView
+        android:id="@+id/txtContactName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/profileImage"
+        android:layout_alignBottom="@id/profileImage"
+        android:layout_centerHorizontal="true"
+        android:background="#70000000"
+        android:padding="10dp"
+        android:text="Raghunath Kumar"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtCallStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtContactName"
+        android:background="@color/theme_headers"
+        android:padding="10dp"
+        android:text="@string/txtCallIncoming"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TableLayout
+        android:id="@+id/btnTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp" >
+
+        <TableRow>
+
+            <ImageButton
+                android:id="@+id/btnAnswercall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="@color/green"
+                android:contentDescription="@string/app_name"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                android:src="@drawable/callend" />
+
+            <ImageButton
+                android:id="@+id/btnEndcall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="@color/red"
+                android:contentDescription="@string/app_name"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp"
+                android:src="@drawable/callend" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

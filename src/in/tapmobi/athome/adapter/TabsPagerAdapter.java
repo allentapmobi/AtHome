@@ -1,9 +1,9 @@
 package in.tapmobi.athome.adapter;
 
-import in.tapmobi.athome.calllogs.CallLogsFragment;
-import in.tapmobi.athome.contacts.ContactsFragment;
-import in.tapmobi.athome.dialpad.DialpadFragment;
-import in.tapmobi.athome.userprofile.ProfileFragment;
+import in.tapmobi.athome.CallLogsFragment;
+import in.tapmobi.athome.ContactsFragment;
+import in.tapmobi.athome.DialpadFragment;
+import in.tapmobi.athome.ProfileFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

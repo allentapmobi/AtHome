@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -13,8 +13,19 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.USE_SIP" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.sip.voip"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +33,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         <activity
-            android:name="in.tapmobi.athome.subscription.SubscriptionActivity"
+            android:name="in.tapmobi.athome.registration.RegisterationActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,9 +44,11 @@
         <activity
             android:name="in.tapmobi.athome.MainActivity"
             android:screenOrientation="portrait" />
-        
-          <activity
-            android:name="in.tapmobi.athome.incall.InCallActivity"
+        <activity
+            android:name="in.tapmobi.athome.InCallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="in.tapmobi.athome.sip.SipDetails"
             android:screenOrientation="portrait" />
     </application>
 

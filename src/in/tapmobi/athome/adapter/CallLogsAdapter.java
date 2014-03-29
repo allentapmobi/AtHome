@@ -2,6 +2,7 @@ package in.tapmobi.athome.adapter;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.models.CallLogs;
+import in.tapmobi.athome.util.Utility;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,10 +58,12 @@ public class CallLogsAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.call_log_items, null);
 			holder = new ViewHolder();
 			holder.sectionHeaderDate = (LinearLayout) convertView.findViewById(R.id.sort_by_date);
+			holder.sectionHeaderText = (TextView) convertView.findViewById(R.id.sort_date_text);
 			holder.ContactName = (TextView) convertView.findViewById(R.id.txtContactName);
 			holder.contactNumber = (TextView) convertView.findViewById(R.id.txtContactNumber);
 			holder.timeDuration = (TextView) convertView.findViewById(R.id.txtCallTime);
 			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
+			holder.count = (TextView) convertView.findViewById(R.id.txtCallCount);
 			holder.sectionHeaderDate.setVisibility(View.GONE);
 			convertView.setTag(holder);
 		} else {
@@ -72,6 +75,13 @@ public class CallLogsAdapter extends BaseAdapter {
 		if (holder.thumb.getDrawable() == null)
 			holder.thumb.setImageResource(R.drawable.def_contact);
 
+		holder.count.setVisibility(View.GONE);
+		if (Logs.getCount() == 0) {
+			holder.count.setVisibility(View.GONE);
+		} else {
+			holder.count.setVisibility(View.VISIBLE);
+			holder.count.setText("(" + String.valueOf(Logs.getCount()) + ")");
+		}
 		Name = Logs.getContactName();
 		number = Logs.getContactNumber();
 		if (Name != null) {
@@ -82,20 +92,30 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.contactNumber.setText("");
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa dd-MM-yyyy");
 		Date dt = Logs.getmDateTimeStamp();
-		String now = sdf.format(dt);
-		holder.timeDuration.setText(now);
+		String timeNow = sdf.format(dt);
+		holder.timeDuration.setText(timeNow);
+		Date currentTime = Utility.getCurrentDateTime();
+		if (dt.before(currentTime)) {// returns true if current greater
+			holder.sectionHeaderDate.setVisibility(View.GONE);
+			holder.sectionHeaderText.setText("Yesterday");
+
+		} else if (dt.after(currentTime)) {
+			holder.sectionHeaderDate.setVisibility(View.GONE);
+		}
 
 		return convertView;
 	}
 
 	private static class ViewHolder {
 		LinearLayout sectionHeaderDate;
+		TextView sectionHeaderText;
 		TextView ContactName;
 		TextView contactNumber;
 		TextView timeDuration;
 		ImageView thumb;
+		TextView count;
 
 	}
 
