@@ -21,6 +21,7 @@ public class SipRegisteration {
 	public static SipProfile mProfile = null;
 	public static SipAudioCall mCall = null;
 	public static String sUpdateStatus = null;
+	public static boolean isRegisteredWithSip;
 
 	public IncommingCallReceiver callReceiver;
 
@@ -89,13 +90,15 @@ public class SipRegisteration {
 					@Override
 					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
 						sUpdateStatus = "Registration failed.  Please check your settings.";
-						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings.");
+						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings."); 
+						isRegisteredWithSip = false;
 					}
 
 					@Override
 					public void onRegistrationDone(String localProfileUri, long expiryTime) {
 						sUpdateStatus = "Ready - Registered with SIP server";
 						Log.v("UpdateStatus---->", "Ready - Registered with SIP server");
+						isRegisteredWithSip = true;
 
 					}
 

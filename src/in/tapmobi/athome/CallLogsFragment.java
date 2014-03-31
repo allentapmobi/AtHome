@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class CallLogsFragment extends Fragment {
 	ListView lvCallLogs;
@@ -40,7 +41,7 @@ public class CallLogsFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_calllogs, container, false);
 		mSectionHeader = (LinearLayout) rootView.findViewById(R.id.sort_by_date);
 		// Init Sip Manager
-		
+
 		sip = new SipRegisteration(getActivity().getApplicationContext());
 
 		db = new DataBaseHandler(getActivity().getApplicationContext());
@@ -98,11 +99,15 @@ public class CallLogsFragment extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			sip.initiateCall(Msisdn);
-			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
-			i.putExtra("CONTACT_NAME", ContactName);
-			i.putExtra("CONTACT_NUMBER", Msisdn);
-			startActivity(i);
+			if (sip.isRegisteredWithSip) {
+				sip.initiateCall(Msisdn);
+				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
+				i.putExtra("CONTACT_NAME", ContactName);
+				i.putExtra("CONTACT_NUMBER", Msisdn);
+				startActivity(i);
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(), "SIP Registration failed.", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 }
