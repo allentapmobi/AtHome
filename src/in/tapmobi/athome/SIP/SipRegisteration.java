@@ -23,8 +23,6 @@ public class SipRegisteration {
 	public static String sUpdateStatus = null;
 	public static boolean isRegisteredWithSip;
 
-	public IncommingCallReceiver callReceiver;
-
 	private SessionManager session;
 
 	// private static final int CALL_ADDRESS = 1;
@@ -47,8 +45,7 @@ public class SipRegisteration {
 	}
 
 	/**
-	 * Logs you into your SIP provider, registering this device as the location
-	 * to send SIP calls to for your SIP address.
+	 * Logs you into your SIP provider, registering this device as the location to send SIP calls to for your SIP address.
 	 * 
 	 * @throws java.text.ParseException
 	 */
@@ -90,7 +87,7 @@ public class SipRegisteration {
 					@Override
 					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
 						sUpdateStatus = "Registration failed.  Please check your settings.";
-						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings."); 
+						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings.");
 						isRegisteredWithSip = false;
 					}
 

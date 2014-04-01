@@ -50,6 +50,10 @@
         <activity
             android:name="in.tapmobi.athome.sip.SipDetails"
             android:screenOrientation="portrait" />
+
+        <receiver
+            android:name="in.tapmobi.athome.sip.IncomingCallReceiver"
+            android:label="Call Receiver" />
     </application>
 
 </manifest>

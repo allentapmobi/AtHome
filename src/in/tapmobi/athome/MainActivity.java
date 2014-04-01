@@ -1,7 +1,7 @@
 package in.tapmobi.athome;
 
 import in.tapmobi.athome.adapter.TabsPagerAdapter;
-import in.tapmobi.athome.sip.IncommingCallReceiver;
+import in.tapmobi.athome.sip.IncomingCallReceiver;
 import in.tapmobi.athome.sip.SipRegisteration;
 
 import java.text.ParseException;
@@ -17,7 +17,7 @@ public class MainActivity extends FragmentActivity {
 	private TabsPagerAdapter mAdapter;
 
 	public static SipRegisteration sipReg;
-	public IncommingCallReceiver callReceiver;
+	public IncomingCallReceiver callReceiver;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity {
 		// application.
 		IntentFilter filter = new IntentFilter();
 		filter.addAction("android.AtHome.INCOMING_CALL");
-		callReceiver = new IncommingCallReceiver();
+		callReceiver = new IncomingCallReceiver();
 		this.registerReceiver(callReceiver, filter);
 
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
@@ -63,8 +63,8 @@ public class MainActivity extends FragmentActivity {
 			SipRegisteration.mCall.close();
 		}
 		sipReg.closeLocalProfile();
-		if (sipReg.callReceiver != null) {
-			this.unregisterReceiver(sipReg.callReceiver);
+		if (callReceiver != null) {
+			this.unregisterReceiver(callReceiver);
 		}
 
 	}

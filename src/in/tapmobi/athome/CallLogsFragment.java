@@ -99,7 +99,7 @@ public class CallLogsFragment extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if (sip.isRegisteredWithSip) {
+			if (SipRegisteration.isRegisteredWithSip) {
 				sip.initiateCall(Msisdn);
 				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
 				i.putExtra("CONTACT_NAME", ContactName);
