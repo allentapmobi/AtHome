@@ -103,6 +103,7 @@ public class SessionManager {
 		return domain;
 	}
 
+
 	/**
 	 * Get stored session data
 	 * */

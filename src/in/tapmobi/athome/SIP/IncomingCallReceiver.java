@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.sip.SipAudioCall;
+import android.net.sip.SipProfile;
 
 /**
  * Listens for incoming SIP calls, intercepts and hands them off to WalkieTalkieActivity.
@@ -42,10 +43,17 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 		SipAudioCall incomingCall = null;
 		try {
 
-			SipAudioCall.Listener listener = new SipAudioCall.Listener();
+			SipAudioCall.Listener listener = new SipAudioCall.Listener(){
+				@Override
+				public void onRinging(SipAudioCall call, SipProfile caller) {
+					// TODO Auto-generated method stub
+					super.onRinging(call, caller);
+				}
+			};
 			incomingCall = SipRegisteration.mSipManager.takeAudioCall(intent, listener);
 			showIncomingCall(intent, context);
 			SipRegisteration.mCall = incomingCall;
+			System.out.println(incomingCall);
 
 			// sip..updateStatus(incomingCall);
 
@@ -73,7 +81,6 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 		try {
 			incomingCall.answerCall(30);
 			incomingCall.startAudio();
-			incomingCall.setSpeakerMode(true);
 
 			if (incomingCall.isMuted()) {
 				incomingCall.toggleMute();

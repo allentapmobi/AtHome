@@ -1600,9 +1600,7 @@ containing a value of this type.
         public static final int btnSpeaker=0x7f050045;
         public static final int btnSubmit=0x7f050089;
         public static final int btnTabLayout=0x7f05003d;
-        public static final int callStatus=0x7f05003b;
         public static final int contactList=0x7f05005f;
-        public static final int contactName=0x7f050039;
         public static final int contact_item_list=0x7f050057;
         public static final int disableHome=0x7f05000e;
         public static final int edit_query=0x7f05002b;
@@ -1614,6 +1612,7 @@ containing a value of this type.
         public static final int imgViewFlag=0x7f05007c;
         public static final int indexer_layout=0x7f050060;
         public static final int ivCallType=0x7f050051;
+        public static final int layoutCallStatus=0x7f05003a;
         public static final int layoutHoldButton=0x7f050041;
         public static final int layoutMuteButton=0x7f05003e;
         public static final int layoutSpeakerButton=0x7f050044;
@@ -1648,9 +1647,9 @@ containing a value of this type.
         public static final int top=0x7f050004;
         public static final int triangle=0x7f050001;
         public static final int txtCallCount=0x7f050054;
-        public static final int txtCallStatus=0x7f05003c;
+        public static final int txtCallStatus=0x7f05003b;
         public static final int txtCallTime=0x7f050053;
-        public static final int txtContactName=0x7f05003a;
+        public static final int txtContactName=0x7f050039;
         public static final int txtContactNumber=0x7f050052;
         public static final int txtDisplayCName=0x7f050064;
         public static final int txtHeader=0x7f050082;
@@ -1662,6 +1661,7 @@ containing a value of this type.
         public static final int txtSipDomain=0x7f050085;
         public static final int txtSipPassword=0x7f050087;
         public static final int txtSpeaker=0x7f050046;
+        public static final int txtTimeDuration=0x7f05003c;
         public static final int txtUpdateStatus=0x7f05007b;
         public static final int txtUserName=0x7f050083;
         public static final int txtViewCountryCode=0x7f05007e;

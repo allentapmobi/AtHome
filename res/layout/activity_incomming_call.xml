@@ -28,17 +28,34 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtCallStatus"
+    <RelativeLayout
+        android:id="@+id/layoutCallStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/txtContactName"
         android:background="@color/theme_headers"
-        android:padding="10dp"
-        android:text="@string/txtCallIncoming"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/txtCallStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtCallIncoming"
+            android:layout_alignParentLeft="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        
+          <TextView
+            android:id="@+id/txtTimeDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0:00"
+            android:layout_alignParentRight="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <TableLayout
         android:id="@+id/btnTabLayout"

@@ -4,6 +4,8 @@ import in.tapmobi.athome.sip.SipRegisteration;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -15,11 +17,17 @@ public class InCallActivity extends Activity {
 	ImageView mProfileImage;
 	ImageButton mCallEndBtn, mMuteBtn, mSpeakerBtn, mHoldBtn;
 	TextView txtCallStatus, txtContactName;
-	TextView txtMute, txtSpeaker, txtHold;
+	TextView txtMute, txtSpeaker, txtHold, txtTimer;
 
 	String mName, mNumber = null;
 	boolean isMute, isSpeaker, isHold = true;
 	LinearLayout layoutMute, layoutHold, layoutSpeaker;
+
+	private long startTime = 0L;
+	private Handler customHandler = new Handler();
+	long timeInMilliseconds = 0L;
+	long timeSwapBuff = 0L;
+	long updatedTime = 0L;
 
 	SipRegisteration sip;
 
@@ -43,6 +51,9 @@ public class InCallActivity extends Activity {
 			sip.initiateCall(mNumber);
 		}
 
+		// Start the timer
+		startTime = SystemClock.uptimeMillis();
+		customHandler.postDelayed(updateTimerThread, 0);
 	}
 
 	private void initViews() {
@@ -61,6 +72,7 @@ public class InCallActivity extends Activity {
 		txtMute = (TextView) findViewById(R.id.txtMute);
 		txtSpeaker = (TextView) findViewById(R.id.txtSpeaker);
 		txtHold = (TextView) findViewById(R.id.txtHold);
+		txtTimer = (TextView) findViewById(R.id.txtTimeDuration);
 
 		if (mName == null) {
 			txtContactName.setText(mNumber);
@@ -73,6 +85,9 @@ public class InCallActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				// Pause the timer
+				timeSwapBuff += timeInMilliseconds;
+				customHandler.removeCallbacks(updateTimerThread);
 				// End call
 				sip.endCall();
 				// Finish the activity
@@ -133,4 +148,20 @@ public class InCallActivity extends Activity {
 		});
 	}
 
+	private Runnable updateTimerThread = new Runnable() {
+
+		public void run() {
+
+			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+			updatedTime = timeSwapBuff + timeInMilliseconds;
+
+			int secs = (int) (updatedTime / 1000);
+			int mins = secs / 60;
+			secs = secs % 60;
+			txtTimer.setText("" + mins + ":" + String.format("%02d", secs));
+			customHandler.postDelayed(this, 0);
+		}
+
+	};
 }
