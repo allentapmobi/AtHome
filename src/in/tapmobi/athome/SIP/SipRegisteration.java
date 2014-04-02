@@ -75,7 +75,7 @@ public class SipRegisteration {
 				mProfile = builder.build();
 
 				Intent i = new Intent();
-				i.setAction("android.SipDemo.INCOMING_CALL");
+				i.setAction("android.AtHome.INCOMING_CALL");
 				PendingIntent pi = PendingIntent.getBroadcast(mContext, 0, i, Intent.FILL_IN_DATA);
 				mSipManager.open(mProfile, pi, null);
 

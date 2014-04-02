@@ -43,14 +43,6 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 		try {
 
 			SipAudioCall.Listener listener = new SipAudioCall.Listener();
-
-			// IncomingCallActivity incomingActivity = (IncomingCallActivity) context;
-
-			// WalkieTalkieActivity wtActivity = (WalkieTalkieActivity) context;
-			// incomingCall = wtActivity.manager.takeAudioCall(intent, listener);
-			// showIncomingCallGui(intent, context);
-			// wtActivity.call = incomingCall;
-
 			incomingCall = SipRegisteration.mSipManager.takeAudioCall(intent, listener);
 			showIncomingCall(intent, context);
 			SipRegisteration.mCall = incomingCall;
