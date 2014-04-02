@@ -19,6 +19,8 @@
     <string name="txtMute">Mute</string>
     <string name="txtSpeaker">Speaker</string>
     <string name="txtHold">Hold</string>
+    <string name="menu_rotate">Rotate</string>
+    <string name="menu_crop">Preview</string>
     <string name="txtSipUserName">Username :</string>
     <string name="txtSipPassword">Password :</string>
     <string name="txtSipDomain">Domain :</string>

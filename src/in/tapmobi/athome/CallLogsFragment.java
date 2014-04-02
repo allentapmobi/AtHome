@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,14 +42,8 @@ public class CallLogsFragment extends Fragment {
 		// Init Sip Manager
 
 		sip = new SipRegisteration(getActivity().getApplicationContext());
-
 		db = new DataBaseHandler(getActivity().getApplicationContext());
-		// List<CallLogs> contacts = db.getAllContacts();
 
-		// Reading all contacts
-		Log.d("Reading: ", ".......Reading all contacts........");
-		// logs = db.getAllCallLogs();
-		// logs.addAll(Utility.getCallLogs());
 		if (Utility.CallLogs.size() > 0)
 			Utility.CallLogs.clear();
 		Utility.CallLogs.addAll(Utility.getCallLogs());

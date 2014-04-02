@@ -175,7 +175,9 @@ public class Utility {
 		db = new DataBaseHandler(mContext);
 		try {
 			if (CallLogs.size() == 0) {
+
 				CallLogs = db.getAllCallLogs();
+
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -243,6 +245,5 @@ public class Utility {
 
 		return CallLogs;
 	}
-	
-	
+
 }

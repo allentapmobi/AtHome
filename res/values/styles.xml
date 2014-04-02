@@ -17,6 +17,10 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="AlertDialogTheme" parent="AppBaseTheme">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="EditTextStyle" parent="android:style/Widget.EditText">
         <item name="android:background">@drawable/edit_text_selector</item>
         <item name="android:textColor">@color/theme_text</item>
@@ -69,6 +73,7 @@
         <item name="android:textColor">@color/theme_headers</item>
         <item name="android:text">@string/one</item>
         <item name="android:clickable">true</item>
+        
     </style>
 
     <style name="CustomTitlePageIndicator">

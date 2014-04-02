@@ -1,6 +1,5 @@
 package in.tapmobi.athome;
 
-import in.tapmobi.athome.R;
 import in.tapmobi.athome.sip.SipRegisteration;
 import in.tapmobi.athome.util.Utility;
 

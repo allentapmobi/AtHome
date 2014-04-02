@@ -16,7 +16,10 @@
     <uses-permission android:name="android.permission.USE_SIP" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.sip.voip"
         android:required="true" />
@@ -53,6 +56,11 @@
         <activity
             android:name="in.tapmobi.athome.incomming.IncomingCallActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="in.tapmobi.athome.util.ImageCropperUtil"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.camera.library.CameraLibrary" >
+        </activity>
 
         <receiver
             android:name="in.tapmobi.athome.sip.IncomingCallReceiver"
