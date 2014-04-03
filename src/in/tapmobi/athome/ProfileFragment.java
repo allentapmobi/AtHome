@@ -1,5 +1,9 @@
 package in.tapmobi.athome;
 
+import com.camera.library.CameraLibrary;
+import com.camera.library.CameraOptions;
+
+import in.tapmobi.athome.R;
 import in.tapmobi.athome.util.ImageCropperUtil;
 import in.tapmobi.athome.util.ImageUtil;
 import in.tapmobi.athome.util.RoundedImage;
@@ -21,9 +25,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.camera.library.CameraLibrary;
-import com.camera.library.CameraOptions;
-
 public class ProfileFragment extends Fragment {
 
 	ImageView _image;
@@ -33,6 +34,7 @@ public class ProfileFragment extends Fragment {
 	private static final int RE_GET_LOGO_CAMERA = 777;
 	private static final int RE_GET_LOGO_GALLERY = 999;
 	private static final int RE_GET_CROPPED_IMAGE = 666;
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		_image = (ImageView) rootView.findViewById(R.id.accImage);

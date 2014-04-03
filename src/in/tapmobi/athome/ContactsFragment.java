@@ -2,7 +2,7 @@ package in.tapmobi.athome;
 
 import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
-import in.tapmobi.athome.models.CallLogs;
+import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.registration.RegisterationActivity;
 import in.tapmobi.athome.util.Utility;
 
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,14 +56,16 @@ public class ContactsFragment extends Fragment {
 	RelativeLayout progressLayout;
 	private EditText myFilter;
 	String Msisdn, UserName = null;
-	ArrayList<CallLogs> logs;
+	ArrayList<CallLog> logs;
 	DataBaseHandler db;
+
+	public static Bitmap sPhotoImg;
+	public static Uri sPhotoUri;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
-		
 
 		mIndexerLayout = (LinearLayout) rootView.findViewById(R.id.indexer_layout);
 		mListView = (ListView) rootView.findViewById(R.id.contactList);
@@ -141,6 +145,9 @@ public class ContactsFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 				Msisdn = RegisterationActivity.mContact.get(pos).getNumber();
 				UserName = RegisterationActivity.mContact.get(pos).getName();
+				sPhotoUri = Utility.CallLogs.get(pos).getContactPhotoUri();
+				sPhotoImg = Utility.CallLogs.get(pos).getContactPhoto();
+
 				if (Msisdn != null) {
 					new RegisterCallLogsAsync().execute();
 				}
@@ -298,6 +305,8 @@ public class ContactsFragment extends Fragment {
 			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
 			i.putExtra("CONTACT_NAME", UserName);
 			i.putExtra("CONTACT_NUMBER", Msisdn);
+			i.putExtra("BITMAP", sPhotoImg);
+			i.putExtra("IMAGE_URI", sPhotoUri.toString());
 			startActivity(i);
 		}
 	}

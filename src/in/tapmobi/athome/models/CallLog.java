@@ -6,7 +6,7 @@ import java.util.Date;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-public class CallLogs implements Comparable<CallLogs> {
+public class CallLog implements Comparable<CallLog> {
 	private String callId;
 	private String contactName;
 	private int count;
@@ -18,11 +18,11 @@ public class CallLogs implements Comparable<CallLogs> {
 	private boolean IsIncoming;
 	private Date mDateTimeStamp;
 
-	public CallLogs() {
+	public CallLog() {
 
 	}
 
-	public CallLogs(String Name, String Number, String time) {
+	public CallLog(String Name, String Number, String time) {
 		this.contactName = Name;
 		this.contactNumber = Number;
 		this.callDuration = time;
@@ -110,14 +110,14 @@ public class CallLogs implements Comparable<CallLogs> {
 	}
 
 	@Override
-	public int compareTo(CallLogs cl) {
+	public int compareTo(CallLog cl) {
 
 		return getmDateTimeStamp().compareTo(cl.getmDateTimeStamp());
 	}
 
-	public static class DateComparator implements Comparator<CallLogs> {
+	public static class DateComparator implements Comparator<CallLog> {
 		@Override
-		public int compare(CallLogs lhs, CallLogs rhs) {
+		public int compare(CallLog lhs, CallLog rhs) {
 
 			if (lhs.getmDateTimeStamp().getTime() < rhs.getmDateTimeStamp().getTime())
 				return 1;

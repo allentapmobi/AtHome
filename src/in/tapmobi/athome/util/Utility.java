@@ -1,7 +1,7 @@
 package in.tapmobi.athome.util;
 
 import in.tapmobi.athome.database.DataBaseHandler;
-import in.tapmobi.athome.models.CallLogs;
+import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.registration.RegisterationActivity;
 
@@ -32,10 +32,10 @@ public class Utility {
 	public static Date date;
 	public static int count = 0;
 	public static DataBaseHandler db;
-	public static ArrayList<CallLogs> sLogs = new ArrayList<CallLogs>();
+	public static ArrayList<CallLog> sLogs = new ArrayList<CallLog>();
 	public static ArrayList<ContactsModel> sContacts = new ArrayList<ContactsModel>();
-	public static ArrayList<CallLogs> CallLogs = new ArrayList<CallLogs>();
-	static ArrayList<CallLogs> groupedCallLogs = new ArrayList<CallLogs>();
+	public static ArrayList<CallLog> CallLogs = new ArrayList<CallLog>();
+	static ArrayList<CallLog> groupedCallLogs = new ArrayList<CallLog>();
 	public static Cursor cur;
 
 	public Utility(Context ctx) {
@@ -78,7 +78,7 @@ public class Utility {
 
 		Log.d("Insert: ", "Inserting ..");
 		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
-		db.addCallLogs(new CallLogs(UserName, Msisdn, currentTime));
+		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime));
 	}
 
 	@SuppressLint("SimpleDateFormat")
@@ -171,7 +171,7 @@ public class Utility {
 		return "#";
 	}
 
-	public static ArrayList<CallLogs> getCallLogs() {
+	public static ArrayList<CallLog> getCallLogs() {
 		db = new DataBaseHandler(mContext);
 		try {
 			if (CallLogs.size() == 0) {
@@ -196,52 +196,45 @@ public class Utility {
 			}
 		}
 
-		Collections.sort(CallLogs, new CallLogs.DateComparator());
-		// CallLogs clgs = new CallLogs();
-		// for (int i = 0, j = 0; i < CallLogs.size(); i++, j++) {
-		// if (i < CallLogs.size() - 1) {
-		// String no1 = CallLogs.get(i).getContactNumber();
-		// String no2 = CallLogs.get(i + 1).getContactNumber();
-		// Log.v("Compare Nos", no1);
-		// Log.v("Compare Nos", no2);
-		// if (no1.equals(no2)) {
-		// clgs.setContactName(CallLogs.get(i + 1).getContactName());
-		// clgs.setContactNumber(CallLogs.get(i + 1).getContactNumber());
-		// clgs.setCallDuration(CallLogs.get(i + 1).getCallDuration());
-		// clgs.setContactPhoto(CallLogs.get(i + 1).getContactPhoto());
-		// clgs.setContactPhotoUri(CallLogs.get(i + 1).getContactPhotoUri());
-		// clgs.setCount((CallLogs.get(i).getCount()) + 1);
-		// groupedCallLogs.add(j, clgs);
-		// i++;
-		//
-		// } else {
-		//
-		// clgs.setContactName(CallLogs.get(i).getContactName());
-		// clgs.setContactNumber(CallLogs.get(i).getContactNumber());
-		// clgs.setCallDuration(CallLogs.get(i).getCallDuration());
-		// clgs.setContactPhoto(CallLogs.get(i).getContactPhoto());
-		// clgs.setContactPhotoUri(CallLogs.get(i).getContactPhotoUri());
-		// groupedCallLogs.add(j, clgs);
-		// }
-		// }
-		// }
+		Collections.sort(CallLogs, new CallLog.DateComparator());
 
-		// if (CallLogs.size() > 2) {
-		// for (int i = 0; i < CallLogs.size(); i++) {
-		// for (int j = 1; j < CallLogs.size() - 1; j++) {
-		// if
-		// (CallLogs.get(i).getContactNumber().equals(CallLogs.get(j).getContactNumber()))
-		// {
-		// int count = CallLogs.get(j).getCount();
-		// count++;
-		// CallLogs.get(i).setCount(count);
-		// CallLogs.get(i).setmDateTimeStamp(CallLogs.get(j).getmDateTimeStamp());
-		// CallLogs.remove(j);
-		// }
-		// }
-		//
-		// }
-		// }
+		// TODO:Needs fine tunning
+
+//		CallLogs clgs = new CallLogs();
+//		for (int i = 0; i < CallLogs.size(); i++) {
+//			if (groupedCallLogs.size() == 0) {
+//				clgs.setCallDuration(CallLogs.get(i).getCallDuration());
+//				clgs.setContactName(CallLogs.get(i).getContactName());
+//				clgs.setContactNumber(CallLogs.get(i).getContactNumber());
+//				clgs.setContactPhoto(CallLogs.get(i).getContactPhoto());
+//				clgs.setContactPhotoUri(CallLogs.get(i).getContactPhotoUri());
+//				clgs.setmDateTimeStamp(CallLogs.get(i).getmDateTimeStamp());
+//				clgs.setCount(1);
+//				// clgs.setCount(count++);
+//				groupedCallLogs.add(clgs);
+//			} else {
+//				for (int j = 0; j < groupedCallLogs.size(); j++) {
+//					count = groupedCallLogs.get(j).getCount();
+//					if (groupedCallLogs.get(j).getContactNumber().equals(CallLogs.get(i).getContactNumber())) {
+//						groupedCallLogs.get(j).setCallDuration(CallLogs.get(i).getCallDuration());
+//						groupedCallLogs.get(j).setCount(count++);
+//
+//					} else {
+//						clgs.setCallDuration(CallLogs.get(i).getCallDuration());
+//						clgs.setContactName(CallLogs.get(i).getContactName());
+//						clgs.setContactNumber(CallLogs.get(i).getContactNumber());
+//						clgs.setContactPhoto(CallLogs.get(i).getContactPhoto());
+//						clgs.setContactPhotoUri(CallLogs.get(i).getContactPhotoUri());
+//						clgs.setCount(1);
+//						clgs.setmDateTimeStamp(CallLogs.get(i).getmDateTimeStamp());
+//						// clgs.setCount(count++);
+//						groupedCallLogs.add(clgs);
+//						break;
+//					}
+//				}
+//
+//			}
+//		}
 
 		return CallLogs;
 	}

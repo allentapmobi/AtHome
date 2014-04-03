@@ -1,6 +1,6 @@
 package in.tapmobi.athome.database;
 
-import in.tapmobi.athome.models.CallLogs;
+import in.tapmobi.athome.models.CallLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -63,7 +63,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	 */
 
 	// Adding CALL LOGS
-	public void addCallLogs(CallLogs logs) {
+	public void addCallLogs(CallLog logs) {
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
@@ -79,8 +79,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Getting All Contacts
 	@SuppressLint("SimpleDateFormat")
-	public ArrayList<CallLogs> getAllCallLogs() {
-		ArrayList<CallLogs> contactList = new ArrayList<CallLogs>();
+	public ArrayList<CallLog> getAllCallLogs() {
+		ArrayList<CallLog> contactList = new ArrayList<CallLog>();
 
 		// Select All Query
 		String selectQuery = "SELECT  * FROM " + TABLE_CALL_LOGS;
@@ -92,7 +92,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
-				CallLogs logs = new CallLogs();
+				CallLog logs = new CallLog();
 				// logs.setID(Integer.parseInt(cursor.getString(0)));
 				// logs.setName(cursor.getString(1));
 				// logs.setPhoneNumber(cursor.getString(2));

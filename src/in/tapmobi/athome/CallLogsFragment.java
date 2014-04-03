@@ -2,6 +2,7 @@ package in.tapmobi.athome;
 
 import in.tapmobi.athome.adapter.CallLogsAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
+import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.sip.SipRegisteration;
 import in.tapmobi.athome.util.Utility;
@@ -9,6 +10,8 @@ import in.tapmobi.athome.util.Utility;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,9 +31,14 @@ public class CallLogsFragment extends Fragment {
 	LinearLayout mSectionHeader;
 	SipRegisteration sip;
 	ArrayList<ContactsModel> mContacts = new ArrayList<ContactsModel>();
+	public static ArrayList<CallLog> logs = new ArrayList<CallLog>();
 	// HashMap<String, CallLogs> groupedCallLogs = new HashMap<String,
 	// CallLogs>();
+
+	// Display information for incall activity
 	static String Msisdn, ContactName = null;
+	public static Bitmap sPhotoImg;
+	public static Uri sPhotoUri;
 
 	/**
 	 * Fragment creation for call logs
@@ -48,8 +56,7 @@ public class CallLogsFragment extends Fragment {
 			Utility.CallLogs.clear();
 		Utility.CallLogs.addAll(Utility.getCallLogs());
 		/**
-		 * Loop to iterate the call logs based on call type and and time
-		 * TODO:Once working fine create a method in Utility
+		 * Loop to iterate the call logs based on call type and and time TODO:Once working fine create a method in Utility
 		 */
 		// for (int i = 0; i < Utility.CallLogs.size(); i++) {
 		//
@@ -71,6 +78,8 @@ public class CallLogsFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
 				Msisdn = Utility.CallLogs.get(pos).getContactNumber();
 				ContactName = Utility.CallLogs.get(pos).getContactName();
+				sPhotoImg = Utility.CallLogs.get(pos).getContactPhoto();
+				sPhotoUri = Utility.CallLogs.get(pos).getContactPhotoUri();
 				if (Msisdn != null) {
 					new RegisterCallLogsAsync().execute();
 				}
@@ -97,6 +106,8 @@ public class CallLogsFragment extends Fragment {
 				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
 				i.putExtra("CONTACT_NAME", ContactName);
 				i.putExtra("CONTACT_NUMBER", Msisdn);
+				i.putExtra("BITMAP", sPhotoImg);
+				i.putExtra("IMAGE_URI", sPhotoUri.toString());
 				startActivity(i);
 			} else {
 				Toast.makeText(getActivity().getApplicationContext(), "SIP Registration failed.", Toast.LENGTH_SHORT).show();

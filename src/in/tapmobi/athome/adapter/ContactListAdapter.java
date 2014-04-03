@@ -6,6 +6,7 @@ import in.tapmobi.athome.models.ContactsModel;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class ContactListAdapter extends BaseAdapter implements Filterable {
 	private ArrayList<ContactsModel> contactsListForSearch;
 	private LayoutInflater mInflater;
 	private AlphabetIndexer mIndexer;
+	public static Uri sPhotoUri;
 
 	public ContactListAdapter(Context context, ArrayList<ContactsModel> contacts) {
 		super();

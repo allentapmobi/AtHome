@@ -3,6 +3,8 @@ package in.tapmobi.athome;
 import in.tapmobi.athome.sip.SipRegisteration;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -28,7 +30,8 @@ public class InCallActivity extends Activity {
 	long timeInMilliseconds = 0L;
 	long timeSwapBuff = 0L;
 	long updatedTime = 0L;
-
+	Bitmap profileImage;
+	Uri profileUri;
 	SipRegisteration sip;
 
 	@Override
@@ -45,6 +48,8 @@ public class InCallActivity extends Activity {
 		Intent intent = getIntent();
 		mName = intent.getStringExtra("CONTACT_NAME");
 		mNumber = intent.getStringExtra("CONTACT_NUMBER");
+		profileImage = (Bitmap) intent.getParcelableExtra("BITMAP");
+		profileUri = Uri.parse(intent.getExtras().getString("IMAGE_URI"));
 
 		initViews();
 		if (SipRegisteration.mCall == null) {
@@ -80,6 +85,9 @@ public class InCallActivity extends Activity {
 			txtContactName.setText(mName);
 
 		}
+		// mProfileImage.setImageBitmap(profileImage);
+		if (profileUri != null)
+			mProfileImage.setImageURI(profileUri);
 
 		mCallEndBtn.setOnClickListener(new OnClickListener() {
 

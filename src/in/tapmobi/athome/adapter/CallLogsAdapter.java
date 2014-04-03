@@ -1,8 +1,7 @@
 package in.tapmobi.athome.adapter;
 
 import in.tapmobi.athome.R;
-import in.tapmobi.athome.models.CallLogs;
-import in.tapmobi.athome.util.Utility;
+import in.tapmobi.athome.models.CallLog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,11 +19,12 @@ import android.widget.TextView;
 
 public class CallLogsAdapter extends BaseAdapter {
 	Context mContext;
-	ArrayList<CallLogs> mCallLogs = new ArrayList<CallLogs>();
+	ArrayList<CallLog> mCallLogs = new ArrayList<CallLog>();
 	String Name, number = null;
 	private LayoutInflater mInflater;
+	String checkDate = null;
 
-	public CallLogsAdapter(Context c, ArrayList<CallLogs> callLogs) {
+	public CallLogsAdapter(Context c, ArrayList<CallLog> callLogs) {
 		mContext = c;
 		this.mCallLogs = callLogs;
 		mInflater = LayoutInflater.from(mContext);
@@ -70,7 +70,7 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		final CallLogs Logs = mCallLogs.get(position);
+		final CallLog Logs = mCallLogs.get(position);
 		holder.thumb.setImageURI(Logs.getContactPhotoUri());
 		if (holder.thumb.getDrawable() == null)
 			holder.thumb.setImageResource(R.drawable.def_contact);
@@ -92,17 +92,26 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.contactNumber.setText("");
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa dd-MM-yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 		Date dt = Logs.getmDateTimeStamp();
-		String timeNow = sdf.format(dt);
-		holder.timeDuration.setText(timeNow);
-		Date currentTime = Utility.getCurrentDateTime();
-		if (dt.before(currentTime)) {// returns true if current greater
-			holder.sectionHeaderDate.setVisibility(View.GONE);
-			holder.sectionHeaderText.setText("Yesterday");
+		String timeStamp = sdf.format(dt);
+		String mDateStr = sdf1.format(dt);
 
-		} else if (dt.after(currentTime)) {
+		holder.timeDuration.setText(timeStamp);
+
+		if (position == 0) {
+			checkDate = mDateStr;
+			holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+			holder.sectionHeaderText.setText("Today");
+
+		} else if (mDateStr.contains(checkDate)) {// returns true if current greater
 			holder.sectionHeaderDate.setVisibility(View.GONE);
+
+		} else {
+			checkDate = mDateStr;
+			holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+			holder.sectionHeaderText.setText(mDateStr);
 		}
 
 		return convertView;
