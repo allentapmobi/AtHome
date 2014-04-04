@@ -10,11 +10,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 
 public class MainActivity extends FragmentActivity {
 
 	private ViewPager mViewPager;
 	private TabsPagerAdapter mAdapter;
+	DisplayMetrics dm = new DisplayMetrics();
+	public static int width, height;
 
 	public static SipRegisteration sipReg;
 	public IncomingCallReceiver callReceiver;
@@ -25,6 +28,9 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		sipReg = new SipRegisteration(MainActivity.this);
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		width = dm.widthPixels;
+		height = dm.heightPixels;
 
 		// Set up the intent filter. This will be used to fire an
 		// IncomingCallReceiver when someone calls the SIP address used by this

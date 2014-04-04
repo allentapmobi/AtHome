@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -45,11 +46,16 @@ public class InCallActivity extends Activity {
 
 		sip = new SipRegisteration(getApplicationContext());
 
-		Intent intent = getIntent();
-		mName = intent.getStringExtra("CONTACT_NAME");
-		mNumber = intent.getStringExtra("CONTACT_NUMBER");
-		profileImage = (Bitmap) intent.getParcelableExtra("BITMAP");
-		profileUri = Uri.parse(intent.getExtras().getString("IMAGE_URI"));
+		try {
+			Intent intent = getIntent();
+			mName = intent.getStringExtra("CONTACT_NAME");
+			mNumber = intent.getStringExtra("CONTACT_NUMBER");
+			profileImage = (Bitmap) intent.getParcelableExtra("BITMAP");
+			profileUri = Uri.parse(intent.getExtras().getString("IMAGE_URI"));
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			Log.e("InCAllActivity", "Null pointer with image uri");
+		}
 
 		initViews();
 		if (SipRegisteration.mCall == null) {

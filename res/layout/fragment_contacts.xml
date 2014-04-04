@@ -41,7 +41,8 @@
         android:cacheColorHint="@android:color/transparent"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
-        android:fastScrollEnabled="true" />
+        android:fastScrollEnabled="true"
+        android:scrollbars="none" />
 
     <LinearLayout
         android:id="@+id/indexer_layout"

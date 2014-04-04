@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 
 public class CallLog implements Comparable<CallLog> {
+
 	private String callId;
 	private String contactName;
 	private int count;

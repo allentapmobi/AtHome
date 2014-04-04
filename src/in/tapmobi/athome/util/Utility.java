@@ -3,6 +3,7 @@ package in.tapmobi.athome.util;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.models.ContactsModel;
+import in.tapmobi.athome.models.GroupedLogs;
 import in.tapmobi.athome.registration.RegisterationActivity;
 
 import java.text.ParseException;
@@ -35,8 +36,9 @@ public class Utility {
 	public static ArrayList<CallLog> sLogs = new ArrayList<CallLog>();
 	public static ArrayList<ContactsModel> sContacts = new ArrayList<ContactsModel>();
 	public static ArrayList<CallLog> CallLogs = new ArrayList<CallLog>();
-	static ArrayList<CallLog> groupedCallLogs = new ArrayList<CallLog>();
+	static ArrayList<GroupedLogs> groupedCallLogs = new ArrayList<GroupedLogs>();
 	public static Cursor cur;
+	public static String prevMsisdn;
 
 	public Utility(Context ctx) {
 		mContext = ctx;
@@ -199,44 +201,33 @@ public class Utility {
 		Collections.sort(CallLogs, new CallLog.DateComparator());
 
 		// TODO:Needs fine tunning
-
-//		CallLogs clgs = new CallLogs();
-//		for (int i = 0; i < CallLogs.size(); i++) {
-//			if (groupedCallLogs.size() == 0) {
-//				clgs.setCallDuration(CallLogs.get(i).getCallDuration());
-//				clgs.setContactName(CallLogs.get(i).getContactName());
-//				clgs.setContactNumber(CallLogs.get(i).getContactNumber());
-//				clgs.setContactPhoto(CallLogs.get(i).getContactPhoto());
-//				clgs.setContactPhotoUri(CallLogs.get(i).getContactPhotoUri());
-//				clgs.setmDateTimeStamp(CallLogs.get(i).getmDateTimeStamp());
-//				clgs.setCount(1);
-//				// clgs.setCount(count++);
-//				groupedCallLogs.add(clgs);
-//			} else {
-//				for (int j = 0; j < groupedCallLogs.size(); j++) {
-//					count = groupedCallLogs.get(j).getCount();
-//					if (groupedCallLogs.get(j).getContactNumber().equals(CallLogs.get(i).getContactNumber())) {
-//						groupedCallLogs.get(j).setCallDuration(CallLogs.get(i).getCallDuration());
-//						groupedCallLogs.get(j).setCount(count++);
-//
-//					} else {
-//						clgs.setCallDuration(CallLogs.get(i).getCallDuration());
-//						clgs.setContactName(CallLogs.get(i).getContactName());
-//						clgs.setContactNumber(CallLogs.get(i).getContactNumber());
-//						clgs.setContactPhoto(CallLogs.get(i).getContactPhoto());
-//						clgs.setContactPhotoUri(CallLogs.get(i).getContactPhotoUri());
-//						clgs.setCount(1);
-//						clgs.setmDateTimeStamp(CallLogs.get(i).getmDateTimeStamp());
-//						// clgs.setCount(count++);
-//						groupedCallLogs.add(clgs);
-//						break;
-//					}
-//				}
-//
-//			}
-//		}
+		// GroupedLogs gpLogs = new GroupedLogs();
+		//
+		// for (int i = 0; i < CallLogs.size(); i++) {
+		// if (groupedCallLogs.size() == 0) {
+		// prevMsisdn = CallLogs.get(i).getContactNumber();
+		//
+		// gpLogs.callLog.add(CallLogs.get(i));
+		// gpLogs.setMsisdn(prevMsisdn);
+		// groupedCallLogs.add(gpLogs);
+		//
+		// } else if (prevMsisdn.equals(CallLogs.get(i).getContactNumber())) {
+		// // TODO : Adding/grouping logic in call logs still an issue
+		// for (int j = 0; j < groupedCallLogs.size(); j++) {
+		//
+		// // groupedCallLogs.get(j).getCallLog().set(j, CallLogs.get(i));
+		// groupedCallLogs.get(j).setCallLog();
+		// prevMsisdn = CallLogs.get(i).getContactNumber();
+		// break;
+		// }
+		//
+		// } else {
+		// gpLogs.callLog.add(CallLogs.get(i));
+		// gpLogs.setMsisdn(prevMsisdn);
+		// groupedCallLogs.add(gpLogs);
+		// }
+		// }
 
 		return CallLogs;
 	}
-
 }

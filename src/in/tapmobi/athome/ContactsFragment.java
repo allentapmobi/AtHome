@@ -92,14 +92,38 @@ public class ContactsFragment extends Fragment {
 		for (int i = 0; i < alphabet.length(); i++) {
 
 			TextView letterTextView = new TextView(getActivity().getApplicationContext());
-			letterTextView.setText(alphabet.charAt(i) + "");
-			letterTextView.setTextSize(14f);
-			letterTextView.setGravity(Gravity.CENTER);
-			LayoutParams params = new LinearLayout.LayoutParams(28, 0, 1.0f);
-			letterTextView.setLayoutParams(params);
-			letterTextView.setPadding(4, 0, 2, 0);
-			mIndexerLayout.addView(letterTextView);
-			mIndexerLayout.setBackgroundResource(R.drawable.letterslist_bg);
+			if (MainActivity.height > 480) {
+
+				letterTextView.setText(alphabet.charAt(i) + "");
+				letterTextView.setTextSize(14f);
+				letterTextView.setGravity(Gravity.CENTER);
+				LayoutParams params = new LinearLayout.LayoutParams(28, 0, 1.0f);
+				letterTextView.setLayoutParams(params);
+				letterTextView.setPadding(4, 0, 2, 0);
+				mIndexerLayout.addView(letterTextView);
+				mIndexerLayout.setBackgroundResource(R.drawable.letterslist_bg);
+
+			} else if (MainActivity.height <= 480) {
+				// TODO:NEED TO DISABLE SCROLL HERE
+				letterTextView.setText(alphabet.charAt(i) + "");
+				letterTextView.setTextSize(10f);
+				letterTextView.setGravity(Gravity.CENTER);
+				LayoutParams params = new LinearLayout.LayoutParams(20, 0, 1.0f);
+				letterTextView.setLayoutParams(params);
+				letterTextView.setPadding(4, 0, 2, 0);
+				mIndexerLayout.addView(letterTextView);
+				mIndexerLayout.setBackgroundResource(R.drawable.letterslist_bg);
+
+			} else {
+				letterTextView.setText(alphabet.charAt(i) + "");
+				letterTextView.setTextSize(14f);
+				letterTextView.setGravity(Gravity.CENTER);
+				LayoutParams params = new LinearLayout.LayoutParams(28, 0, 1.0f);
+				letterTextView.setLayoutParams(params);
+				letterTextView.setPadding(4, 0, 2, 0);
+				mIndexerLayout.addView(letterTextView);
+				mIndexerLayout.setBackgroundResource(R.drawable.letterslist_bg);
+			}
 		}
 
 		initView();
@@ -244,7 +268,12 @@ public class ContactsFragment extends Fragment {
 				textView.setBackgroundColor(getResources().getColor(R.color.letter_bg_color));
 				mSectionToastLayout.setVisibility(View.VISIBLE);
 				mSectionToastText.setText(sectionLetter);
-				mListView.smoothScrollToPositionFromTop(position, 0, 1);
+				try {
+					mListView.smoothScrollToPositionFromTop(position, 0, 1);
+				} catch (Exception e) {
+					System.out.println("It just wouldnt scroll");
+					e.printStackTrace();
+				}
 				break;
 			case MotionEvent.ACTION_MOVE:
 				mIndexerLayout.setBackgroundResource(R.drawable.letterslist_bg);

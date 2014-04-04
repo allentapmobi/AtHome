@@ -52,18 +52,9 @@ public class CallLogsFragment extends Fragment {
 		sip = new SipRegisteration(getActivity().getApplicationContext());
 		db = new DataBaseHandler(getActivity().getApplicationContext());
 
-		if (Utility.CallLogs.size() > 0)
-			Utility.CallLogs.clear();
-		Utility.CallLogs.addAll(Utility.getCallLogs());
-		/**
-		 * Loop to iterate the call logs based on call type and and time TODO:Once working fine create a method in Utility
-		 */
-		// for (int i = 0; i < Utility.CallLogs.size(); i++) {
-		//
-		// groupedCallLogs.put(Utility.CallLogs.get(i).getContactNumber(),
-		// Utility.CallLogs.get(i));
-		// Log.v("Hash Map", Utility.CallLogs.get(i).getContactNumber());
-		// }
+		// if (Utility.CallLogs.size() > 0)
+		// Utility.CallLogs.clear();
+		// Utility.CallLogs.addAll(Utility.getCallLogs());
 
 		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), Utility.CallLogs);
 		lvCallLogs = (ListView) rootView.findViewById(R.id.lvCallLogs);
@@ -89,6 +80,14 @@ public class CallLogsFragment extends Fragment {
 		return rootView;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (Utility.CallLogs.size() > 0)
+			Utility.CallLogs.clear();
+		Utility.CallLogs.addAll(Utility.getCallLogs());
+	}
+
 	public class RegisterCallLogsAsync extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -107,11 +106,18 @@ public class CallLogsFragment extends Fragment {
 				i.putExtra("CONTACT_NAME", ContactName);
 				i.putExtra("CONTACT_NUMBER", Msisdn);
 				i.putExtra("BITMAP", sPhotoImg);
-				i.putExtra("IMAGE_URI", sPhotoUri.toString());
+				// i.putExtra("IMAGE_URI", sPhotoUri.toString());
 				startActivity(i);
 			} else {
 				Toast.makeText(getActivity().getApplicationContext(), "SIP Registration failed.", Toast.LENGTH_SHORT).show();
 			}
+		}
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(db!=null){
+			db.close();
 		}
 	}
 }

@@ -24,6 +24,8 @@ public class CallLogsAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	String checkDate = null;
 
+	// Flag to check if the date occurrence is first time
+
 	public CallLogsAdapter(Context c, ArrayList<CallLog> callLogs) {
 		mContext = c;
 		this.mCallLogs = callLogs;
@@ -54,7 +56,9 @@ public class CallLogsAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		ViewHolder holder = null;
+
 		if (convertView == null) {
+
 			convertView = mInflater.inflate(R.layout.call_log_items, null);
 			holder = new ViewHolder();
 			holder.sectionHeaderDate = (LinearLayout) convertView.findViewById(R.id.sort_by_date);
@@ -66,6 +70,7 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.count = (TextView) convertView.findViewById(R.id.txtCallCount);
 			holder.sectionHeaderDate.setVisibility(View.GONE);
 			convertView.setTag(holder);
+
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
@@ -100,18 +105,21 @@ public class CallLogsAdapter extends BaseAdapter {
 
 		holder.timeDuration.setText(timeStamp);
 
-		if (position == 0) {
-			checkDate = mDateStr;
-			holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-			holder.sectionHeaderText.setText("Today");
-
-		} else if (mDateStr.contains(checkDate)) {// returns true if current greater
-			holder.sectionHeaderDate.setVisibility(View.GONE);
-
-		} else {
-			checkDate = mDateStr;
-			holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-			holder.sectionHeaderText.setText(mDateStr);
+		try {
+			if (position == 0) {
+				checkDate = mDateStr;
+				holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+				holder.sectionHeaderText.setText("Today");
+			} else if (mDateStr.contains(checkDate)) {
+				holder.sectionHeaderDate.setVisibility(View.GONE);
+			} else {
+				checkDate = mDateStr;
+				holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+				holder.sectionHeaderText.setText(mDateStr);
+			}
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return convertView;

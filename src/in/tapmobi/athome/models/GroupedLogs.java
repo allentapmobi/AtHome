@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class GroupedLogs {
 
-	public ArrayList<CallLog> callLog;
+	public ArrayList<CallLog> callLog = new ArrayList<CallLog>();
+	public String Msisdn;
+	
 
 	public ArrayList<CallLog> getCallLog() {
 		return callLog;
@@ -22,6 +24,5 @@ public class GroupedLogs {
 		Msisdn = msisdn;
 	}
 
-	public String Msisdn;
 
 }

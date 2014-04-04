@@ -20,6 +20,9 @@ import in.tapmobi.athome.incomming.IncomingCallActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipProfile;
 
@@ -35,19 +38,24 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 	 * @param intent
 	 *            The intent being received.
 	 */
-
+	static Uri notification;
+	static Ringtone r;
 	static SipAudioCall incomingCall = null;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SipAudioCall incomingCall = null;
 		try {
+			notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+			r = RingtoneManager.getRingtone(context, notification);
+			r.play();
 
-			SipAudioCall.Listener listener = new SipAudioCall.Listener(){
+			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override
 				public void onRinging(SipAudioCall call, SipProfile caller) {
 					// TODO Auto-generated method stub
 					super.onRinging(call, caller);
+
 				}
 			};
 			incomingCall = SipRegisteration.mSipManager.takeAudioCall(intent, listener);
