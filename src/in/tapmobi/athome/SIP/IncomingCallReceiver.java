@@ -43,17 +43,17 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 	static SipAudioCall incomingCall = null;
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(final Context context, Intent intent) {
 		SipAudioCall incomingCall = null;
 		try {
+
 			notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 			r = RingtoneManager.getRingtone(context, notification);
 			r.play();
-
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override
 				public void onRinging(SipAudioCall call, SipProfile caller) {
-					// TODO Auto-generated method stub
+
 					super.onRinging(call, caller);
 
 				}
@@ -82,6 +82,7 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 
 		Intent incomingCall = new Intent(context, IncomingCallActivity.class);
 		context.startActivity(incomingCall);
+
 	}
 
 	public static void answerIncomingCall() {
@@ -97,7 +98,6 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 		}
 
 		catch (Exception e) {
-
 			System.out.println(e.toString());
 		}
 

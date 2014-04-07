@@ -6,12 +6,11 @@
     android:orientation="vertical"
     android:padding="2dp" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/sort_by_date"
         android:layout_width="fill_parent"
-        android:layout_height="18dp"
-        android:background="#e4e4e4"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:background="#e4e4e4" >
 
         <TextView
             android:id="@+id/sort_date_text"
@@ -19,15 +18,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/theme_text"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:text="7-4-2014"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/thumb"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignStart="@id/sort_by_date"
         android:layout_below="@id/sort_by_date"
+        android:layout_margin="10dp"
         android:background="@drawable/def_contact"
         android:contentDescription="@string/app_name" />
 
@@ -45,18 +47,19 @@
             android:id="@+id/txtContactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="Contact Name"
             android:textColor="@color/theme_text"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="22sp" />
 
         <ImageView
             android:id="@+id/ivCallType"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_below="@id/txtContactName"
+           
             android:src="@drawable/incoming" />
 
         <TextView
@@ -64,12 +67,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtContactName"
+            
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/ivCallType"
             android:padding="2dp"
             android:text="+919863492364"
             android:textColor="@color/theme_sub_header_text"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/txtCallTime"
@@ -78,9 +82,9 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/txtContactName"
             android:padding="1dp"
-            android:text="2 mins ago"
+            android:text="3:30 PM"
             android:textColor="@color/theme_sub_header_text"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/txtCallCount"
@@ -88,10 +92,11 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/txtCallTime"
             android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="(1)"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </RelativeLayout>
 

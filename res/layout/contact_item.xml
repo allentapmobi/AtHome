@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:id="@+id/sort_key_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#e4e4e4"
         android:orientation="horizontal" >
 
@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textColor="@color/black"
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -33,14 +33,14 @@
             android:id="@+id/thumb"
             android:layout_width="50dp"
             android:layout_height="50dp"
+             android:layout_margin="8dp"
             android:background="@drawable/def_contact"
             android:contentDescription="@string/app_name" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-             >
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/Name"
@@ -48,12 +48,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="5dp"
+               android:layout_margin="8dp"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="Rahul Gandhi"
                 android:textColor="@color/theme_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/Number"
@@ -64,8 +64,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="+919887876767"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 

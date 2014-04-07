@@ -20,15 +20,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class CallLogsFragment extends Fragment {
 	ListView lvCallLogs;
 	CallLogsAdapter mLogAdapter;
 	DataBaseHandler db;
-	LinearLayout mSectionHeader;
+	RelativeLayout mSectionHeader;
 	SipRegisteration sip;
 	ArrayList<ContactsModel> mContacts = new ArrayList<ContactsModel>();
 	public static ArrayList<CallLog> logs = new ArrayList<CallLog>();
@@ -46,15 +46,11 @@ public class CallLogsFragment extends Fragment {
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_calllogs, container, false);
-		mSectionHeader = (LinearLayout) rootView.findViewById(R.id.sort_by_date);
+		mSectionHeader = (RelativeLayout) rootView.findViewById(R.id.sort_by_date);
 		// Init Sip Manager
 
 		sip = new SipRegisteration(getActivity().getApplicationContext());
 		db = new DataBaseHandler(getActivity().getApplicationContext());
-
-		// if (Utility.CallLogs.size() > 0)
-		// Utility.CallLogs.clear();
-		// Utility.CallLogs.addAll(Utility.getCallLogs());
 
 		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), Utility.CallLogs);
 		lvCallLogs = (ListView) rootView.findViewById(R.id.lvCallLogs);
@@ -113,10 +109,11 @@ public class CallLogsFragment extends Fragment {
 			}
 		}
 	}
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if(db!=null){
+		if (db != null) {
 			db.close();
 		}
 	}

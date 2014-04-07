@@ -2,6 +2,7 @@ package in.tapmobi.athome.adapter;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.models.CallLog;
+import in.tapmobi.athome.util.Utility;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CallLogsAdapter extends BaseAdapter {
@@ -22,7 +23,7 @@ public class CallLogsAdapter extends BaseAdapter {
 	ArrayList<CallLog> mCallLogs = new ArrayList<CallLog>();
 	String Name, number = null;
 	private LayoutInflater mInflater;
-	String checkDate = null;
+	String checkDate, today = null;
 
 	// Flag to check if the date occurrence is first time
 
@@ -61,7 +62,7 @@ public class CallLogsAdapter extends BaseAdapter {
 
 			convertView = mInflater.inflate(R.layout.call_log_items, null);
 			holder = new ViewHolder();
-			holder.sectionHeaderDate = (LinearLayout) convertView.findViewById(R.id.sort_by_date);
+			holder.sectionHeaderDate = (RelativeLayout) convertView.findViewById(R.id.sort_by_date);
 			holder.sectionHeaderText = (TextView) convertView.findViewById(R.id.sort_date_text);
 			holder.ContactName = (TextView) convertView.findViewById(R.id.txtContactName);
 			holder.contactNumber = (TextView) convertView.findViewById(R.id.txtContactNumber);
@@ -97,19 +98,26 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.contactNumber.setText("");
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 		Date dt = Logs.getmDateTimeStamp();
 		String timeStamp = sdf.format(dt);
 		String mDateStr = sdf1.format(dt);
+		Date todayDate = Utility.getCurrentDateTime();
+		today = sdf1.format(todayDate);
 
 		holder.timeDuration.setText(timeStamp);
 
 		try {
 			if (position == 0) {
 				checkDate = mDateStr;
-				holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-				holder.sectionHeaderText.setText("Today");
+				if (today.equals(checkDate)) {
+					holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+					holder.sectionHeaderText.setText("Today");
+				} else {
+					holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+					holder.sectionHeaderText.setText(mDateStr);
+				}
 			} else if (mDateStr.contains(checkDate)) {
 				holder.sectionHeaderDate.setVisibility(View.GONE);
 			} else {
@@ -126,7 +134,7 @@ public class CallLogsAdapter extends BaseAdapter {
 	}
 
 	private static class ViewHolder {
-		LinearLayout sectionHeaderDate;
+		RelativeLayout sectionHeaderDate;
 		TextView sectionHeaderText;
 		TextView ContactName;
 		TextView contactNumber;
