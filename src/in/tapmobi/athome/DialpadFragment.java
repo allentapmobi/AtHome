@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,25 +39,25 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 		txtPhoneNo.setText("");
 		txtPhoneNo.setKeyListener(null);
 
-		txtPhoneNo.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				dialAdapter.getFilter().filter(s.toString());
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		// txtPhoneNo.addTextChangedListener(new TextWatcher() {
+		//
+		// @Override
+		// public void onTextChanged(CharSequence s, int start, int before, int count) {
+		// dialAdapter.getFilter().filter(s.toString());
+		// }
+		//
+		// @Override
+		// public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		//
+		// @Override
+		// public void afterTextChanged(Editable s) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// });
 
 		util = new Utility(getActivity().getApplicationContext());
 		btn1 = (Button) rootView.findViewById(R.id.btnNum1);

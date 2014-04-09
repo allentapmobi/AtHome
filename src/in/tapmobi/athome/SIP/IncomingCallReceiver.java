@@ -17,7 +17,6 @@
 package in.tapmobi.athome.sip;
 
 import in.tapmobi.athome.incomming.IncomingCallActivity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
@@ -25,11 +24,14 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipProfile;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.support.v4.content.WakefulBroadcastReceiver;
 
 /**
  * Listens for incoming SIP calls, intercepts and hands them off to WalkieTalkieActivity.
  */
-public class IncomingCallReceiver extends BroadcastReceiver {
+public class IncomingCallReceiver extends WakefulBroadcastReceiver {
 	/**
 	 * Processes the incoming call, answers it, and hands it over to the WalkieTalkieActivity.
 	 * 
@@ -47,6 +49,18 @@ public class IncomingCallReceiver extends BroadcastReceiver {
 		SipAudioCall incomingCall = null;
 		try {
 
+			// ComponentName comp = new ComponentName(context.getPackageName(),
+			// GcmIntentService.class.getName());
+			// // Start the service, keeping the device awake while it is launching.
+			// startWakefulService(context, (intent.setComponent(comp)));
+			// setResultCode(Activity.RESULT_OK);
+			// Start the service, keeping the device awake while it is launching.
+			// startWakefulService(context, (intent.setComponent(comp)));
+			// setResultCode(Activity.RESULT_OK);
+
+			WakeLock screenOn = ((PowerManager) context.getSystemService(context.POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+					| PowerManager.ACQUIRE_CAUSES_WAKEUP, "example");
+			screenOn.acquire();
 			notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 			r = RingtoneManager.getRingtone(context, notification);
 			r.play();

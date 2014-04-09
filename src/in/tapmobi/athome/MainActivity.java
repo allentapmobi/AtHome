@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
@@ -91,5 +92,28 @@ public class MainActivity extends FragmentActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		delSipProfile();
+	}
+
+	// *******************************************************************************************************************************************\\
+	private Toast toast;
+	private long lastBackPressTime = 0;
+	static boolean isFirstTime = true;
+
+	@Override
+	public void onBackPressed() {
+
+		// show message to exit if user presses back two times
+		if (this.lastBackPressTime < System.currentTimeMillis() - 2000) {
+			toast = Toast.makeText(this, "Press back again Exit", Toast.LENGTH_SHORT);
+			toast.show();
+			this.lastBackPressTime = System.currentTimeMillis();
+		} else {
+			if (toast != null) {
+				toast.cancel();
+			}
+			super.onBackPressed();
+			isFirstTime = true;
+
+		}
 	}
 }

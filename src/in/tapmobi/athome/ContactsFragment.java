@@ -335,7 +335,7 @@ public class ContactsFragment extends Fragment {
 			i.putExtra("CONTACT_NAME", UserName);
 			i.putExtra("CONTACT_NUMBER", Msisdn);
 			i.putExtra("BITMAP", sPhotoImg);
-			i.putExtra("IMAGE_URI", sPhotoUri.toString());
+			// i.putExtra("IMAGE_URI", sPhotoUri.toString());
 			startActivity(i);
 		}
 	}

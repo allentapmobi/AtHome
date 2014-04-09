@@ -13,6 +13,7 @@ import android.widget.Filterable;
 public class DialpadAdapter extends BaseAdapter implements Filterable {
 
 	private ArrayList<ContactsModel> contactsList;
+	private ArrayList<ContactsModel> contactsListForSearch;
 
 	@Override
 	public int getCount() {
@@ -44,6 +45,7 @@ public class DialpadAdapter extends BaseAdapter implements Filterable {
 	}
 
 	Filter myFilter = new Filter() {
+		@SuppressWarnings("unchecked")
 		public void publishResults(CharSequence constraints, FilterResults results) {
 			contactsList = (ArrayList<ContactsModel>) results.values;
 			if (results.count > 0) {
@@ -54,6 +56,22 @@ public class DialpadAdapter extends BaseAdapter implements Filterable {
 		}
 
 		public FilterResults performFiltering(CharSequence constrains) {
+			FilterResults filterResults = new FilterResults();
+			ArrayList<ContactsModel> tempContacts = new ArrayList<ContactsModel>();
+
+			if (constrains != null && contactsListForSearch != null) {
+				int lenght = contactsListForSearch.size();
+				int i = 0;
+				while (i < lenght) {
+					ContactsModel item = contactsListForSearch.get(i);
+					if (item.getNumber().contains(constrains.toString())) {
+
+					}
+				}
+
+			}
+			return null;
+
 		}
 	};
 

@@ -52,9 +52,10 @@ public class CallLogsAdapter extends BaseAdapter {
 		return 0;
 	}
 
+	@SuppressWarnings("null")
 	@SuppressLint("SimpleDateFormat")
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		ViewHolder holder = null;
 
@@ -105,28 +106,34 @@ public class CallLogsAdapter extends BaseAdapter {
 		String mDateStr = sdf1.format(dt);
 		Date todayDate = Utility.getCurrentDateTime();
 		today = sdf1.format(todayDate);
+		System.out.println("Today Date" + today);
 
 		holder.timeDuration.setText(timeStamp);
 
 		try {
 			if (position == 0) {
 				checkDate = mDateStr;
-				if (today.equals(checkDate)) {
-					holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-					holder.sectionHeaderText.setText("Today");
-				} else {
-					holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-					holder.sectionHeaderText.setText(mDateStr);
-				}
-			} else if (mDateStr.contains(checkDate)) {
-				holder.sectionHeaderDate.setVisibility(View.GONE);
-			} else {
+				System.out.println("Printing the Check date -----------\n" + checkDate);
+				// if (today.equals(checkDate) && flag) {
+				//
+				// holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+				// holder.sectionHeaderText.setText("Today");
+				// flag = false;
+				// } else {
+				// holder.sectionHeaderDate.setVisibility(View.VISIBLE);
+				// holder.sectionHeaderText.setText(mDateStr);
+				// flag = false;
+				// }
+			} else if (checkDate == null || !checkDate.equals(mDateStr)) {
+
 				checkDate = mDateStr;
 				holder.sectionHeaderDate.setVisibility(View.VISIBLE);
 				holder.sectionHeaderText.setText(mDateStr);
+
+			} else {
+				holder.sectionHeaderDate.setVisibility(View.GONE);
 			}
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
