@@ -21,14 +21,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class CallLogsFragment extends Fragment {
 	ListView lvCallLogs;
 	CallLogsAdapter mLogAdapter;
 	DataBaseHandler db;
-	RelativeLayout mSectionHeader;
 	SipRegisteration sip;
 	ArrayList<ContactsModel> mContacts = new ArrayList<ContactsModel>();
 	public static ArrayList<CallLog> logs = new ArrayList<CallLog>();
@@ -46,7 +44,6 @@ public class CallLogsFragment extends Fragment {
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_calllogs, container, false);
-		mSectionHeader = (RelativeLayout) rootView.findViewById(R.id.sort_by_date);
 		// Init Sip Manager
 
 		sip = new SipRegisteration(getActivity().getApplicationContext());

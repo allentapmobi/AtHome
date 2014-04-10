@@ -6,29 +6,10 @@
     android:orientation="vertical"
     android:padding="2dp" >
 
-    <RelativeLayout
-        android:id="@+id/sort_by_date"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#e4e4e4" >
-
-        <TextView
-            android:id="@+id/sort_date_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:text="7-4-2014"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
-    </RelativeLayout>
-
     <ImageView
         android:id="@+id/thumb"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignStart="@id/sort_by_date"
-        android:layout_below="@id/sort_by_date"
         android:layout_margin="10dp"
         android:background="@drawable/def_contact"
         android:contentDescription="@string/app_name" />
@@ -36,7 +17,6 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sort_by_date"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -59,7 +39,6 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_below="@id/txtContactName"
-           
             android:src="@drawable/incoming" />
 
         <TextView
@@ -67,7 +46,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtContactName"
-            
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/ivCallType"
             android:padding="2dp"

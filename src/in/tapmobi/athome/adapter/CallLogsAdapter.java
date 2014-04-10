@@ -52,7 +52,6 @@ public class CallLogsAdapter extends BaseAdapter {
 		return 0;
 	}
 
-	@SuppressWarnings("null")
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
@@ -63,14 +62,11 @@ public class CallLogsAdapter extends BaseAdapter {
 
 			convertView = mInflater.inflate(R.layout.call_log_items, null);
 			holder = new ViewHolder();
-			holder.sectionHeaderDate = (RelativeLayout) convertView.findViewById(R.id.sort_by_date);
-			holder.sectionHeaderText = (TextView) convertView.findViewById(R.id.sort_date_text);
 			holder.ContactName = (TextView) convertView.findViewById(R.id.txtContactName);
 			holder.contactNumber = (TextView) convertView.findViewById(R.id.txtContactNumber);
 			holder.timeDuration = (TextView) convertView.findViewById(R.id.txtCallTime);
 			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
 			holder.count = (TextView) convertView.findViewById(R.id.txtCallCount);
-			holder.sectionHeaderDate.setVisibility(View.GONE);
 			convertView.setTag(holder);
 
 		} else {
@@ -104,45 +100,27 @@ public class CallLogsAdapter extends BaseAdapter {
 		Date dt = Logs.getmDateTimeStamp();
 		String timeStamp = sdf.format(dt);
 		String mDateStr = sdf1.format(dt);
+
 		Date todayDate = Utility.getCurrentDateTime();
 		today = sdf1.format(todayDate);
-		System.out.println("Today Date" + today);
 
-		holder.timeDuration.setText(timeStamp);
+		long diff = todayDate.getTime() - dt.getTime();
 
-		try {
-			if (position == 0) {
-				checkDate = mDateStr;
-				System.out.println("Printing the Check date -----------\n" + checkDate);
-				// if (today.equals(checkDate) && flag) {
-				//
-				// holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-				// holder.sectionHeaderText.setText("Today");
-				// flag = false;
-				// } else {
-				// holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-				// holder.sectionHeaderText.setText(mDateStr);
-				// flag = false;
-				// }
-			} else if (checkDate == null || !checkDate.equals(mDateStr)) {
-
-				checkDate = mDateStr;
-				holder.sectionHeaderDate.setVisibility(View.VISIBLE);
-				holder.sectionHeaderText.setText(mDateStr);
-
-			} else {
-				holder.sectionHeaderDate.setVisibility(View.GONE);
-			}
-		} catch (NullPointerException e) {
-			e.printStackTrace();
+		long diffMinutes = diff / (60 * 1000);
+		long diffHours = diff / (60 * 60 * 1000) ;
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+		if (diffMinutes < 60) {
+			holder.timeDuration.setText(diffMinutes + " mins ago");
+		} else if (diffHours < 23) {
+			holder.timeDuration.setText(diffHours + "hours ago");
+		} else {
+			holder.timeDuration.setText(diffDays + "days ago");
 		}
 
 		return convertView;
 	}
 
 	private static class ViewHolder {
-		RelativeLayout sectionHeaderDate;
-		TextView sectionHeaderText;
 		TextView ContactName;
 		TextView contactNumber;
 		TextView timeDuration;
