@@ -13,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
+import com.viewpagerindicator.TabPageIndicator;
+
 public class MainActivity extends FragmentActivity {
 
 	private ViewPager mViewPager;
@@ -44,6 +46,9 @@ public class MainActivity extends FragmentActivity {
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mAdapter);
+		
+		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.pager_title_strip);
+		indicator.setViewPager(mViewPager);
 
 	}
 

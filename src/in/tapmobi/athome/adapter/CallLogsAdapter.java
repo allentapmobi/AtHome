@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CallLogsAdapter extends BaseAdapter {
@@ -67,6 +66,7 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.timeDuration = (TextView) convertView.findViewById(R.id.txtCallTime);
 			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
 			holder.count = (TextView) convertView.findViewById(R.id.txtCallCount);
+			holder.callType = (ImageView) convertView.findViewById(R.id.ivCallType);
 			convertView.setTag(holder);
 
 		} else {
@@ -74,10 +74,11 @@ public class CallLogsAdapter extends BaseAdapter {
 		}
 
 		final CallLog Logs = mCallLogs.get(position);
+		// Set Image for contact
 		holder.thumb.setImageURI(Logs.getContactPhotoUri());
 		if (holder.thumb.getDrawable() == null)
 			holder.thumb.setImageResource(R.drawable.def_contact);
-
+		// Set Count
 		holder.count.setVisibility(View.GONE);
 		if (Logs.getCount() == 0) {
 			holder.count.setVisibility(View.GONE);
@@ -85,6 +86,7 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.count.setVisibility(View.VISIBLE);
 			holder.count.setText("(" + String.valueOf(Logs.getCount()) + ")");
 		}
+		// Set Name if exists else set Number
 		Name = Logs.getContactName();
 		number = Logs.getContactNumber();
 		if (Name != null) {
@@ -94,11 +96,18 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.ContactName.setText(number);
 			holder.contactNumber.setText("");
 		}
+		if (Logs.isIsIncoming()) {
+			holder.callType.setImageResource(R.drawable.incoming);
+		} else if (!Logs.isIsIncoming()) {
+			holder.callType.setImageResource(R.drawable.outgoing);
+		} else {
+			holder.callType.setImageResource(R.drawable.missed);
+		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 		Date dt = Logs.getmDateTimeStamp();
-		String timeStamp = sdf.format(dt);
+		// String timeStamp = sdf.format(dt);
 		String mDateStr = sdf1.format(dt);
 
 		Date todayDate = Utility.getCurrentDateTime();
@@ -107,14 +116,16 @@ public class CallLogsAdapter extends BaseAdapter {
 		long diff = todayDate.getTime() - dt.getTime();
 
 		long diffMinutes = diff / (60 * 1000);
-		long diffHours = diff / (60 * 60 * 1000) ;
+		long diffHours = diff / (60 * 60 * 1000);
 		long diffDays = diff / (24 * 60 * 60 * 1000);
 		if (diffMinutes < 60) {
 			holder.timeDuration.setText(diffMinutes + " mins ago");
 		} else if (diffHours < 23) {
-			holder.timeDuration.setText(diffHours + "hours ago");
+			holder.timeDuration.setText(diffHours + " hours ago");
+		} else if (diffDays < 7) {
+			holder.timeDuration.setText(diffDays + " days ago");
 		} else {
-			holder.timeDuration.setText(diffDays + "days ago");
+			holder.timeDuration.setText(mDateStr);
 		}
 
 		return convertView;
@@ -126,6 +137,7 @@ public class CallLogsAdapter extends BaseAdapter {
 		TextView timeDuration;
 		ImageView thumb;
 		TextView count;
+		ImageView callType;
 
 	}
 

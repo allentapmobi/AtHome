@@ -49,16 +49,7 @@ public class IncomingCallReceiver extends WakefulBroadcastReceiver {
 		SipAudioCall incomingCall = null;
 		try {
 
-			// ComponentName comp = new ComponentName(context.getPackageName(),
-			// GcmIntentService.class.getName());
-			// // Start the service, keeping the device awake while it is launching.
-			// startWakefulService(context, (intent.setComponent(comp)));
-			// setResultCode(Activity.RESULT_OK);
-			// Start the service, keeping the device awake while it is launching.
-			// startWakefulService(context, (intent.setComponent(comp)));
-			// setResultCode(Activity.RESULT_OK);
-
-			WakeLock screenOn = ((PowerManager) context.getSystemService(context.POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+			WakeLock screenOn = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
 					| PowerManager.ACQUIRE_CAUSES_WAKEUP, "example");
 			screenOn.acquire();
 			notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);

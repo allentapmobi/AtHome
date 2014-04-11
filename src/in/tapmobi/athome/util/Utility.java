@@ -45,12 +45,23 @@ public class Utility {
 
 	}
 
+	/**
+	 * Check if network is available
+	 * 
+	 * @param ctx
+	 * @return
+	 */
 	public static boolean isNetworkAvailable(Context ctx) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
 	}
 
+	/**
+	 * Method to hide soft keyboard
+	 * 
+	 * @param activity
+	 */
 	public static void hideSoftKeyboard(Activity activity) {
 		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
@@ -58,7 +69,13 @@ public class Utility {
 
 	static String UserName = null;
 
-	public static void regInCallLogs(String Msisdn) {
+	/**
+	 * Register in callLogs
+	 * 
+	 * @param Msisdn
+	 * @param isIncoming
+	 */
+	public static void regInCallLogs(String Msisdn, Boolean isIncoming) {
 
 		// Bitmap contactImg = null;
 		// Uri contactImgUri = null;
@@ -78,9 +95,9 @@ public class Utility {
 			}
 		}
 
-		Log.d("Insert: ", "Inserting ..");
+		Log.d("Insert: ", "Inserting into Database.");
 		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
-		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime));
+		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime, isIncoming));
 	}
 
 	@SuppressLint("SimpleDateFormat")

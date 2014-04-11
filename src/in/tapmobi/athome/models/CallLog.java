@@ -23,10 +23,11 @@ public class CallLog implements Comparable<CallLog> {
 
 	}
 
-	public CallLog(String Name, String Number, String time) {
+	public CallLog(String Name, String Number, String time, boolean incoming) {
 		this.contactName = Name;
 		this.contactNumber = Number;
 		this.callDuration = time;
+		this.IsIncoming = incoming;
 
 	}
 

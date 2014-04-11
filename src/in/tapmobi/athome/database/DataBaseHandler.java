@@ -30,6 +30,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_NAME = "name";
 	private static final String KEY_PH_NO = "phone_number";
 	private static final String KEY_TIME_DURATION = "call_duration";
+	private static final String KEY_CALL_TYPE = "is_incoming";
 
 	public DataBaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,11 +40,11 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 
-		String CREATE_CALL_LOGS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME
-				+ "  TEXT, " + KEY_PH_NO + "  TEXT," + KEY_TIME_DURATION + "  TEXT" + ")";
+		String CREATE_CALL_LOGS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, " + KEY_PH_NO
+				+ "  TEXT," + KEY_TIME_DURATION + "  TEXT, " + KEY_CALL_TYPE + "  TEXT" + ")";
 		System.out.println("---------------------------Table has been created------------------------------");
-		System.out.println("CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, "
-				+ KEY_PH_NO + "  TEXT ," + KEY_TIME_DURATION + "  TEXT " + ")");
+		System.out.println("CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, " + KEY_PH_NO + "  TEXT ,"
+				+ KEY_TIME_DURATION + "  TEXT " + ")");
 		db.execSQL(CREATE_CALL_LOGS_TABLE);
 
 	}
@@ -71,6 +72,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_PH_NO, logs.getContactNumber());
 		// values.put(KEY_CONTACT_IMG, contact.getContactPhoto());
 		values.put(KEY_TIME_DURATION, logs.getCallDuration());
+		values.put(KEY_CALL_TYPE, logs.isIsIncoming());
 
 		// Inserting Row
 		db.insert(TABLE_CALL_LOGS, null, values);
