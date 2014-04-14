@@ -12,9 +12,13 @@
         -->
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="StyledIndicators" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/tab_indicator_ab_athome</item>
+        <item name="android:textColor">#FF555555</item>
     </style>
 
     <style name="AlertDialogTheme" parent="AppBaseTheme">
@@ -73,44 +77,6 @@
         <item name="android:textColor">@color/theme_headers</item>
         <item name="android:text">@string/one</item>
         <item name="android:clickable">true</item>
-        
-    </style>
-
-    <style name="CustomTitlePageIndicator">
-        <item name="android:background">#18FF0000</item>
-        <item name="footerColor">#FFAA2222</item>
-        <item name="footerLineHeight">1dp</item>
-        <item name="footerIndicatorHeight">3dp</item>
-        <item name="footerIndicatorStyle">underline</item>
-        <item name="android:textColor">#AA000000</item>
-        <item name="selectedColor">#FF000000</item>
-        <item name="selectedBold">true</item>
-    </style>
-
-    <style name="CustomLinePageIndicator">
-        <item name="strokeWidth">4dp</item>
-        <item name="lineWidth">30dp</item>
-        <item name="unselectedColor">#FF888888</item>
-        <item name="selectedColor">#FF880000</item>
-    </style>
-
-    <style name="CustomCirclePageIndicator">
-        <item name="fillColor">#FF888888</item>
-        <item name="strokeColor">#FF000000</item>
-        <item name="strokeWidth">2dp</item>
-        <item name="radius">10dp</item>
-        <item name="centered">true</item>
-    </style>
-
-    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <style name="CustomUnderlinePageIndicator">
-        <item name="selectedColor">#FFCC0000</item>
-        <item name="android:background">#FFCCCCCC</item>
-        <item name="fadeLength">1000</item>
-        <item name="fadeDelay">1000</item>
     </style>
 
 </resources>

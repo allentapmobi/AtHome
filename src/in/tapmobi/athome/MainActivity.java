@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
@@ -27,7 +28,7 @@ public class MainActivity extends FragmentActivity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
 		sipReg = new SipRegisteration(MainActivity.this);
@@ -46,7 +47,7 @@ public class MainActivity extends FragmentActivity {
 		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mAdapter);
-		
+
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.pager_title_strip);
 		indicator.setViewPager(mViewPager);
 

@@ -6,75 +6,48 @@
     android:background="@color/theme_background" >
 
     <ImageView
-        android:id="@+id/accImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/generic_icon" />
+        android:id="@+id/regStatus"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/txtRegisterationStatus"
+        android:layout_alignRight="@+id/txtRegisteration"
+        android:layout_marginRight="46dp"
+        android:src="@drawable/failure" />
 
     <TextView
-        android:id="@+id/txtLabelName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/accImage"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="10dp"
-        android:padding="5dp"
-        android:text="Name"
-        android:textColor="#000000" />
-
-    <View
-        android:id="@+id/lineSeperator"
-        android:layout_width="match_parent"
-        android:layout_height="0.6dp"
-        android:layout_below="@id/txtLabelName"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="#000000" />
-
-    <TextView
-        android:id="@+id/txtName"
+        android:id="@+id/txtRegisteration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/txtLabelName"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="10dp"
-        android:padding="5dp"
-        android:text="User Name"
-        android:textColor="#000000" />
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="54dp"
+        android:text="Registered Number : "
+        android:textColor="@color/theme_text"
+        android:textSize="14sp" />
 
-    <ImageButton
-        android:id="@+id/btnAccEdit"
+    <TextView
+        android:id="@+id/txtRegNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtRegisteration"
+        android:layout_alignBottom="@+id/txtRegisteration"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/lineSeperator"
-        android:layout_margin="10dp"
-        android:background="#00000000"
-        android:src="@drawable/edit_icon" />
-
-    <View
-        android:id="@+id/lineSeperator1"
-        android:layout_width="0.8dp"
-        android:layout_height="45dp"
-        android:layout_below="@id/lineSeperator"
-        android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@id/btnAccEdit"
-        android:background="#000000" />
+        android:layout_marginRight="30dp"
+        android:layout_toEndOf="@+id/txtRegisteration"
+        android:text="9886098860"
+        android:textColor="@color/theme_text"
+        android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/txtUpdateStatus"
+        android:id="@+id/txtRegisterationStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/lineSeperator1"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="10dp"
-        android:padding="5dp"
-        android:textColor="#000000" />
+        android:layout_below="@+id/txtRegisteration"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/regStatus"
+        android:text="Registering"
+        android:textColor="@color/theme_text"
+        android:textSize="14sp" />
 
 </RelativeLayout>

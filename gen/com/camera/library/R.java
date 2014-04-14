@@ -8,22 +8,22 @@ package com.camera.library;
 
 public final class R {
 	public static final class drawable {
-		public static final int back = 0x7f020081;
-		public static final int back_icon = 0x7f020082;
-		public static final int camera_capture = 0x7f020098;
-		public static final int camera_close = 0x7f020099;
-		public static final int capture_icon = 0x7f02009a;
-		public static final int effects_icon = 0x7f0200be;
-		public static final int exit = 0x7f0200c6;
-		public static final int flash_auto_icon = 0x7f0200cb;
-		public static final int flash_off_icon = 0x7f0200cc;
-		public static final int flash_on_icon = 0x7f0200cd;
-		public static final int flash_red_eye = 0x7f0200ce;
-		public static final int flash_torch = 0x7f0200cf;
-		public static final int order_bg_grey = 0x7f02013a;
-		public static final int settings_icon = 0x7f020158;
-		public static final int zoom_block = 0x7f020193;
-		public static final int zoom_icon = 0x7f020194;
+		public static final int back = 0x7f020087;
+		public static final int back_icon = 0x7f020088;
+		public static final int camera_capture = 0x7f0200a6;
+		public static final int camera_close = 0x7f0200a7;
+		public static final int capture_icon = 0x7f0200a8;
+		public static final int effects_icon = 0x7f0200d2;
+		public static final int exit = 0x7f0200da;
+		public static final int flash_auto_icon = 0x7f0200e0;
+		public static final int flash_off_icon = 0x7f0200e1;
+		public static final int flash_on_icon = 0x7f0200e2;
+		public static final int flash_red_eye = 0x7f0200e3;
+		public static final int flash_torch = 0x7f0200e4;
+		public static final int order_bg_grey = 0x7f020152;
+		public static final int settings_icon = 0x7f02017e;
+		public static final int zoom_block = 0x7f0201c6;
+		public static final int zoom_icon = 0x7f0201c7;
 	}
 	public static final class id {
 		public static final int btnCapture = 0x7f050058;

@@ -1,7 +1,5 @@
 package in.tapmobi.athome.adapter;
 
-import com.viewpagerindicator.IconPagerAdapter;
-
 import in.tapmobi.athome.CallLogsFragment;
 import in.tapmobi.athome.ContactsFragment;
 import in.tapmobi.athome.DialpadFragment;
@@ -11,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.viewpagerindicator.IconPagerAdapter;
+
 public class TabsPagerAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
 
 	private static final String[] CONTENT = { "Call Logs", "DialPad", "Contacts", "Profile" };
-	private static final int[] ICONS = new int[] { R.drawable.call_logs, R.drawable.call_logs, R.drawable.call_logs, R.drawable.call_logs };
+	private static final int[] ICONS = new int[] { R.drawable.pager_icon_clogs, R.drawable.pager_icon_dialpad, R.drawable.pager_icon_contacts, R.drawable.pager_icon_profile };
 
 	public TabsPagerAdapter(FragmentManager fm) {
 		super(fm);
