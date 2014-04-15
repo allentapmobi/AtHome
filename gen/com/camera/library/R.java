@@ -13,22 +13,22 @@ public final class R {
 		public static final int camera_capture = 0x7f0200a6;
 		public static final int camera_close = 0x7f0200a7;
 		public static final int capture_icon = 0x7f0200a8;
-		public static final int effects_icon = 0x7f0200d2;
-		public static final int exit = 0x7f0200da;
-		public static final int flash_auto_icon = 0x7f0200e0;
-		public static final int flash_off_icon = 0x7f0200e1;
-		public static final int flash_on_icon = 0x7f0200e2;
-		public static final int flash_red_eye = 0x7f0200e3;
-		public static final int flash_torch = 0x7f0200e4;
-		public static final int order_bg_grey = 0x7f020152;
-		public static final int settings_icon = 0x7f02017e;
-		public static final int zoom_block = 0x7f0201c6;
-		public static final int zoom_icon = 0x7f0201c7;
+		public static final int effects_icon = 0x7f0200d1;
+		public static final int exit = 0x7f0200d9;
+		public static final int flash_auto_icon = 0x7f0200df;
+		public static final int flash_off_icon = 0x7f0200e0;
+		public static final int flash_on_icon = 0x7f0200e1;
+		public static final int flash_red_eye = 0x7f0200e2;
+		public static final int flash_torch = 0x7f0200e3;
+		public static final int order_bg_grey = 0x7f020151;
+		public static final int settings_icon = 0x7f02017c;
+		public static final int zoom_block = 0x7f0201c4;
+		public static final int zoom_icon = 0x7f0201c5;
 	}
 	public static final class id {
-		public static final int btnCapture = 0x7f050058;
-		public static final int btnClose = 0x7f050057;
-		public static final int frame = 0x7f050056;
+		public static final int btnCapture = 0x7f050055;
+		public static final int btnClose = 0x7f050054;
+		public static final int frame = 0x7f050053;
 	}
 	public static final class layout {
 		public static final int camera_main = 0x7f03001a;

@@ -18,12 +18,12 @@ import android.widget.TextView;
 
 public class InCallActivity extends Activity {
 	ImageView mProfileImage;
-	ImageButton mCallEndBtn, mMuteBtn, mSpeakerBtn, mHoldBtn;
+	ImageButton mCallEndBtn, mMuteBtn, mSpeakerBtn;
 	TextView txtCallStatus, txtContactName;
 	TextView txtMute, txtSpeaker, txtHold, txtTimer;
 
 	String mName, mNumber = null;
-	boolean isMute, isSpeaker, isHold = true;
+	boolean isMute, isSpeaker = true;
 	LinearLayout layoutMute, layoutHold, layoutSpeaker;
 
 	private long startTime = 0L;
@@ -73,8 +73,8 @@ public class InCallActivity extends Activity {
 		mCallEndBtn = (ImageButton) findViewById(R.id.btnEndcall);
 		mMuteBtn = (ImageButton) findViewById(R.id.btnMute);
 		mSpeakerBtn = (ImageButton) findViewById(R.id.btnSpeaker);
-		mHoldBtn = (ImageButton) findViewById(R.id.btnHold);
-		layoutHold = (LinearLayout) findViewById(R.id.layoutHoldButton);
+		// mHoldBtn = (ImageButton) findViewById(R.id.btnHold);
+		// layoutHold = (LinearLayout) findViewById(R.id.layoutHoldButton);
 		layoutMute = (LinearLayout) findViewById(R.id.layoutMuteButton);
 		layoutSpeaker = (LinearLayout) findViewById(R.id.layoutSpeakerButton);
 
@@ -82,7 +82,7 @@ public class InCallActivity extends Activity {
 		txtContactName = (TextView) findViewById(R.id.txtContactName);
 		txtMute = (TextView) findViewById(R.id.txtMute);
 		txtSpeaker = (TextView) findViewById(R.id.txtSpeaker);
-		txtHold = (TextView) findViewById(R.id.txtHold);
+		// txtHold = (TextView) findViewById(R.id.txtHold);
 		txtTimer = (TextView) findViewById(R.id.txtTimeDuration);
 
 		if (mName == null) {
@@ -127,22 +127,22 @@ public class InCallActivity extends Activity {
 			}
 		});
 
-		layoutHold.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (isHold) {
-					layoutHold.setBackgroundColor(getResources().getColor(R.color.darkgrey));
-					txtHold.setTextColor(getResources().getColor(R.color.WhiteSmoke));
-					isHold = false;
-				} else {
-					layoutHold.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
-					txtHold.setTextColor(getResources().getColor(R.color.black));
-					isHold = true;
-				}
-
-			}
-		});
+		// layoutHold.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// if (isHold) {
+		// layoutHold.setBackgroundColor(getResources().getColor(R.color.darkgrey));
+		// txtHold.setTextColor(getResources().getColor(R.color.WhiteSmoke));
+		// isHold = false;
+		// } else {
+		// layoutHold.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
+		// txtHold.setTextColor(getResources().getColor(R.color.black));
+		// isHold = true;
+		// }
+		//
+		// }
+		// });
 
 		layoutSpeaker.setOnClickListener(new OnClickListener() {
 

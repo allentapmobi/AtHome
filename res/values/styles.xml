@@ -18,7 +18,7 @@
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:background">@drawable/tab_indicator_ab_athome</item>
-        <item name="android:textColor">#FF555555</item>
+        <item name="android:textColor">#FFFFFFFF</item>
     </style>
 
     <style name="AlertDialogTheme" parent="AppBaseTheme">
@@ -46,7 +46,7 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:padding">5dp</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 
