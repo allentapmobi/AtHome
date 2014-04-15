@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -48,6 +49,10 @@ public class CallLogsFragment extends Fragment {
 
 		sip = new SipRegisteration(getActivity().getApplicationContext());
 		db = new DataBaseHandler(getActivity().getApplicationContext());
+
+		if (Utility.CallLogs.size() > 0)
+			Utility.CallLogs.clear();
+		Utility.CallLogs.addAll(Utility.getCallLogs());
 
 		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), Utility.CallLogs);
 		lvCallLogs = (ListView) rootView.findViewById(R.id.lvCallLogs);
@@ -79,13 +84,16 @@ public class CallLogsFragment extends Fragment {
 		if (Utility.CallLogs.size() > 0)
 			Utility.CallLogs.clear();
 		Utility.CallLogs.addAll(Utility.getCallLogs());
+
+		((BaseAdapter) lvCallLogs.getAdapter()).notifyDataSetChanged();
+
 	}
 
 	public class RegisterCallLogsAsync extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Utility.regInCallLogs(Msisdn,false);
+			Utility.regInCallLogs(Msisdn, false);
 			MainActivity.initSipManager();
 			return null;
 		}

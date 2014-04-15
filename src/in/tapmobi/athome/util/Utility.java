@@ -67,7 +67,7 @@ public class Utility {
 		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 	}
 
-	static String UserName = null;
+	
 
 	/**
 	 * Register in callLogs
@@ -76,7 +76,7 @@ public class Utility {
 	 * @param isIncoming
 	 */
 	public static void regInCallLogs(String Msisdn, Boolean isIncoming) {
-
+		String UserName = null;
 		// Bitmap contactImg = null;
 		// Uri contactImgUri = null;
 		// CallLogs callLogs = new CallLogs();

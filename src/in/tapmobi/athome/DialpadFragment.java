@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class DialpadFragment extends Fragment implements View.OnClickListener {
 	Date date;
@@ -151,11 +152,14 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			sip.initiateCall(phoneNumber);
-			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
-			i.putExtra("CONTACT_NAME", UserName);
-			i.putExtra("CONTACT_NUMBER", phoneNumber);
-			startActivity(i);
+			if (SipRegisteration.isRegisteredWithSip) {
+				sip.initiateCall(phoneNumber);
+				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
+				i.putExtra("CONTACT_NUMBER", phoneNumber);
+				startActivity(i);
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(), "SIP Registration failed.", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 

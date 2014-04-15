@@ -11,6 +11,7 @@ import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.net.sip.SipRegistrationListener;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SipRegisteration {
 
@@ -89,6 +90,7 @@ public class SipRegisteration {
 						sUpdateStatus = "Registration failed.  Please check your settings.";
 						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings.");
 						isRegisteredWithSip = false;
+						// Toast.makeText(mContext, sUpdateStatus, Toast.LENGTH_SHORT).show();
 					}
 
 					@Override
@@ -96,14 +98,14 @@ public class SipRegisteration {
 						sUpdateStatus = "Ready - Registered with SIP server";
 						Log.v("UpdateStatus---->", "Ready - Registered with SIP server");
 						isRegisteredWithSip = true;
-
+						// Toast.makeText(mContext, sUpdateStatus, Toast.LENGTH_SHORT).show();
 					}
 
 					@Override
 					public void onRegistering(String localProfileUri) {
 						sUpdateStatus = "Registering with SIP Server...";
-
 						Log.v("UpdateStatus---->", "Registering with SIP Server...");
+						// Toast.makeText(mContext, sUpdateStatus, Toast.LENGTH_SHORT).show();
 					}
 				});
 
