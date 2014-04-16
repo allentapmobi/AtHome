@@ -143,7 +143,7 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Utility.regInCallLogs(phoneNumber, false);
+			Utility.regInCallLogs(phoneNumber, 1);
 			MainActivity.initSipManager();
 			// Initialize SipManager
 			return null;

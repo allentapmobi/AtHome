@@ -17,16 +17,16 @@
 package in.tapmobi.athome.sip;
 
 import in.tapmobi.athome.incomming.IncomingCallActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.net.sip.SipAudioCall;
 import android.net.sip.SipProfile;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 
 /**
  * Listens for incoming SIP calls, intercepts and hands them off to WalkieTalkieActivity.
@@ -43,27 +43,33 @@ public class IncomingCallReceiver extends WakefulBroadcastReceiver {
 	static Uri notification;
 	static Ringtone r;
 	static SipAudioCall incomingCall = null;
+	String userName = null;
+
+	// static WakeLock screenOn;
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		SipAudioCall incomingCall = null;
 		try {
 
-			WakeLock screenOn = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
-					| PowerManager.ACQUIRE_CAUSES_WAKEUP, "example");
-			screenOn.acquire();
-			notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-			r = RingtoneManager.getRingtone(context, notification);
-			r.play();
+			// screenOn = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK |
+			// PowerManager.ACQUIRE_CAUSES_WAKEUP,
+			// "example");
+			// screenOn.acquire();
+
 			SipAudioCall.Listener listener = new SipAudioCall.Listener() {
 				@Override
 				public void onRinging(SipAudioCall call, SipProfile caller) {
-
 					super.onRinging(call, caller);
-
 				}
 			};
 			incomingCall = SipRegisteration.mSipManager.takeAudioCall(intent, listener);
+
+			userName = incomingCall.getPeerProfile().getDisplayName();
+			if (userName == null) {
+				userName = incomingCall.getPeerProfile().getUserName();
+			}
+
 			showIncomingCall(intent, context);
 			SipRegisteration.mCall = incomingCall;
 			System.out.println(incomingCall);
@@ -85,8 +91,9 @@ public class IncomingCallReceiver extends WakefulBroadcastReceiver {
 	 */
 	private void showIncomingCall(Intent intent, Context context) {
 
-		Intent incomingCall = new Intent(context, IncomingCallActivity.class);
-		context.startActivity(incomingCall);
+		Intent intentCall = new Intent(context, IncomingCallActivity.class);
+		intentCall.putExtra("INCALL_USER_NAME", userName);
+		context.startActivity(intentCall);
 
 	}
 
@@ -95,11 +102,12 @@ public class IncomingCallReceiver extends WakefulBroadcastReceiver {
 		try {
 			incomingCall.answerCall(30);
 			incomingCall.startAudio();
-
+			// screenOn.release();
 			if (incomingCall.isMuted()) {
 				incomingCall.toggleMute();
 
 			}
+
 		}
 
 		catch (Exception e) {
@@ -115,6 +123,8 @@ public class IncomingCallReceiver extends WakefulBroadcastReceiver {
 
 				incomingCall.endCall();
 				incomingCall.close();
+
+				// screenOn.release();
 			}
 
 		} catch (Exception e) {

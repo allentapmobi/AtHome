@@ -96,11 +96,16 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.ContactName.setText(number);
 			holder.contactNumber.setText("");
 		}
-		if (Logs.isIsIncoming()) {
+		// if (Logs.isIsIncoming()) {
+		// holder.callType.setImageResource(R.drawable.incoming);
+		// } else if (!Logs.isIsIncoming()) {
+		// holder.callType.setImageResource(R.drawable.outgoing);
+		// }
+		if (Logs.getCallType() == 0) {
 			holder.callType.setImageResource(R.drawable.incoming);
-		} else if (!Logs.isIsIncoming()) {
+		} else if (Logs.getCallType() == 1) {
 			holder.callType.setImageResource(R.drawable.outgoing);
-		} else {
+		} else if (Logs.getCallType() == 2) {
 			holder.callType.setImageResource(R.drawable.missed);
 		}
 

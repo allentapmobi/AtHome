@@ -93,7 +93,7 @@ public class CallLogsFragment extends Fragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Utility.regInCallLogs(Msisdn, false);
+			Utility.regInCallLogs(Msisdn, 1);
 			MainActivity.initSipManager();
 			return null;
 		}
@@ -123,3 +123,7 @@ public class CallLogsFragment extends Fragment {
 		}
 	}
 }
+
+
+
+

@@ -67,15 +67,13 @@ public class Utility {
 		inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 	}
 
-	
-
 	/**
 	 * Register in callLogs
 	 * 
 	 * @param Msisdn
 	 * @param isIncoming
 	 */
-	public static void regInCallLogs(String Msisdn, Boolean isIncoming) {
+	public static void regInCallLogs(String Msisdn, int callType) {
 		String UserName = null;
 		// Bitmap contactImg = null;
 		// Uri contactImgUri = null;
@@ -87,18 +85,20 @@ public class Utility {
 			String ContactNumber = sContacts.get(i).getNumber();
 			if (ContactNumber.contains(Msisdn)) {
 				UserName = sContacts.get(i).getName();
-				// contactImg =
-				// ContactsFragment.sContacts.get(i).getContactPhoto();
-				// contactImgUri =
-				// ContactsFragment.sContacts.get(i).getContactPhotoUri();
 				break;
 			}
 		}
 
 		Log.d("Insert: ", "Inserting into Database.");
 		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
-		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime, isIncoming));
+		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime, callType));
 	}
+
+	/**
+	 * Get current device time. Mainly used for comparing and registering incoming,outgoing call logs.
+	 * 
+	 * @return String format
+	 */
 
 	@SuppressLint("SimpleDateFormat")
 	public static String getCurrentTime() {
@@ -113,13 +113,17 @@ public class Utility {
 			date = sdf.parse(strDate);
 
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Log.d("DATE EXCEPTION", "PARSING ISSUE IN  DATE FORMAT");
 		}
 		return strTime;
 	}
 
+	/**
+	 * Get current device time. Mainly used for comparing and registering incoming,outgoing call logs.
+	 * 
+	 * @return Date format
+	 */
 	@SuppressLint("SimpleDateFormat")
 	public static Date getCurrentDateTime() {
 		Calendar c = Calendar.getInstance();
@@ -130,13 +134,17 @@ public class Utility {
 			date = sdf1.parse(strDate);
 
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Log.d("DATE EXCEPTION", "PARSING ISSUE IN  DATE FORMAT");
 		}
 		return date;
 	}
 
+	/**
+	 * Get contacts in the form of ArrayList<ContactsModel>
+	 * 
+	 * @return
+	 */
 	public static ArrayList<ContactsModel> getContactsList() {
 
 		if (sContacts.size() == 0) {
@@ -167,7 +175,6 @@ public class Utility {
 						sContacts.add(contacts);
 					} while (cur.moveToNext());
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -176,6 +183,12 @@ public class Utility {
 		return sContacts;
 	}
 
+	/**
+	 * Method to return ContactPhoto URI.
+	 * 
+	 * @param contactId
+	 * @return
+	 */
 	public static Uri getContactPhotoUri(long contactId) {
 		Uri photoUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
 		photoUri = Uri.withAppendedPath(photoUri, Contacts.Photo.CONTENT_DIRECTORY);
@@ -190,6 +203,11 @@ public class Utility {
 		return "#";
 	}
 
+	/**
+	 * Method that return call Logs queried from DB.
+	 * 
+	 * @return
+	 */
 	public static ArrayList<CallLog> getCallLogs() {
 		db = new DataBaseHandler(mContext);
 		try {
@@ -199,7 +217,6 @@ public class Utility {
 
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		for (int i = 0; i < CallLogs.size(); i++) {

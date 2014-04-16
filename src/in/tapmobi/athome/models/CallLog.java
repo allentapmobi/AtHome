@@ -16,20 +16,21 @@ public class CallLog implements Comparable<CallLog> {
 	private String callDuration;
 	private Bitmap contactPhoto;
 	private Uri contactPhotoUri;
-	private boolean IsIncoming;
+	private int callType;
 	private Date mDateTimeStamp;
 
 	public CallLog() {
 
 	}
 
-	public CallLog(String Name, String Number, String time, boolean incoming) {
+	public CallLog(String Name, String Number, String time, int CallType) {
 		this.contactName = Name;
 		this.contactNumber = Number;
 		this.callDuration = time;
-		this.IsIncoming = incoming;
+		this.setCallType(CallType);
 
 	}
+
 
 	public String getCallId() {
 		return callId;
@@ -79,14 +80,6 @@ public class CallLog implements Comparable<CallLog> {
 		this.contactPhotoUri = contactPhotoUri;
 	}
 
-	public boolean isIsIncoming() {
-		return IsIncoming;
-	}
-
-	public void setIsIncoming(boolean isIncoming) {
-		IsIncoming = isIncoming;
-	}
-
 	public String getCallDuration() {
 		return callDuration;
 	}
@@ -115,6 +108,14 @@ public class CallLog implements Comparable<CallLog> {
 	public int compareTo(CallLog cl) {
 
 		return getmDateTimeStamp().compareTo(cl.getmDateTimeStamp());
+	}
+
+	public int getCallType() {
+		return callType;
+	}
+
+	public void setCallType(int callType) {
+		this.callType = callType;
 	}
 
 	public static class DateComparator implements Comparator<CallLog> {

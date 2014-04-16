@@ -43,8 +43,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		String CREATE_CALL_LOGS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, " + KEY_PH_NO
 				+ "  TEXT," + KEY_TIME_DURATION + "  TEXT, " + KEY_CALL_TYPE + "  TEXT" + ")";
 		System.out.println("---------------------------Table has been created------------------------------");
-		System.out.println("CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, " + KEY_PH_NO + "  TEXT ,"
-				+ KEY_TIME_DURATION + "  TEXT " + ")");
+		System.out.println("CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, " + KEY_PH_NO + "  TEXT,"
+				+ KEY_TIME_DURATION + "  TEXT, " + KEY_CALL_TYPE + "  TEXT" + ")");
 		db.execSQL(CREATE_CALL_LOGS_TABLE);
 
 	}
@@ -72,7 +72,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_PH_NO, logs.getContactNumber());
 		// values.put(KEY_CONTACT_IMG, contact.getContactPhoto());
 		values.put(KEY_TIME_DURATION, logs.getCallDuration());
-		values.put(KEY_CALL_TYPE, logs.isIsIncoming());
+		values.put(KEY_CALL_TYPE, logs.getCallType());
 
 		// Inserting Row
 		db.insert(TABLE_CALL_LOGS, null, values);
@@ -118,6 +118,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 				logs.setmDateTimeStamp(date);
 				// Adding contact to list
+				String CallType = cursor.getString(4);
+				if (CallType != null) {
+					logs.setCallType(Integer.parseInt(CallType));
+				}
 				contactList.add(logs);
 			} while (cursor.moveToNext());
 		}

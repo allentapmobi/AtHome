@@ -11,7 +11,6 @@ import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.net.sip.SipRegistrationListener;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SipRegisteration {
 

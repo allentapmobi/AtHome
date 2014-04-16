@@ -54,7 +54,7 @@ public class InCallActivity extends Activity {
 			profileUri = Uri.parse(intent.getExtras().getString("IMAGE_URI"));
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			Log.e("InCAllActivity", "Null pointer with image uri");
+			Log.e("InCallActivity", "Null pointer with image uri");
 		}
 
 		initViews();
