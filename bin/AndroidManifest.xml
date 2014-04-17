@@ -67,6 +67,9 @@
         <receiver
             android:name="in.tapmobi.athome.sip.IncomingCallReceiver"
             android:label="Call Receiver" />
+        
+         <service android:name="in.tapmobi.athome.sip.IncomingWakefulService"
+              />
     </application>
 
 </manifest>

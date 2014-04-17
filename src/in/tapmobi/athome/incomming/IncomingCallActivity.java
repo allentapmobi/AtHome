@@ -1,7 +1,6 @@
 package in.tapmobi.athome.incomming;
 
 import in.tapmobi.athome.R;
-import in.tapmobi.athome.sip.IncomingCallReceiver;
 import in.tapmobi.athome.util.Utility;
 import android.app.Activity;
 import android.content.Intent;
@@ -13,8 +12,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -75,7 +74,7 @@ public class IncomingCallActivity extends Activity {
 				startTime = SystemClock.uptimeMillis();
 				customHandler.postDelayed(updateTimerThread, 0);
 
-				IncomingCallReceiver.answerIncomingCall();
+				// IncomingWakefulService.answerIncomingCall();
 				if (r.isPlaying()) {
 					r.stop();
 				}
@@ -93,7 +92,7 @@ public class IncomingCallActivity extends Activity {
 				if (r.isPlaying()) {
 					r.stop();
 				}
-				IncomingCallReceiver.rejectIncomingCall();
+				// IncomingWakefulService.rejectIncomingCall();
 				finish();
 			}
 		});

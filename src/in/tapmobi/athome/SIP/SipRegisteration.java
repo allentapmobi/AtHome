@@ -189,9 +189,6 @@ public class SipRegisteration {
 		}
 	}
 
-	// public void updatePreferences() {
-	// Intent settingsActivity = new Intent(mContext, SipSettings.class);
-	// mContext.startActivity(settingsActivity);
-	// }
+	
 
 }
