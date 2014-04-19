@@ -39,7 +39,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 	public static ArrayList<ContactsModel> mContact = new ArrayList<ContactsModel>();
 
 	Dialog dialog;
-	Register mSubscribe;
+	Register mRegister;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_registger);
-		mSubscribe = new Register(RegisterationActivity.this);
+		mRegister = new Register(RegisterationActivity.this);
 		util = new Utility(RegisterationActivity.this);
 
 		initViews();
@@ -79,7 +79,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 		case R.id.btnRegister:
 			Utility.hideSoftKeyboard(RegisterationActivity.this);
 			if (Utility.isNetworkAvailable(RegisterationActivity.this)) {
-				mSubscribe.RegisterMsisdn(etMsisdn.getEditableText().toString());
+				mRegister.RegisterMsisdn(etMsisdn.getEditableText().toString());
 			} else {
 				Toast.makeText(RegisterationActivity.this, "No Network connectivity.Please try later", Toast.LENGTH_SHORT).show();
 			}
@@ -126,9 +126,9 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
+		// Check if number is verified and stored
 		super.onResume();
-		if (session.isVerfied()) {
+		if (session.isMsisdnVerfied()) {
 			progressLayout.setVisibility(View.VISIBLE);
 			new getContactsAsync().execute();
 		}

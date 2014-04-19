@@ -57,17 +57,20 @@ public class SipRegisteration {
 		if (mProfile != null) {
 			closeLocalProfile();
 		}
+
 		String password = session.getSipPassword();
 		String username = session.getSipUserName();
 		String domain = session.getSipDomain();
 
 		if (username == null || domain == null || password == null) {
+
 			Intent intent = new Intent(mContext, SipDetails.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			mContext.startActivity(intent);
 		} else {
 
 			try {
+
 				SipProfile.Builder builder = new SipProfile.Builder(username, domain);
 				builder.setPassword(password);
 				builder.setProtocol("TCP");
@@ -86,6 +89,7 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
+						
 						sUpdateStatus = "Registration failed.  Please check your settings.";
 						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings.");
 						isRegisteredWithSip = false;
@@ -94,6 +98,7 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistrationDone(String localProfileUri, long expiryTime) {
+						
 						sUpdateStatus = "Ready - Registered with SIP server";
 						Log.v("UpdateStatus---->", "Ready - Registered with SIP server");
 						isRegisteredWithSip = true;
@@ -102,6 +107,7 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistering(String localProfileUri) {
+				
 						sUpdateStatus = "Registering with SIP Server...";
 						Log.v("UpdateStatus---->", "Registering with SIP Server...");
 						// Toast.makeText(mContext, sUpdateStatus, Toast.LENGTH_SHORT).show();
@@ -188,7 +194,5 @@ public class SipRegisteration {
 			mCall.close();
 		}
 	}
-
-	
 
 }

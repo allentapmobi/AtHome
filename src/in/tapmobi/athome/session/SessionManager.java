@@ -148,7 +148,7 @@ public class SessionManager {
 	}
 
 	// Get Login State
-	public boolean isVerfied() {
+	public boolean isMsisdnVerfied() {
 		return pref.getBoolean(IS_PHONE_NUMBER_VERIFIED, false);
 	}
 }

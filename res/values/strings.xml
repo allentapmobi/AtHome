@@ -7,6 +7,7 @@
     <string name="txt_name">NAME</string>
     <string name="et_enter_name">Please enter your name.</string>
     <string name="register_header">Registration</string>
+    <string name="subscription_header">Subscribe</string>
     <string name="enter_no">Enter your mobile number</string>
     <string name="press_continue">Then press continue</string>
     <string name="txt_validation_sent">A validation code will be sent to you.</string>
