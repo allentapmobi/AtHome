@@ -1,6 +1,7 @@
 package in.tapmobi.athome.sip;
 
 import in.tapmobi.athome.session.SessionManager;
+import in.tapmobi.athome.subscription.SubscriptionActivity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -64,7 +65,7 @@ public class SipRegisteration {
 
 		if (username == null || domain == null || password == null) {
 
-			Intent intent = new Intent(mContext, SipDetails.class);
+			Intent intent = new Intent(mContext, SubscriptionActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			mContext.startActivity(intent);
 		} else {
@@ -89,8 +90,8 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistrationFailed(String localProfileUri, int errorCode, String errorMessage) {
-						
-						sUpdateStatus = "Registration failed.  Please check your settings.";
+
+						sUpdateStatus = "Disonnected";
 						Log.v("UpdateStatus---->", "Registration failed.  Please check your settings.");
 						isRegisteredWithSip = false;
 						// Toast.makeText(mContext, sUpdateStatus, Toast.LENGTH_SHORT).show();
@@ -98,8 +99,8 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistrationDone(String localProfileUri, long expiryTime) {
-						
-						sUpdateStatus = "Ready - Registered with SIP server";
+
+						sUpdateStatus = "Connected";
 						Log.v("UpdateStatus---->", "Ready - Registered with SIP server");
 						isRegisteredWithSip = true;
 						// Toast.makeText(mContext, sUpdateStatus, Toast.LENGTH_SHORT).show();
@@ -107,8 +108,8 @@ public class SipRegisteration {
 
 					@Override
 					public void onRegistering(String localProfileUri) {
-				
-						sUpdateStatus = "Registering with SIP Server...";
+
+						sUpdateStatus = "Disconnected";
 						Log.v("UpdateStatus---->", "Registering with SIP Server...");
 						// Toast.makeText(mContext, sUpdateStatus, Toast.LENGTH_SHORT).show();
 					}

@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -53,7 +53,7 @@
             android:name="in.tapmobi.athome.InCallActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="in.tapmobi.athome.sip.SipDetails"
+            android:name="in.tapmobi.athome.subscription.SubscriptionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="in.tapmobi.athome.incomming.IncomingCallActivity"
@@ -61,15 +61,17 @@
         <activity
             android:name="in.tapmobi.athome.util.ImageCropperUtil"
             android:screenOrientation="portrait" />
-        <activity android:name="com.camera.library.CameraLibrary" >
-        </activity>
+        <activity
+            android:name="in.tapmobi.athome.subscription.TermsAndConditions"
+            android:screenOrientation="portrait" />
+
+        <activity android:name="com.camera.library.CameraLibrary" />
 
         <receiver
             android:name="in.tapmobi.athome.sip.IncomingCallReceiver"
             android:label="Call Receiver" />
-        
-         <service android:name="in.tapmobi.athome.sip.IncomingWakefulService"
-              />
+
+        <service android:name="in.tapmobi.athome.sip.IncomingWakefulService" />
     </application>
 
 </manifest>

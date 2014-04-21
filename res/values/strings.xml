@@ -19,7 +19,12 @@
     <string name="txtCallIncoming">Incoming....</string>
     <string name="txtMute">Mute</string>
     <string name="txtSpeaker">Speaker</string>
+    <string name="terms_header">Terms &amp; Conditions</string>
     <string name="txtHold">Hold</string>
+    <string name="hint_email">Email</string>
+    <string name="your_name_cannot_be_empty">Your name cannot be empty</string>
+    <string name="error_emailnotvalid">Enter a valid email.</string>
+    <string name="hint_name">Name</string>
     <string name="menu_rotate">Rotate</string>
     <string name="menu_crop">Preview</string>
     <string name="txtSipUserName">Username :</string>

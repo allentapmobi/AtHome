@@ -1,11 +1,7 @@
 package in.tapmobi.athome.server;
 
 import java.io.IOException;
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,24 +15,26 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 
 public class ServerAPI {
+	public static ArrayList<UserProfile> mUserProfile;
 
-	private static String getServerUrlForOperation(String operation) {
-		String url = "http://sonycrbt.tapmobi.in/ServiceV1/" + operation;
+	private static String getServerUrlForOperation(String operation, Boolean flag) {
+		String url = null;
+		if (flag) {
+			url = "http://sonycrbt.tapmobi.in/ServiceV1/" + operation;
+		} else {
+			url = "http://athome.elasticbeanstalk.com/api/" + operation;
+		}
 		return url;
 	}
 
-	public static ServerResponse PostDataWithXml(String requestXml, String operation, String requestMethod) {
-		String strUrl = getServerUrlForOperation(operation);
+	public static ServerResponse PostDataWithXml(String requestXml, String operation, String requestMethod, Boolean isRegisteration) {
+		String strUrl = getServerUrlForOperation(operation, isRegisteration);
 		String finalResult = null;
 		ServerResponse sr = new ServerResponse();
 		HttpClient client = new DefaultHttpClient();
@@ -96,49 +94,76 @@ public class ServerAPI {
 		return sr;
 	}
 
-
 	// VERIFICATION
 	public static String verifyMSISDN(String guidCode) {
 
-		ServerResponse serverResponse = PostDataWithXml(null, "Msisdn/" + guidCode, "GET");
+		ServerResponse serverResponse = PostDataWithXml(null, "Msisdn/" + guidCode, "GET", true);
 
 		return serverResponse.getResponseString();
 
 	}
 
 	// ////////////////////////// MISC /////////////////////////////////
-	private static Document getDomElement(String xml) {
-		Document doc = null;
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	// private static Document getDomElement(String xml) {
+	// Document doc = null;
+	// DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	// try {
+	// DocumentBuilder db = dbf.newDocumentBuilder();
+	// InputSource is = new InputSource();
+	// is.setCharacterStream(new StringReader(xml));
+	// doc = db.parse(is);
+	//
+	// } catch (ParserConfigurationException e) {
+	// Log.e("Error: ", e.getMessage());
+	// return null;
+	// } catch (SAXException e) {
+	// Log.e("Error: ", e.getMessage());
+	// return null;
+	// } catch (IOException e) {
+	// Log.e("Error: ", e.getMessage());
+	// return null;
+	// }
+	// // return DOM
+	// return doc;
+	// }
+
+	// private static String getTagValue(String sTag, Element eElement) {
+	// String response = null;
+	// NodeList nList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
+	// if (eElement.getNodeType() == Node.ELEMENT_NODE) {
+	// if (nList != null && nList.getLength() > 0) {
+	// response = nList.item(0).getNodeValue();
+	// }
+	// }
+	// return response;
+	// }
+
+	public static UserProfile registerUserSip(String Name, String Email, String verifiedMsisdn) {
+		UserProfile user = new UserProfile();
+		String registerUriJson = "{\"Msisdn\":" + "\"" + verifiedMsisdn + "\",\"Name\":" + "\"" + Name + "\",\"Email\":" + "\"" + Email + "\"" + "}";
+
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription", "POST", false);
+
+		// responseString = serverresponse.getResponseString();
 		try {
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			InputSource is = new InputSource();
-			is.setCharacterStream(new StringReader(xml));
-			doc = db.parse(is);
 
-		} catch (ParserConfigurationException e) {
-			Log.e("Error: ", e.getMessage());
-			return null;
-		} catch (SAXException e) {
-			Log.e("Error: ", e.getMessage());
-			return null;
-		} catch (IOException e) {
-			Log.e("Error: ", e.getMessage());
-			return null;
+			JSONObject jObj = new JSONObject(serverResponse.getResponseString().toString());
+			user.Msisdn = jObj.getString("Msisdn");
+			user.Name = jObj.getString("Name");
+			user.Email = jObj.getString("Email");
+			user.SubscribedDate = jObj.getString("SubscribedDate");
+			user.ValidityDate = jObj.getString("ValidityDate");
+			user.SipPassword = jObj.getString("SipPassword");
+			user.SipPort = jObj.getString("SipPort");
+			user.SipServer = jObj.getString("SipServer");
+			user.SipUsername = jObj.getString("SipUsername");
+			// mUserProfile = new ArrayList<UserProfile>();
+			// mUserProfile.add(user);
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-		// return DOM
-		return doc;
-	}
+		return user;
 
-	private static String getTagValue(String sTag, Element eElement) {
-		String response = null;
-		NodeList nList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
-		if (eElement.getNodeType() == Node.ELEMENT_NODE) {
-			if (nList != null && nList.getLength() > 0) {
-				response = nList.item(0).getNodeValue();
-			}
-		}
-		return response;
 	}
 
 }

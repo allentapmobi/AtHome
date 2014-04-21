@@ -1,7 +1,6 @@
 package in.tapmobi.athome.session;
 
-import java.util.HashMap;
-
+import in.tapmobi.athome.server.UserProfile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,16 +28,18 @@ public class SessionManager {
 	// All Shared Preferences Keys
 	private static final String IS_PHONE_NUMBER_VERIFIED = "IsVerified";
 
-	// Email address
-	public static final String KEY_EMAIL = "UserEmail";
+	private static final String IS_SIP_USER_REGISTERED = "IsRegistered";
 
-	// Email address
-	public static final String KEY_PHONE_NUMBER = "PhoneNumber";
-
-	// User Profile
-	public static final String KEY_NAME = "UserName";
 	public static final String KEY_PHOTO = "UserPhoto";
 	public static final String KEY_STATUS = "UserStatus";
+	// User Profile
+	public static final String KEY_NAME = "UserName";
+	public static final String KEY_PHONE_NUMBER = "PhoneNumber";
+	public static final String KEY_EMAIL = "UserEmail";
+	public static final String KEY_SUBSCRIPTION_DATE = "SubscriptioDate";
+	public static final String KEY_VALIDITY_DATE = "ValidityDate";
+	public static final String SIP_MSISDN = "subMsisdn";
+	public static final String SIP_PORT = "SipPort";
 	public static final String SIP_PASSWORD = "SipPassword";
 	public static final String SIP_DOMAIN = "SipDomian";
 	public static final String SIP_USERNAME = "SipUsername";
@@ -82,43 +83,28 @@ public class SessionManager {
 	/**
 	 * Get stored sip session user
 	 */
-	public String getSipUserName() {
-		String username = pref.getString(SIP_USERNAME, null);
-		editor.commit();
-
-		return username;
-	}
-
-	public String getSipPassword() {
-		String password = pref.getString(SIP_PASSWORD, null);
-		editor.commit();
-
-		return password;
-	}
-
-	public String getSipDomain() {
-		String domain = pref.getString(SIP_DOMAIN, null);
-		editor.commit();
-
-		return domain;
-	}
-
-
-	/**
-	 * Get stored session data
-	 * */
-	public HashMap<String, String> getUserDetails() {
-		HashMap<String, String> user = new HashMap<String, String>();
-
-		// user email id
-		user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-
-		editor.commit();
-
-		// return user
-		return user;
-	}
-
+	// public String getSipUserName() {
+	// String username = pref.getString(SIP_USERNAME, null);
+	// editor.commit();
+	//
+	// return username;
+	// }
+	//
+	// /**
+	// * Get stored session data
+	// * */
+	// public HashMap<String, String> getUserDetails() {
+	// HashMap<String, String> user = new HashMap<String, String>();
+	//
+	// // user email id
+	// user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+	//
+	// editor.commit();
+	//
+	// // return user
+	// return user;
+	// }
+	//
 	public String getUserPhoneNumber() {
 
 		String phone = pref.getString(KEY_PHONE_NUMBER, null);
@@ -150,5 +136,94 @@ public class SessionManager {
 	// Get Login State
 	public boolean isMsisdnVerfied() {
 		return pref.getBoolean(IS_PHONE_NUMBER_VERIFIED, false);
+	}
+
+	// ----------------------------------------------------------------------
+
+	/**
+	 * Create Sip sessions
+	 */
+	public void createSipUserProfile(UserProfile usrProfile) {
+
+		editor.putBoolean(IS_SIP_USER_REGISTERED, true);
+
+		editor.putString(SIP_MSISDN, usrProfile.Msisdn);
+
+		editor.putString(KEY_NAME, usrProfile.Name);
+
+		editor.putString(KEY_EMAIL, usrProfile.Email);
+
+		editor.putString(KEY_SUBSCRIPTION_DATE, usrProfile.SubscribedDate);
+
+		editor.putString(KEY_VALIDITY_DATE, usrProfile.ValidityDate);
+
+		editor.putString(SIP_PORT, usrProfile.SipPort);
+		// Storing username
+		editor.putString(SIP_USERNAME, usrProfile.Msisdn);
+		// Storing domain
+		editor.putString(SIP_DOMAIN, usrProfile.SipServer);
+		// Storing password
+		editor.putString(SIP_PASSWORD, usrProfile.SipPassword);
+
+		// commit changes
+		editor.commit();
+	}
+
+	// Get Sip registeration state
+	public boolean isUserRegisteredinSip() {
+		return pref.getBoolean(IS_SIP_USER_REGISTERED, false);
+	}
+
+	/**
+	 * Get stored sip session user
+	 */
+	public String getSipUserName() {
+		String username = pref.getString(SIP_USERNAME, null);
+		editor.commit();
+
+		return username;
+	}
+
+	public String getSipPassword() {
+		String password = pref.getString(SIP_PASSWORD, null);
+		editor.commit();
+
+		return password;
+	}
+
+	public String getSipDomain() {
+		String domain = pref.getString(SIP_DOMAIN, null);
+		editor.commit();
+
+		return domain;
+	}
+
+	public String getSipPort() {
+		String port = pref.getString(SIP_PORT, null);
+		editor.commit();
+
+		return port;
+	}
+
+	public String getName() {
+		String name = pref.getString(KEY_NAME, null);
+		editor.commit();
+
+		return name;
+	}
+
+	public String getEmail() {
+		String email = pref.getString(KEY_EMAIL, null);
+		editor.commit();
+
+		return email;
+	}
+
+	public String getSubscribedMsisdn() {
+		// Subscribed MSISDN = subMsisdn
+		String subMsisdn = pref.getString(SIP_MSISDN, null);
+		editor.commit();
+
+		return subMsisdn;
 	}
 }

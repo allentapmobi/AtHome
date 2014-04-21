@@ -5,49 +5,66 @@
     android:layout_height="match_parent"
     android:background="@color/theme_background" >
 
-    <ImageView
-        android:id="@+id/regStatus"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_alignBottom="@+id/txtRegisterationStatus"
-        android:layout_alignRight="@+id/txtRegisteration"
-        android:layout_marginRight="46dp"
-        android:src="@drawable/failure" />
-
-    <TextView
-        android:id="@+id/txtRegisteration"
+    <LinearLayout
+        android:id="@+id/DisplayNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="46dp"
-        android:layout_marginTop="54dp"
-        android:text="Registered Number : "
-        android:textColor="@color/theme_text"
-        android:textSize="14sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/txtRegNumber"
+        <TextView
+            android:id="@+id/txtRegisteration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Register Number"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtRegNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="9886098860"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/statusLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtRegisteration"
-        android:layout_alignBottom="@+id/txtRegisteration"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:layout_toEndOf="@+id/txtRegisteration"
-        android:text="9886098860"
-        android:textColor="@color/theme_text"
-        android:textSize="14sp" />
+        android:layout_below="@id/DisplayNumber"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/txtRegisterationStatus"
+        <ImageView
+            android:id="@+id/regStatus"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/failure" />
+
+        <TextView
+            android:id="@+id/txtRegisterationStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Registering"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonReferesh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtRegisteration"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@+id/regStatus"
-        android:text="Registering"
-        android:textColor="@color/theme_text"
-        android:textSize="14sp" />
+        android:layout_below="@id/statusLayout"
+        android:layout_centerHorizontal="true"
+        android:text="Referesh" />
 
 </RelativeLayout>

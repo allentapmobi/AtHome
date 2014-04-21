@@ -5,6 +5,7 @@ import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.CountriesListAdapter;
 import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.session.SessionManager;
+import in.tapmobi.athome.subscription.SubscriptionActivity;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
@@ -129,8 +130,14 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 		// Check if number is verified and stored
 		super.onResume();
 		if (session.isMsisdnVerfied()) {
-			progressLayout.setVisibility(View.VISIBLE);
-			new getContactsAsync().execute();
+			if (session.isUserRegisteredinSip()) {
+				progressLayout.setVisibility(View.VISIBLE);
+				new getContactsAsync().execute();
+			} else {
+				Intent i = new Intent(RegisterationActivity.this, SubscriptionActivity.class);
+				startActivity(i);
+				RegisterationActivity.this.finish();
+			}
 		}
 	}
 

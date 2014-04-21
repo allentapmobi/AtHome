@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:whatever="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_background"
@@ -28,7 +29,7 @@
 
     <LinearLayout
         android:id="@+id/LinearLayoutGetName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/SubscribeTxt"
         android:layout_margin="20dp"
@@ -37,26 +38,24 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="NAME :"
             android:textColor="#000000"
             android:textSize="14sp" />
 
-        <EditText
+        <com.andreabaccega.widget.FormEditText
             android:id="@+id/etName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/SubscribeTxt"
-            android:layout_weight="3"
-            android:ems="10" >
-
-            <requestFocus />
-        </EditText>
+            android:layout_weight="8"
+            whatever:emptyErrorString="@string/your_name_cannot_be_empty"
+            whatever:testType="alpha" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LinearGetEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/LinearLayoutGetName"
         android:layout_margin="20dp"
@@ -65,18 +64,20 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="EMAIL :"
             android:textColor="#000000"
             android:textSize="14sp" />
 
-        <EditText
+        <com.andreabaccega.widget.FormEditText
             android:id="@+id/etEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:layout_weight="8"
+            android:inputType="textEmailAddress"
+            whatever:customRegexp="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+            whatever:testErrorString="@string/error_emailnotvalid"
+            whatever:testType="regexp" />
     </LinearLayout>
 
     <LinearLayout
@@ -89,17 +90,16 @@
 
         <CheckBox
             android:id="@+id/checkBox1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="CheckBox" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/txtTerms"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Terms and Conditions"
             android:layout_gravity="center_vertical"
+            android:text="Terms and Conditions"
             android:textColor="#000000"
             android:textSize="14sp" />
     </LinearLayout>
@@ -108,8 +108,8 @@
         android:id="@+id/btnSubscribe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/LinearChkboxLyt"
+        android:layout_centerHorizontal="true"
         android:text="Subscribe" />
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package in.tapmobi.athome.registration;
 import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.server.ServerAPI;
 import in.tapmobi.athome.session.SessionManager;
+import in.tapmobi.athome.subscription.SubscriptionActivity;
 
 import java.util.Random;
 
@@ -102,9 +103,14 @@ public class Register {
 	}
 
 	private void updateUI() {
-
-		Intent i = new Intent(mContext, MainActivity.class);
-		mContext.startActivity(i);
+		SessionManager session = new SessionManager(mContext);
+		if (session.isUserRegisteredinSip()) {
+			Intent i = new Intent(mContext, MainActivity.class);
+			mContext.startActivity(i);
+		} else {
+			Intent e = new Intent(mContext, SubscriptionActivity.class);
+			mContext.startActivity(e);
+		}
 
 	}
 
@@ -193,8 +199,7 @@ public class Register {
 											// // times -= 1;
 											// return;
 											// }
-											new AlertDialog.Builder(mContext).setMessage("Could not verify your number. Please try again.")
-													.setTitle("").setCancelable(true)
+											new AlertDialog.Builder(mContext).setMessage("Could not verify your number. Please try again.").setTitle("").setCancelable(true)
 													.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 														public void onClick(DialogInterface dialog, int whichButton) {
 															RegisterationActivity.progressLayout.setVisibility(View.GONE);
@@ -244,6 +249,5 @@ public class Register {
 		sms.sendTextMessage(toPhoneNumber, null, message, sentPI, null);
 
 	}
-
 
 }
