@@ -6,6 +6,10 @@ import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.models.GroupedLogs;
 import in.tapmobi.athome.registration.RegisterationActivity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,9 +22,19 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
@@ -263,5 +277,64 @@ public class Utility {
 		// }
 
 		return CallLogs;
+	}
+
+	public static void SaveImage(Bitmap finalBitmap, String fileName) {
+
+		File myDir = new File(Environment.getExternalStorageDirectory() + "/AtHome/");
+		myDir.mkdirs();
+
+		String fname = fileName + ".jpg";
+		File file = new File(myDir, fname);
+		if (file.exists())
+			file.delete();
+		try {
+			FileOutputStream out = new FileOutputStream(file);
+			finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+			out.flush();
+			out.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static Bitmap GetBitmapFromFile(String fileName) {
+		Bitmap bitmap = null;
+		File myDir = new File(Environment.getExternalStorageDirectory() + "/AtHome/");
+		String fname = fileName + ".jpg";
+		File f = new File(myDir, fname);
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+		try {
+			bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return bitmap;
+	}
+
+	public static Bitmap getRoundedCornerImage(Bitmap bitmap) {
+
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+
+		final int color = 0xff424242;
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		final RectF rectF = new RectF(rect);
+		final float roundPx = 100;
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		paint.setColor(color);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+
+		return output;
+
 	}
 }

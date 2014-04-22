@@ -322,7 +322,7 @@ public class ContactsFragment extends Fragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Utility.regInCallLogs(Msisdn,1);
+			Utility.regInCallLogs(Msisdn, 1);
 			MainActivity.initSipManager();
 			return null;
 		}

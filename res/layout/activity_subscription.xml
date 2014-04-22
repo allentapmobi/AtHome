@@ -110,6 +110,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/LinearChkboxLyt"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/WhiteSmoke"
+        android:background="@drawable/athome_theme_button"
         android:text="Subscribe" />
 
 </RelativeLayout>

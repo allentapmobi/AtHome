@@ -4,10 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_background" >
-     <LinearLayout
+
+    <ImageView
+        android:id="@+id/accImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/preview" />
+
+    <LinearLayout
         android:id="@+id/DisplayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/accImage"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:layout_marginTop="30dp"
@@ -44,8 +55,8 @@
         android:id="@+id/DisplayNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/DisplayName"
+        android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:layout_marginTop="30dp"
         android:orientation="horizontal" >
@@ -113,10 +124,13 @@
 
     <Button
         android:id="@+id/buttonReferesh"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/statusLayout"
         android:layout_centerHorizontal="true"
-        android:text="Referesh" />
+        android:background="@drawable/athome_theme_button"
+        android:text="Refresh"
+        android:textColor="@color/WhiteSmoke"
+        android:textSize="14sp" />
 
 </RelativeLayout>

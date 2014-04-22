@@ -3,6 +3,7 @@ package in.tapmobi.athome.adapter;
 import in.tapmobi.athome.CallLogsFragment;
 import in.tapmobi.athome.ContactsFragment;
 import in.tapmobi.athome.DialpadFragment;
+import in.tapmobi.athome.MessageFragment;
 import in.tapmobi.athome.ProfileFragment;
 import in.tapmobi.athome.R;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,9 @@ import com.viewpagerindicator.IconPagerAdapter;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
 
-	private static final String[] CONTENT = { "Call Logs", "DialPad", "Contacts", "Profile" };
-	private static final int[] ICONS = new int[] { R.drawable.pager_icon_clogs, R.drawable.pager_icon_dialpad, R.drawable.pager_icon_contacts, R.drawable.pager_icon_profile };
+	private static final String[] CONTENT = { "Call Logs", "DialPad", "Contacts", "Messages", "Profile" };
+	private static final int[] ICONS = new int[] { R.drawable.pager_icon_clogs, R.drawable.pager_icon_dialpad, R.drawable.pager_icon_contacts, R.drawable.pager_icon_message,
+			R.drawable.pager_icon_profile };
 
 	public TabsPagerAdapter(FragmentManager fm) {
 		super(fm);
@@ -34,6 +36,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements IconPagerA
 			// Contacts fragment activity
 			return new ContactsFragment();
 		case 3:
+			// Message fragments
+			return new MessageFragment();
+
+		case 4:
 			// Profile fragments
 			return new ProfileFragment();
 		}
