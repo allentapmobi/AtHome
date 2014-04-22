@@ -226,4 +226,11 @@ public class SessionManager {
 
 		return subMsisdn;
 	}
+
+	public String getValidityDate() {
+		String validUpto = pref.getString(KEY_VALIDITY_DATE, null);
+		editor.commit();
+
+		return validUpto;
+	}
 }

@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 public class RegisterationActivity extends Activity implements OnClickListener {
 
-	EditText etMsisdn;
+	static EditText etMsisdn;
 	Button btnCountryCodes, btnContinue;
 	public static String sCode = null;
 	public static String sCountry = null;

@@ -99,6 +99,7 @@ public class MainActivity extends FragmentActivity {
 		super.onDestroy();
 		delSipProfile();
 	}
+	
 
 	// *******************************************************************************************************************************************\\
 	private Toast toast;

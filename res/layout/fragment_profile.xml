@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_background" >
-
-    <LinearLayout
-        android:id="@+id/DisplayNumber"
+     <LinearLayout
+        android:id="@+id/DisplayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -19,7 +18,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:text="Display Name"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text=":"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/txtRegName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Allen moses W"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/DisplayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/DisplayName"
+        android:layout_margin="10dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/txtRegisteration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Register Number"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text=":"
             android:textColor="@color/theme_text"
             android:textSize="14sp" />
 
@@ -48,6 +92,14 @@
             android:layout_height="15dp"
             android:layout_margin="5dp"
             android:src="@drawable/failure" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text=":"
+            android:textColor="@color/theme_text"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/txtRegisterationStatus"
