@@ -67,8 +67,13 @@
             android:name="in.tapmobi.athome.subscription.TermsAndConditions"
             android:screenOrientation="portrait" />
         <activity
-            android:name="in.tapmobi.athome.SelectContactsForMsgActivity"
+            android:name="in.tapmobi.athome.messaging.SelectContactsForMsgActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="in.tapmobi.athome.messaging.ConversationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock" >
+        </activity>
         <activity android:name="com.camera.library.CameraLibrary" />
 
         <receiver

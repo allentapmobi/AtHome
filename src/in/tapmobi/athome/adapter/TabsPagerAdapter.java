@@ -3,7 +3,7 @@ package in.tapmobi.athome.adapter;
 import in.tapmobi.athome.CallLogsFragment;
 import in.tapmobi.athome.ContactsFragment;
 import in.tapmobi.athome.DialpadFragment;
-import in.tapmobi.athome.MessageFragment;
+import in.tapmobi.athome.MessageLogsFragment;
 import in.tapmobi.athome.ProfileFragment;
 import in.tapmobi.athome.R;
 import android.support.v4.app.Fragment;
@@ -37,7 +37,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter implements IconPagerA
 			return new ContactsFragment();
 		case 3:
 			// Message fragments
-			return new MessageFragment();
+			return new MessageLogsFragment();
 
 		case 4:
 			// Profile fragments

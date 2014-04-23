@@ -6,6 +6,12 @@ import in.tapmobi.athome.util.ImageCropperUtil;
 import in.tapmobi.athome.util.ImageUtil;
 import in.tapmobi.athome.util.RoundedImage;
 import in.tapmobi.athome.util.Utility;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,7 +36,7 @@ import com.camera.library.CameraLibrary;
 import com.camera.library.CameraOptions;
 
 public class ProfileFragment extends Fragment {
-	TextView tvRegNumber, tvRegisterationStatus, tvRegName;
+	TextView tvRegNumber, tvRegisterationStatus, tvRegName, tvSubValidity;
 	ImageView ivRegIcon;
 	Button btnReferesh;
 	SessionManager session;
@@ -43,11 +49,24 @@ public class ProfileFragment extends Fragment {
 	private static final int RE_GET_LOGO_CAMERA = 777;
 	private static final int RE_GET_LOGO_GALLERY = 999;
 	private static final int RE_GET_CROPPED_IMAGE = 666;
+	Date date;
 
+	@SuppressLint("SimpleDateFormat")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		session = new SessionManager(getActivity());
 		ValidDate = session.getValidityDate();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+
+		try {
+			date = sdf.parse(ValidDate);
+			ValidDate = sdf.format(date);
+			System.out.println(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		Bitmap imageBitmap;
 		tvRegNumber = (TextView) rootView.findViewById(R.id.txtRegNumber);
 		tvRegisterationStatus = (TextView) rootView.findViewById(R.id.txtRegisterationStatus);
@@ -55,12 +74,14 @@ public class ProfileFragment extends Fragment {
 		ivRegIcon = (ImageView) rootView.findViewById(R.id.regStatus);
 		_image = (ImageView) rootView.findViewById(R.id.accImage);
 		btnReferesh = (Button) rootView.findViewById(R.id.buttonReferesh);
+		tvSubValidity = (TextView) rootView.findViewById(R.id.tvSubValidity);
 
 		SessionManager s = new SessionManager(getActivity());
 		String userName = s.getSipUserName();
 		String regName = s.getName();
 		tvRegNumber.setText(userName);
 		tvRegName.setText(regName);
+		tvSubValidity.setText("Your validity expires on:" + ValidDate);
 
 		if (SipRegisteration.isRegisteredWithSip) {
 			ivRegIcon.setImageResource(R.drawable.success);
@@ -78,10 +99,10 @@ public class ProfileFragment extends Fragment {
 			}
 		});
 		if (Utility.GetBitmapFromFile("UserProfileImage") != null) {
-			// _image.setImageBitmap(Utility.GetBitmapFromFile("UserProfileImage"));
-			imageBitmap = Utility.GetBitmapFromFile("UserProfileImage");
-			imageBitmap = Utility.getRoundedCornerImage(imageBitmap);
-			_image.setImageBitmap(imageBitmap);
+			_image.setImageBitmap(Utility.GetBitmapFromFile("UserProfileImage"));
+			// imageBitmap = Utility.GetBitmapFromFile("UserProfileImage");
+			// imageBitmap = Utility.getRoundedCornerImage(imageBitmap);
+			// _image.setImageBitmap(imageBitmap);
 		}
 		_image.setOnClickListener(new View.OnClickListener() {
 

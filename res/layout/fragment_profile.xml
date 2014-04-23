@@ -122,14 +122,25 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvSubValidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/statusLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="Your validity expires on:12-6-2014"
+        android:textColor="@color/theme_text"
+        android:textSize="14sp" />
+
     <Button
         android:id="@+id/buttonReferesh"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/statusLayout"
+        android:layout_below="@id/tvSubValidity"
         android:layout_centerHorizontal="true"
         android:background="@drawable/athome_theme_button"
-        android:text="Refresh"
+        android:text="Update Subscription"
         android:textColor="@color/WhiteSmoke"
         android:textSize="14sp" />
 

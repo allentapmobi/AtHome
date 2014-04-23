@@ -51,6 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/one"
                 android:textSize="36sp" />
 
@@ -59,6 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/two"
                 android:textSize="36sp" />
 
@@ -67,6 +69,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/three"
                 android:textSize="36sp" />
         </TableRow>
@@ -78,6 +81,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/four"
                 android:textSize="36sp" />
 
@@ -86,6 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/five"
                 android:textSize="36sp" />
 
@@ -94,6 +99,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/six"
                 android:textSize="36sp" />
         </TableRow>
@@ -105,6 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/seven"
                 android:textSize="36sp" />
 
@@ -113,6 +120,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/eight"
                 android:textSize="36sp" />
 
@@ -121,6 +129,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/nine"
                 android:textSize="36sp" />
         </TableRow>
@@ -132,6 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/astrix"
                 android:textSize="36sp" />
 
@@ -140,6 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/zero"
                 android:textSize="36sp" />
 
@@ -148,6 +159,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="@string/hash"
                 android:textSize="36sp" />
         </TableRow>
@@ -159,6 +171,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="CALL"
                 android:textSize="36sp" />
 
@@ -167,6 +180,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/custom_button_dialpad"
                 android:text="DEL"
                 android:textSize="36sp" />
         </TableRow>
