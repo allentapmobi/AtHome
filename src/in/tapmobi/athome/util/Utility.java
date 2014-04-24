@@ -4,6 +4,7 @@ import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.models.GroupedLogs;
+import in.tapmobi.athome.models.Message;
 import in.tapmobi.athome.registration.RegisterationActivity;
 
 import java.io.File;
@@ -107,6 +108,17 @@ public class Utility {
 		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
 		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime, callType));
 	}
+	
+	public static void regInMsgLogs(String name, String number, String txtMsg) {
+		String currentTime = getCurrentTime();
+		db = new DataBaseHandler(mContext);
+		
+		Log.d("Insert: ", "Inserting into Msg Logs into Database.");
+
+		db.addMsgLogs(new Message(name,number,currentTime,txtMsg));
+	}
+	
+	
 
 	/**
 	 * Get current device time. Mainly used for comparing and registering incoming,outgoing call logs.
@@ -337,4 +349,8 @@ public class Utility {
 		return output;
 
 	}
+
+	
+
+	
 }

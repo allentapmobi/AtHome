@@ -2,17 +2,18 @@ package in.tapmobi.athome.messaging;
 
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.MessageAdapter;
-import in.tapmobi.athome.models.Message;
+import in.tapmobi.athome.models.ChatConversation;
+import in.tapmobi.athome.util.Utility;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -22,6 +23,9 @@ public class ConversationActivity extends SherlockActivity {
 	EditText etsendMessage;
 	MessageAdapter mMsgAdapter;
 	ImageButton btnSend;
+	public static String txtMsg;
+	public static String Name;
+	public static String Number;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -32,8 +36,8 @@ public class ConversationActivity extends SherlockActivity {
 		setContentView(R.layout.activity_messaging);
 
 		Intent i = getIntent();
-		String Name = i.getStringExtra("TEXT_NAME");
-		String Number = i.getStringExtra("TEXT_NUMBER");
+		Name = i.getStringExtra("TEXT_NAME");
+		Number = i.getStringExtra("TEXT_CONTACT_NUMBER");
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff472347));
@@ -53,27 +57,17 @@ public class ConversationActivity extends SherlockActivity {
 
 			@Override
 			public void onClick(View v) {
-				String txtMsg = etsendMessage.getText().toString();
-				if (txtMsg != null) {
-					mMsgAdapter.add(new Message(false, etsendMessage.getText().toString()));
+				txtMsg = etsendMessage.getText().toString();
+				if (txtMsg != null && !txtMsg.equals("")) {
+					mMsgAdapter.add(new ChatConversation(false, txtMsg));
 					etsendMessage.setText("");
+					// Store txtMsg along with SenderName and Number
+					new RegisterMsgLogs().execute();
+				} else {
+					Toast.makeText(ConversationActivity.this, "Please enter text", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-
-		// etsendMessage.setOnKeyListener(new OnKeyListener() {
-		// public boolean onKey(View v, int keyCode, KeyEvent event) {
-		// // If the event is a key-down event on the "enter" button
-		// if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-		// // Perform action on key press
-		// mMsgAdapter.add(new Message(false, etsendMessage.getText().toString()));
-		// etsendMessage.setText("");
-		// return true;
-		// }
-		// return false;
-		// }
-		// });
-
 	}
 
 	@Override
@@ -83,6 +77,21 @@ public class ConversationActivity extends SherlockActivity {
 			finish();
 		}
 		return (super.onOptionsItemSelected(menuItem));
+	}
+
+	public class RegisterMsgLogs extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			Utility.regInMsgLogs(Name, Number, txtMsg);
+			return null;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+		}
 	}
 
 }

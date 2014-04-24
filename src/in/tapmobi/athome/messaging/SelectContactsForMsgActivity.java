@@ -59,8 +59,14 @@ public class SelectContactsForMsgActivity extends Activity {
 
 		initViews();
 
-		if (RegisterationActivity.mContact.size() == 0) {
-			RegisterationActivity.mContact.addAll(Utility.getContactsList());
+		try {
+			if (RegisterationActivity.mContact.size() == 0) {
+				RegisterationActivity.mContact.addAll(Utility.getContactsList());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Null pointe while loading contacts --- SelectContactsForMsgActivity");
 		}
 		mAdapter = new ContactListAdapter(SelectContactsForMsgActivity.this, RegisterationActivity.mContact);
 

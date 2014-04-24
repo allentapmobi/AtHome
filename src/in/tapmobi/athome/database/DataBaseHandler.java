@@ -1,6 +1,7 @@
 package in.tapmobi.athome.database;
 
 import in.tapmobi.athome.models.CallLog;
+import in.tapmobi.athome.models.Message;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	// Contacts table name
 	private static final String TABLE_CALL_LOGS = "callogs";
+	private static final String TABLE_MSG_LOGS = "msgLogs";
 
 	// Contacts Table Columns names
 	private static final String KEY_ID = "id";
@@ -31,6 +33,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	private static final String KEY_PH_NO = "phone_number";
 	private static final String KEY_TIME_DURATION = "call_duration";
 	private static final String KEY_CALL_TYPE = "is_incoming";
+	private static final String MSG_SENDER_NAME = "sender_name";
+	private static final String MSG_SENDER_NUMBER = "sender_number";
+	private static final String MSG_SENDER_TXTS = "sender_text";
+	private static final String MSG_SENDER_TIME = "sender_time_sent";
 
 	public DataBaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,10 +48,19 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 		String CREATE_CALL_LOGS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, " + KEY_PH_NO
 				+ "  TEXT," + KEY_TIME_DURATION + "  TEXT, " + KEY_CALL_TYPE + "  TEXT" + ")";
-		System.out.println("---------------------------Table has been created------------------------------");
+
+		String CREATE_MSG_LOGS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_MSG_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + MSG_SENDER_NAME + "  TEXT, "
+				+ MSG_SENDER_NUMBER + "  TEXT, " + MSG_SENDER_TIME + "  TEXT, " + MSG_SENDER_TXTS + "  TEXT" + ")";
+
+		System.out.println("---------------------------Table CALL_LOGS has been created------------------------------");
 		System.out.println("CREATE TABLE IF NOT EXISTS " + TABLE_CALL_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + KEY_NAME + "  TEXT, " + KEY_PH_NO + "  TEXT,"
 				+ KEY_TIME_DURATION + "  TEXT, " + KEY_CALL_TYPE + "  TEXT" + ")");
+
 		db.execSQL(CREATE_CALL_LOGS_TABLE);
+		System.out.println("---------------------------Table MSG_LOGS has been created------------------------------");
+		db.execSQL(CREATE_MSG_LOGS_TABLE);
+		System.out.println("CREATE TABLE IF NOT EXISTS " + TABLE_MSG_LOGS + "(" + KEY_ID + "  INTEGER PRIMARY KEY, " + MSG_SENDER_NAME + "  TEXT, " + MSG_SENDER_NUMBER
+				+ "  TEXT, " + MSG_SENDER_TIME + "  TEXT, " + MSG_SENDER_TXTS + "  TEXT" + ")");
 
 	}
 
@@ -54,6 +69,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 		// Drop older table if existed
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CALL_LOGS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_MSG_LOGS);
 
 		// Create tables again
 		onCreate(db);
@@ -77,6 +93,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		// Inserting Row
 		db.insert(TABLE_CALL_LOGS, null, values);
 		db.close(); // Closing database connection
+	}
+
+	// Getting contacts Count
+	public int getcallLogsCount() {
+
+		String countQuery = "SELECT  * FROM " + TABLE_CALL_LOGS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(countQuery, null);
+		cursor.close();
+
+		// return count
+		return cursor.getCount();
 	}
 
 	// Getting All Contacts
@@ -130,16 +158,38 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		return contactList;
 	}
 
-	// Getting contacts Count
-	public int getcallLogsCount() {
+	public void addMsgLogs(Message msg) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(MSG_SENDER_NAME, msg.getSenderName());
+		values.put(MSG_SENDER_NUMBER, msg.getSenderNumber());
+		values.put(MSG_SENDER_TXTS, msg.getTxtMsg());
+		values.put(MSG_SENDER_TIME, msg.getTextDateTime());
 
-		String countQuery = "SELECT  * FROM " + TABLE_CALL_LOGS;
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(countQuery, null);
-		cursor.close();
+		// Inserting into DB
+		db.insert(TABLE_MSG_LOGS, null, values);
+		db.close();
+	}
 
-		// return count
-		return cursor.getCount();
+	// Getting all textMsgs from Db
+	public ArrayList<Message> getMsgLogs() {
+		ArrayList<Message> msgs = new ArrayList<Message>();
+		String selectQuery = "SELECT * FROM " + TABLE_MSG_LOGS;
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cur = db.rawQuery(selectQuery, null);
+		// looping through all the rows
+		if (cur.moveToFirst()) {
+			do {
+				Message msg = new Message();
+				msg.setSenderName(cur.getString(1));
+				msg.setSenderNumber(cur.getString(2));
+				msg.setTextDateTime(cur.getString(3));
+				msg.setTxtMsg(cur.getString(4));
+
+				msgs.add(msg);
+			} while (cur.moveToNext());
+		}
+		return msgs;
 	}
 
 }

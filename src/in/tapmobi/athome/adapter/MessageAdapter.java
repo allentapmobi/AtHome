@@ -1,7 +1,7 @@
 package in.tapmobi.athome.adapter;
 
 import in.tapmobi.athome.R;
-import in.tapmobi.athome.models.Message;
+import in.tapmobi.athome.models.ChatConversation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,9 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MessageAdapter extends ArrayAdapter<Message> {
+public class MessageAdapter extends ArrayAdapter<ChatConversation> {
 	private TextView messages;
-	private List<Message> msg = new ArrayList<Message>();
+	private List<ChatConversation> msg = new ArrayList<ChatConversation>();
 	LinearLayout wrapper;
 
 	public MessageAdapter(Context context, int resource) {
@@ -27,7 +27,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 	}
 
 	@Override
-	public void add(Message object) {
+	public void add(ChatConversation object) {
 		msg.add(object);
 		super.add(object);
 	}
@@ -38,7 +38,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 	}
 
 	@Override
-	public Message getItem(int position) {
+	public ChatConversation getItem(int position) {
 		// TODO Auto-generated method stub
 		return this.msg.get(position);
 	}
@@ -52,7 +52,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 		}
 
 		wrapper = (LinearLayout) row.findViewById(R.id.wrapper);
-		Message msg = getItem(position);
+		ChatConversation msg = getItem(position);
 		messages = (TextView) row.findViewById(R.id.comment);
 		
 		messages.setText(msg.comment);

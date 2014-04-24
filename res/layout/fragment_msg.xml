@@ -49,4 +49,14 @@
             android:textColor="@color/WhiteSmoke" />
     </LinearLayout>
 
+    <ListView
+        android:id="@+id/lvMsgLogs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="#FFFFFF"
+        android:divider="@color/theme_headers"
+        android:dividerHeight="0.1dp" >
+    </ListView>
+
 </RelativeLayout>
