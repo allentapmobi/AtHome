@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/theme_background" >
 
-    <LinearLayout
+ <LinearLayout
         android:id="@+id/firstTimeLinear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,14 +49,27 @@
             android:textColor="@color/WhiteSmoke" />
     </LinearLayout>
 
-    <ListView
+    <Button
+        android:id="@+id/ComposeNewMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/athome_theme_button"
+        android:text="@string/txtCompose"
+        android:textColor="@color/WhiteSmoke"
+        android:textSize="16sp" />
+
+     <ListView
         android:id="@+id/lvMsgLogs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/ComposeNewMsg"
         android:layout_margin="10dp"
         android:background="#FFFFFF"
         android:divider="@color/theme_headers"
         android:dividerHeight="0.1dp" >
     </ListView>
-
+ 
 </RelativeLayout>

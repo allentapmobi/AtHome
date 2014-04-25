@@ -4,9 +4,11 @@ import in.tapmobi.athome.adapter.MessageLogsAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.messaging.ConversationActivity;
 import in.tapmobi.athome.messaging.SelectContactsForMsgActivity;
+import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.models.Message;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,13 +26,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class MessageLogsFragment extends Fragment {
-	Button btnCompose;
+	Button btnCompose, btnNewCompose;
 	LinearLayout displayIfNoMsgs;
 	ArrayList<Message> getMsgs = new ArrayList<Message>();
 	ArrayList<Message> getMsgsFiltered = new ArrayList<Message>();
 	HashMap<String, Message> groupedMsgMap = new HashMap<String, Message>();
 	MessageLogsAdapter mMsgLogAdapter;
 	ListView lvMsgLogs;
+	public static ArrayList<Message> msgBasedCtx;
 
 	DataBaseHandler db;
 
@@ -38,8 +41,10 @@ public class MessageLogsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_msg, container, false);
 
+		msgBasedCtx = new ArrayList<Message>();
 		db = new DataBaseHandler(getActivity().getApplicationContext());
 		btnCompose = (Button) rootView.findViewById(R.id.ComposeMsg);
+		btnNewCompose = (Button) rootView.findViewById(R.id.ComposeNewMsg);
 		lvMsgLogs = (ListView) rootView.findViewById(R.id.lvMsgLogs);
 		displayIfNoMsgs = (LinearLayout) rootView.findViewById(R.id.firstTimeLinear);
 
@@ -50,11 +55,19 @@ public class MessageLogsFragment extends Fragment {
 		// method 5 works finally hurreay
 
 		getMsgsFiltered = clearListFromDuplicateFirstName(getMsgs);
+
+		// ------------------------------------------------------------------------------------------------------
+		// Used to sort msg logs based on time
+		// ------------------------------------------------------------------------------------------------------
+		Collections.sort(getMsgsFiltered, new Message.DateComparatorText());
+
 		if (getMsgsFiltered.size() > 0) {
 			displayIfNoMsgs.setVisibility(View.GONE);
 			lvMsgLogs.setVisibility(View.VISIBLE);
+			btnNewCompose.setVisibility(View.VISIBLE);
 		} else {
 			lvMsgLogs.setVisibility(View.GONE);
+			btnNewCompose.setVisibility(View.GONE);
 			displayIfNoMsgs.setVisibility(View.VISIBLE);
 		}
 		mMsgLogAdapter = new MessageLogsAdapter(getActivity().getApplicationContext(), getMsgsFiltered);
@@ -66,6 +79,8 @@ public class MessageLogsFragment extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				String Name = getMsgsFiltered.get(position).getSenderName();
 				String Number = getMsgsFiltered.get(position).getSenderNumber();
+
+				msgBasedCtx = db.getMsgTxtBasedOnNumber(Name, Number);
 
 				Intent i = new Intent(getActivity().getApplicationContext(), ConversationActivity.class);
 				i.putExtra("TEXT_NAME", Name);
@@ -83,6 +98,16 @@ public class MessageLogsFragment extends Fragment {
 				startActivity(i);
 			}
 		});
+
+		btnNewCompose.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), SelectContactsForMsgActivity.class);
+				startActivity(i);
+			}
+		});
+
 		return rootView;
 	}
 
@@ -103,5 +128,12 @@ public class MessageLogsFragment extends Fragment {
 		if (db != null) {
 			db.close();
 		}
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mMsgLogAdapter.notifyDataSetChanged();
 	}
 }

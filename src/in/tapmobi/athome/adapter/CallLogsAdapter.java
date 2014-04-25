@@ -109,13 +109,15 @@ public class CallLogsAdapter extends BaseAdapter {
 			holder.callType.setImageResource(R.drawable.missed);
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 		Date dt = Logs.getmDateTimeStamp();
+		System.out.println("---------------RegDate---------"+dt);
 		// String timeStamp = sdf.format(dt);
 		String mDateStr = sdf1.format(dt);
 
 		Date todayDate = Utility.getCurrentDateTime();
+		System.out.println("----------------CurrentTime-----------"+ todayDate);
 		today = sdf1.format(todayDate);
 
 		long diff = todayDate.getTime() - dt.getTime();

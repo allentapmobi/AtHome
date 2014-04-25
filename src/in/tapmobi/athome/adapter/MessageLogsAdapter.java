@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class MessageLogsAdapter extends BaseAdapter {
 	Context mContext;
 	ArrayList<Message> mMessage = new ArrayList<Message>();
-	String Name, number = null;
+	String Name, number, txtMsgs = null;
 	private LayoutInflater mInflater;
 	String checkDate, today = null;
 
@@ -64,8 +64,9 @@ public class MessageLogsAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.ContactName = (TextView) convertView.findViewById(R.id.txtContactName);
 			holder.timeDuration = (TextView) convertView.findViewById(R.id.txtCallTime);
-			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
-			holder.count = (TextView) convertView.findViewById(R.id.txtCallCount);
+			holder.txtMsgs = (TextView) convertView.findViewById(R.id.txtMsgs);
+			holder.ContactNumber = (TextView) convertView.findViewById(R.id.txtContactNumber);
+
 			convertView.setTag(holder);
 
 		} else {
@@ -75,32 +76,26 @@ public class MessageLogsAdapter extends BaseAdapter {
 		final Message msgsLogs = mMessage.get(position);
 		// Set Image for contact
 
-		holder.thumb.setImageResource(R.drawable.def_contact);
-		// Set Count
-		holder.count.setVisibility(View.GONE);
-
 		// Set Name if exists else set Number
 		Name = msgsLogs.getSenderName();
 		number = msgsLogs.getSenderNumber();
+		txtMsgs = msgsLogs.getTxtMsg();
 		if (Name != null) {
 			holder.ContactName.setText(Name);
+			holder.ContactNumber.setText("("+ number + ")");
 
 		} else {
 			holder.ContactName.setText(number);
-
+			holder.ContactNumber.setVisibility(View.GONE);
 		}
-		// if (Logs.isIsIncoming()) {
-		// holder.callType.setImageResource(R.drawable.incoming);
-		// } else if (!Logs.isIsIncoming()) {
-		// holder.callType.setImageResource(R.drawable.outgoing);
-		// }
+		holder.txtMsgs.setText(txtMsgs);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
 		String dtTime = msgsLogs.getTextDateTime();
 		Date dt = null;
 		try {
-			dt = sdf1.parse(dtTime);
+			dt = sdf.parse(dtTime);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,7 +128,8 @@ public class MessageLogsAdapter extends BaseAdapter {
 	private static class ViewHolder {
 		TextView ContactName;
 		TextView timeDuration;
-		ImageView thumb;
+		TextView txtMsgs;
+		TextView ContactNumber;
 		TextView count;
 
 	}

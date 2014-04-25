@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -85,8 +84,8 @@ public class CallLogsFragment extends Fragment {
 			Utility.CallLogs.clear();
 		Utility.CallLogs.addAll(Utility.getCallLogs());
 
-		((BaseAdapter) lvCallLogs.getAdapter()).notifyDataSetChanged();
-
+		// ((BaseAdapter) lvCallLogs.getAdapter()).notifyDataSetChanged();
+		mLogAdapter.notifyDataSetChanged();
 	}
 
 	public class RegisterCallLogsAsync extends AsyncTask<Void, Void, Void> {
@@ -123,7 +122,3 @@ public class CallLogsFragment extends Fragment {
 		}
 	}
 }
-
-
-
-

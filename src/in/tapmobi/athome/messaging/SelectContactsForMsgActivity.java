@@ -88,6 +88,7 @@ public class SelectContactsForMsgActivity extends Activity {
 				i.putExtra("TEXT_NAME", Name);
 				i.putExtra("TEXT_CONTACT_NUMBER", Number);
 				startActivity(i);
+				SelectContactsForMsgActivity.this.finish();
 
 			}
 		});

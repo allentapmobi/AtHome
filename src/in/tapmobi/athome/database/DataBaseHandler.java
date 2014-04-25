@@ -133,7 +133,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 				callDateTime = cursor.getString(3);
 				// SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy");
 
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 				try {
 					date = formatter.parse(callDateTime);
 					Date date1 = formatter.parse(callDateTime);
@@ -175,8 +175,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 	public ArrayList<Message> getMsgLogs() {
 		ArrayList<Message> msgs = new ArrayList<Message>();
 		String selectQuery = "SELECT * FROM " + TABLE_MSG_LOGS;
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cur = db.rawQuery(selectQuery, null);
+		Cursor cur = null;
+		try {
+			SQLiteDatabase db = this.getWritableDatabase();
+			cur = db.rawQuery(selectQuery, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// looping through all the rows
 		if (cur.moveToFirst()) {
 			do {
@@ -192,4 +198,32 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 		return msgs;
 	}
 
+	public ArrayList<Message> getMsgTxtBasedOnNumber(String name, String number) {
+
+		ArrayList<Message> msgBasedOnName = new ArrayList<Message>();
+		// String selectQuery = "SELECT * FROM " + TABLE_MSG_LOGS + " WHERE " + MSG_SENDER_NAME + " = " + name + " AND " + MSG_SENDER_NUMBER + "  =" +
+		// number;
+		String selectQuery = "SELECT * FROM " + TABLE_MSG_LOGS + " WHERE " + MSG_SENDER_NUMBER + "  = " + number;
+		Cursor cur = null;
+		try {
+			SQLiteDatabase db = this.getWritableDatabase();
+			cur = db.rawQuery(selectQuery, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// looping through all the rows
+		if (cur.moveToFirst()) {
+			do {
+				Message msg = new Message();
+				msg.setSenderName(cur.getString(1));
+				msg.setSenderNumber(cur.getString(2));
+				msg.setTextDateTime(cur.getString(3));
+				msg.setTxtMsg(cur.getString(4));
+
+				msgBasedOnName.add(msg);
+			} while (cur.moveToNext());
+		}
+		return msgBasedOnName;
+	}
 }

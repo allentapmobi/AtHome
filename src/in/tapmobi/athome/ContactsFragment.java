@@ -4,6 +4,7 @@ import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.registration.RegisterationActivity;
+import in.tapmobi.athome.sip.SipRegisteration;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContactsFragment extends Fragment {
 
@@ -169,8 +171,15 @@ public class ContactsFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 				Msisdn = RegisterationActivity.mContact.get(pos).getNumber();
 				UserName = RegisterationActivity.mContact.get(pos).getName();
-				sPhotoUri = Utility.CallLogs.get(pos).getContactPhotoUri();
-				sPhotoImg = Utility.CallLogs.get(pos).getContactPhoto();
+				try {
+					// sPhotoUri = Utility.CallLogs.get(pos).getContactPhotoUri();
+					sPhotoUri = RegisterationActivity.mContact.get(pos).getContactPhotoUri();
+					// sPhotoImg = Utility.CallLogs.get(pos).getContactPhoto();
+					sPhotoImg = RegisterationActivity.mContact.get(pos).getContactPhoto();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				if (Msisdn != null) {
 					new RegisterCallLogsAsync().execute();
@@ -330,13 +339,16 @@ public class ContactsFragment extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-
-			Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
-			i.putExtra("CONTACT_NAME", UserName);
-			i.putExtra("CONTACT_NUMBER", Msisdn);
-			i.putExtra("BITMAP", sPhotoImg);
-			// i.putExtra("IMAGE_URI", sPhotoUri.toString());
-			startActivity(i);
+			if (SipRegisteration.isRegisteredWithSip) {
+				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
+				i.putExtra("CONTACT_NAME", UserName);
+				i.putExtra("CONTACT_NUMBER", Msisdn);
+				i.putExtra("BITMAP", sPhotoImg);
+				// i.putExtra("IMAGE_URI", sPhotoUri.toString());
+				startActivity(i);
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(), "SIP Registration failed.", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 }

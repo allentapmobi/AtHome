@@ -1,5 +1,6 @@
 package in.tapmobi.athome.messaging;
 
+import in.tapmobi.athome.MessageLogsFragment;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.MessageAdapter;
 import in.tapmobi.athome.models.ChatConversation;
@@ -35,10 +36,14 @@ public class ConversationActivity extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_messaging);
 
+		// ------------------------------------------------------------------------------
+
 		Intent i = getIntent();
 		Name = i.getStringExtra("TEXT_NAME");
 		Number = i.getStringExtra("TEXT_CONTACT_NUMBER");
-
+		// ------------------------------------------------------------------------------
+		// ACTION BAR SETUP
+		// ------------------------------------------------------------------------------
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff472347));
 		if (Name == null) {
@@ -46,6 +51,9 @@ public class ConversationActivity extends SherlockActivity {
 		} else {
 			getSupportActionBar().setTitle(Name);
 		}
+
+		// ------------------------------------------------------------------------------
+
 		btnSend = (ImageButton) findViewById(R.id.ibSend);
 		etsendMessage = (EditText) findViewById(R.id.editMsgsBar);
 
@@ -68,6 +76,7 @@ public class ConversationActivity extends SherlockActivity {
 				}
 			}
 		});
+		addItems();
 	}
 
 	@Override
@@ -91,6 +100,20 @@ public class ConversationActivity extends SherlockActivity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 
+		}
+	}
+
+	// Display items from database to View.
+
+	private void addItems() {
+		// mMsgAdapter.add(new ChatConversation(true, "Hello bubbles!"));
+
+		for (int i = 0; i < MessageLogsFragment.msgBasedCtx.size(); i++) {
+			boolean left = false;
+
+			String words = MessageLogsFragment.msgBasedCtx.get(i).getTxtMsg();
+
+			mMsgAdapter.add(new ChatConversation(left, words));
 		}
 	}
 

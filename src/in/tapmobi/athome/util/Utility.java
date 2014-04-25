@@ -108,17 +108,15 @@ public class Utility {
 		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
 		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime, callType));
 	}
-	
+
 	public static void regInMsgLogs(String name, String number, String txtMsg) {
 		String currentTime = getCurrentTime();
 		db = new DataBaseHandler(mContext);
-		
+
 		Log.d("Insert: ", "Inserting into Msg Logs into Database.");
 
-		db.addMsgLogs(new Message(name,number,currentTime,txtMsg));
+		db.addMsgLogs(new Message(name, number, currentTime, txtMsg));
 	}
-	
-	
 
 	/**
 	 * Get current device time. Mainly used for comparing and registering incoming,outgoing call logs.
@@ -130,13 +128,19 @@ public class Utility {
 	public static String getCurrentTime() {
 		Calendar c = Calendar.getInstance();
 		String strTime = null;
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-			strTime = sdf.format(c.getTime());
+		try {// yyyy-MM-dd 'T' HH:mm:ss.SSSZ" yyyy-MM-dd HH:mm:ss
+
+			// String target = "Thu Sep 28 20:29:30 JST 2000";
+			// DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+			// Date result = df.parse(target);
+			// System.out.println(result);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 			SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm:ss aa");
 			String strDate = sdf1.format(c.getTime());
-			date = sdf.parse(strDate);
+			strTime = sdf.format(c.getTime());
+			date = sdf.parse(strTime);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -350,7 +354,4 @@ public class Utility {
 
 	}
 
-	
-
-	
 }
