@@ -117,4 +117,11 @@ public class ConversationActivity extends SherlockActivity {
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		MessageLogsFragment.msgBasedCtx.clear();
+	}
+
 }

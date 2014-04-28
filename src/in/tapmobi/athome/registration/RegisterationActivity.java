@@ -147,6 +147,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 		protected Void doInBackground(Void... params) {
 
 			mContact.addAll(Utility.getContactsList());
+			Utility.sMsgs.addAll(Utility.getAllMsgs());
 			return null;
 		}
 

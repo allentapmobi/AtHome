@@ -4,8 +4,8 @@ import in.tapmobi.athome.adapter.MessageLogsAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.messaging.ConversationActivity;
 import in.tapmobi.athome.messaging.SelectContactsForMsgActivity;
-import in.tapmobi.athome.models.CallLog;
 import in.tapmobi.athome.models.Message;
+import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +28,7 @@ import android.widget.ListView;
 public class MessageLogsFragment extends Fragment {
 	Button btnCompose, btnNewCompose;
 	LinearLayout displayIfNoMsgs;
-	ArrayList<Message> getMsgs = new ArrayList<Message>();
+	// ArrayList<Message> getMsgs = new ArrayList<Message>();
 	ArrayList<Message> getMsgsFiltered = new ArrayList<Message>();
 	HashMap<String, Message> groupedMsgMap = new HashMap<String, Message>();
 	MessageLogsAdapter mMsgLogAdapter;
@@ -48,13 +48,23 @@ public class MessageLogsFragment extends Fragment {
 		lvMsgLogs = (ListView) rootView.findViewById(R.id.lvMsgLogs);
 		displayIfNoMsgs = (LinearLayout) rootView.findViewById(R.id.firstTimeLinear);
 
-		if (getMsgs.size() > 0 || getMsgs.size() == 0) {
-			getMsgs.clear();
-			getMsgs.addAll(db.getMsgLogs());
+		// if (getMsgs.size() > 0 || getMsgs.size() == 0) {
+		// getMsgs.clear();
+		// getMsgs.addAll(db.getMsgLogs());
+		// }
+
+		// if (Utility.CallLogs.size() > 0)
+		// Utility.CallLogs.clear();
+		// Utility.CallLogs.addAll(Utility.getCallLogs());
+
+		if (Utility.sMsgs.size() > 0) {
+			Utility.sMsgs.clear();
 		}
+		Utility.sMsgs.addAll(Utility.getAllMsgs());
+
 		// method 5 works finally hurreay
 
-		getMsgsFiltered = clearListFromDuplicateFirstName(getMsgs);
+		getMsgsFiltered = clearListFromDuplicateFirstName(Utility.sMsgs);
 
 		// ------------------------------------------------------------------------------------------------------
 		// Used to sort msg logs based on time
@@ -80,7 +90,8 @@ public class MessageLogsFragment extends Fragment {
 				String Name = getMsgsFiltered.get(position).getSenderName();
 				String Number = getMsgsFiltered.get(position).getSenderNumber();
 
-				msgBasedCtx = db.getMsgTxtBasedOnNumber(Name, Number);
+				// msgBasedCtx = db.getMsgTxtBasedOnNumber(Name, Number);
+				msgBasedCtx = getMsgTxtBasedOnNumber(Number);
 
 				Intent i = new Intent(getActivity().getApplicationContext(), ConversationActivity.class);
 				i.putExtra("TEXT_NAME", Name);
@@ -105,6 +116,7 @@ public class MessageLogsFragment extends Fragment {
 			public void onClick(View v) {
 				Intent i = new Intent(getActivity(), SelectContactsForMsgActivity.class);
 				startActivity(i);
+
 			}
 		});
 
@@ -135,5 +147,22 @@ public class MessageLogsFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		mMsgLogAdapter.notifyDataSetChanged();
+	}
+
+	// ---------------------------------------------------------------------------------------------
+	public ArrayList<Message> getMsgTxtBasedOnNumber(String Number) {
+		ArrayList<Message> msgTxtNumber = new ArrayList<Message>();
+
+		for (int i = 0; i < Utility.sMsgs.size(); i++) {
+			if (Utility.sMsgs.get(i).getSenderNumber().contains(Number)) {
+				Message msg = new Message();
+				msg.setSenderName(Utility.sMsgs.get(i).getSenderName());
+				msg.setSenderNumber(Utility.sMsgs.get(i).getSenderNumber());
+				msg.setTextDateTime(Utility.sMsgs.get(i).getTextDateTime());
+				msg.setTxtMsg(Utility.sMsgs.get(i).getTxtMsg());
+				msgTxtNumber.add(msg);
+			}
+		}
+		return msgTxtNumber;
 	}
 }

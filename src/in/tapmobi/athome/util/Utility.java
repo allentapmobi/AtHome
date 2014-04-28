@@ -51,6 +51,7 @@ public class Utility {
 	public static ArrayList<CallLog> sLogs = new ArrayList<CallLog>();
 	public static ArrayList<ContactsModel> sContacts = new ArrayList<ContactsModel>();
 	public static ArrayList<CallLog> CallLogs = new ArrayList<CallLog>();
+	public static ArrayList<Message> sMsgs = new ArrayList<Message>();
 	static ArrayList<GroupedLogs> groupedCallLogs = new ArrayList<GroupedLogs>();
 	public static Cursor cur;
 	public static String prevMsisdn;
@@ -351,6 +352,17 @@ public class Utility {
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 
 		return output;
+
+	}
+
+	public static ArrayList<Message> getAllMsgs() {
+		db = new DataBaseHandler(mContext);
+
+		if (sMsgs.size() == 0) {
+			sMsgs = db.getMsgLogs();
+		}
+
+		return sMsgs;
 
 	}
 

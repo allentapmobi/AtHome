@@ -1,6 +1,7 @@
 package in.tapmobi.athome.messaging;
 
 import in.tapmobi.athome.MainActivity;
+import in.tapmobi.athome.MessageLogsFragment;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.registration.RegisterationActivity;
@@ -51,6 +52,8 @@ public class SelectContactsForMsgActivity extends Activity {
 	public static Bitmap sPhotoImg;
 	public static Uri sPhotoUri;
 
+	MessageLogsFragment msgLogFrag = new MessageLogsFragment();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -68,6 +71,7 @@ public class SelectContactsForMsgActivity extends Activity {
 			e.printStackTrace();
 			System.out.println("Null pointe while loading contacts --- SelectContactsForMsgActivity");
 		}
+
 		mAdapter = new ContactListAdapter(SelectContactsForMsgActivity.this, RegisterationActivity.mContact);
 
 		mIndexer = new AlphabetIndexer(Utility.cur, 1, alphabet);
@@ -81,9 +85,10 @@ public class SelectContactsForMsgActivity extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
 				String Name = RegisterationActivity.mContact.get(pos).getName();
 				String Number = RegisterationActivity.mContact.get(pos).getNumber();
-
+				MessageLogsFragment.msgBasedCtx = msgLogFrag.getMsgTxtBasedOnNumber(Number);
 				Intent i = new Intent(SelectContactsForMsgActivity.this, ConversationActivity.class);
 				i.putExtra("TEXT_NAME", Name);
 				i.putExtra("TEXT_CONTACT_NUMBER", Number);
@@ -95,6 +100,7 @@ public class SelectContactsForMsgActivity extends Activity {
 	}
 
 	private void initViews() {
+
 		mIndexerLayout = (LinearLayout) findViewById(R.id.indexer_layout);
 		mListView = (ListView) findViewById(R.id.contactList);
 		mTitleLayout = (FrameLayout) findViewById(R.id.title_layout);

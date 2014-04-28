@@ -200,29 +200,42 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 	public ArrayList<Message> getMsgTxtBasedOnNumber(String name, String number) {
 
+		// number.replaceAll("\\D", "+");
+		// number.replaceAll("[\\-]", "");
+		String PhoneNumber = number.replaceAll("[^0-9\\+]", "") // remove all the non numbers (brackets dashes spaces etc.) except the + signs
+				.replaceAll("(^0{2}|^\\+)(.+)", "$2"); // make 00XXX... numbers and +XXXXX.. numbers into XXXX...
 		ArrayList<Message> msgBasedOnName = new ArrayList<Message>();
 		// String selectQuery = "SELECT * FROM " + TABLE_MSG_LOGS + " WHERE " + MSG_SENDER_NAME + " = " + name + " AND " + MSG_SENDER_NUMBER + "  =" +
 		// number;
-		String selectQuery = "SELECT * FROM " + TABLE_MSG_LOGS + " WHERE " + MSG_SENDER_NUMBER + "  = " + number;
+
+		// "SELECT * FROM " + TABLE_MSG_LOGS + " WHERE " + MSG_SENDER_NUMBER + " = " + number
+		String selectQuery = "SELECT * FROM " + TABLE_MSG_LOGS;
 		Cursor cur = null;
 		try {
-			SQLiteDatabase db = this.getWritableDatabase();
-			cur = db.rawQuery(selectQuery, null);
+
+			SQLiteDatabase db = this.getReadableDatabase();
+			cur = db.rawQuery(selectQuery, new String[] { number });
+
+			// String columnName[] = { MSG_SENDER_NAME, MSG_SENDER_NUMBER, MSG_SENDER_TIME, MSG_SENDER_TXTS };
+			// cur = db.query(TABLE_MSG_LOGS, columnName, MSG_SENDER_NUMBER + " =" + number, null, null, null, null);
+			// System.out.println("" + cur.getCount());
+			// looping through all the rows
+			if (cur.moveToFirst()) {
+
+				do {
+					Message msg = new Message();
+					msg.setSenderName(cur.getString(1));
+					msg.setSenderNumber(cur.getString(2));
+					msg.setTextDateTime(cur.getString(3));
+					msg.setTxtMsg(cur.getString(4));
+
+					msgBasedOnName.add(msg);
+				} while (cur.moveToNext());
+			}
+			cur.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		// looping through all the rows
-		if (cur.moveToFirst()) {
-			do {
-				Message msg = new Message();
-				msg.setSenderName(cur.getString(1));
-				msg.setSenderNumber(cur.getString(2));
-				msg.setTextDateTime(cur.getString(3));
-				msg.setTxtMsg(cur.getString(4));
-
-				msgBasedOnName.add(msg);
-			} while (cur.moveToNext());
 		}
 		return msgBasedOnName;
 	}
