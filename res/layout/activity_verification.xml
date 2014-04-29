@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="15dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical" >
 
         <TextView
@@ -30,17 +31,6 @@
             android:textColor="@color/theme_headers"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btnVerify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/athome_theme_button"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:text="VERIFY"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
-
         <com.andreabaccega.widget.FormEditText
             android:id="@+id/etVerifyNumber"
             android:layout_width="match_parent"
@@ -49,6 +39,17 @@
             android:layout_marginBottom="15dp"
             whatever:emptyErrorString="Invalid Number"
             whatever:testType="numeric" />
+
+        <Button
+            android:id="@+id/btnVerify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/athome_theme_button"
+            android:paddingBottom="15dp"
+            android:paddingTop="10dp"
+            android:text="VERIFY"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </RelativeLayout>

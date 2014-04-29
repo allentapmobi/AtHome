@@ -4,18 +4,21 @@ import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.CountriesListAdapter;
 import in.tapmobi.athome.models.ContactsModel;
+import in.tapmobi.athome.server.ServerAPI;
 import in.tapmobi.athome.session.SessionManager;
-import in.tapmobi.athome.subscription.SubscriptionActivity;
 import in.tapmobi.athome.util.Utility;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,13 +44,22 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 	Dialog dialog;
 	Register mRegister;
+	String message;
+
+	Runnable updateUserVerifyRunnable, updateRunnable;
+	Handler myHandler = new Handler();
+	private String mServerResponse;
+	boolean success;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.activity_registger);
+
 		mRegister = new Register(RegisterationActivity.this);
 		util = new Utility(RegisterationActivity.this);
 
@@ -56,6 +68,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 	}
 
+	// Initialize all view used in the layout
 	private void initViews() {
 
 		progressLayout = (RelativeLayout) findViewById(R.id.progress_layout);
@@ -68,6 +81,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 		btnContinue.setOnClickListener(this);
 	}
 
+	// Listening to click events from the view
 	@Override
 	public void onClick(View v) {
 
@@ -78,11 +92,18 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.btnRegister:
+
 			Utility.hideSoftKeyboard(RegisterationActivity.this);
+
 			if (Utility.isNetworkAvailable(RegisterationActivity.this)) {
-				mRegister.RegisterMsisdn(etMsisdn.getEditableText().toString());
+
+				// mRegister.RegisterMsisdn(etMsisdn.getEditableText().toString());
+				registerNumber(etMsisdn.getEditableText().toString());
+
 			} else {
+
 				Toast.makeText(RegisterationActivity.this, "No Network connectivity.Please try later", Toast.LENGTH_SHORT).show();
+
 			}
 
 			break;
@@ -92,6 +113,116 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	private void registerNumber(final String phoneNumber) {
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(RegisterationActivity.this);
+		builder.setInverseBackgroundForced(true);
+		builder.setMessage("Please confirm that your mobile no is " + phoneNumber + ".").setCancelable(false)
+
+		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+
+				// get operator for MSISDN
+				// updateUI();
+				registerNumberBackground(phoneNumber);
+				progressLayout.setVisibility(View.VISIBLE);
+			}
+
+		}).setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// Do nothing
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alert = builder.create();
+		alert.show();
+
+	}
+
+	private void registerNumberBackground(final String phoneNumber) {
+
+		updateUserVerifyRunnable = new Runnable() {
+
+			@Override
+			public void run() {
+
+				int min = 1000000;
+				int max = 3000000;
+
+				Random r = new Random();
+				int i1 = r.nextInt(max - min + 1) + min;
+				message = String.valueOf(i1);
+
+				Thread thread = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+
+						try {
+
+							success = ServerAPI.sendSms(phoneNumber, null, message);
+							myHandler.post(updateRunnable);
+							// if (success) {
+							// updateActivity();
+							// }
+						} catch (Exception e) {
+
+							e.printStackTrace();
+
+						}
+					}
+
+				});
+
+				thread.start();
+				updateRunnable = new Runnable() {
+
+					@Override
+					public void run() {
+
+						try {
+
+							if (success) {
+
+								session.createPhoneNumber(phoneNumber);
+								updateActivity();
+
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				};
+
+			}
+		};
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				myHandler.post(updateUserVerifyRunnable);
+
+			}
+
+		}).start();
+
+	}
+
+	private void updateActivity() {
+
+		Intent i = new Intent(RegisterationActivity.this, VerificationActivity.class);
+
+		startActivity(i);
+		progressLayout.setVisibility(View.GONE);
+
+	}
+
+	// Inflate a custom dialogs with country code and flags
 	private void inflateCustomDialogOfCountryCodes() {
 
 		final String[] recourseList = this.getResources().getStringArray(R.array.CountryCodes);
@@ -125,22 +256,26 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 	}
 
+	// Here we check if the number is verified and the sip user profile has been registered
 	@Override
 	protected void onResume() {
 		// Check if number is verified and stored
 		super.onResume();
-		if (session.isMsisdnVerfied()) {
-			if (session.isUserRegisteredinSip()) {
-				progressLayout.setVisibility(View.VISIBLE);
-				new getContactsAsync().execute();
-			} else {
-				Intent i = new Intent(RegisterationActivity.this, SubscriptionActivity.class);
-				startActivity(i);
-				RegisterationActivity.this.finish();
-			}
-		}
+		// if (session.isMsisdnVerfied()) {
+		// if (session.isUserRegisteredinSip()) {
+		// progressLayout.setVisibility(View.VISIBLE);
+		// new getContactsAsync().execute();
+		// } else {
+		// Intent i = new Intent(RegisterationActivity.this, SubscriptionActivity.class);
+		// startActivity(i);
+		// RegisterationActivity.this.finish();
+		// }
+		// }
+
+		new getContactsAsync().execute();
 	}
 
+	// TODO: Need to shift this some where else inorder to release to many activities starting from this activity
 	private class getContactsAsync extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -154,12 +289,13 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(Void result) {
 
-			Intent i = new Intent(RegisterationActivity.this, MainActivity.class);
-			startActivity(i);
+			// Intent i = new Intent(RegisterationActivity.this, MainActivity.class);
+			// startActivity(i);
 			progressLayout.setVisibility(View.GONE);
-			RegisterationActivity.this.finish();
+			// RegisterationActivity.this.finish();
 			super.onPostExecute(result);
 		}
 
 	}
+
 }

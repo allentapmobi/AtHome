@@ -1812,7 +1812,7 @@ containing a value of this type.
         public static final int btnSubmit=0x7f0500bf;
         public static final int btnSubscribe=0x7f050072;
         public static final int btnTabLayout=0x7f050057;
-        public static final int btnVerify=0x7f050074;
+        public static final int btnVerify=0x7f050075;
         public static final int buttonReferesh=0x7f0500aa;
         public static final int checkBox1=0x7f050070;
         public static final int comment=0x7f0500b3;
@@ -1831,7 +1831,7 @@ containing a value of this type.
         public static final int etPassword=0x7f0500be;
         public static final int etSipDomain=0x7f0500bc;
         public static final int etUserName=0x7f0500ba;
-        public static final int etVerifyNumber=0x7f050075;
+        public static final int etVerifyNumber=0x7f050074;
         public static final int firstTimeLinear=0x7f050098;
         public static final int form=0x7f050063;
         public static final int frame=0x7f05007b;

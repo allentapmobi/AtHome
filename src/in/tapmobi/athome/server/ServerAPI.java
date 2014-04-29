@@ -28,7 +28,7 @@ public class ServerAPI {
 		if (flag) {
 			url = "http://sonycrbt.tapmobi.in/ServiceV1/" + operation;
 		} else {
-			url = "http://athome.elasticbeanstalk.com/api/" + operation;
+			url = "http://homeapi.tapmobi.in/api/" + operation;
 		}
 		return url;
 	}
@@ -142,11 +142,11 @@ public class ServerAPI {
 		UserProfile user = new UserProfile();
 		String registerUriJson = "{\"Msisdn\":" + "\"" + verifiedMsisdn + "\",\"Name\":" + "\"" + Name + "\",\"Email\":" + "\"" + Email + "\"" + "}";
 
-		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription", "POST", false);
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription/Create", "POST", false);
 
 		// responseString = serverresponse.getResponseString();
 		try {
-
+			System.out.println("" + serverResponse.getResponseString().toString());
 			JSONObject jObj = new JSONObject(serverResponse.getResponseString().toString());
 			user.Msisdn = jObj.getString("Msisdn");
 			user.Name = jObj.getString("Name");
@@ -168,9 +168,9 @@ public class ServerAPI {
 
 	public static Boolean sendSms(String senderNumber, String receiverNumber, String text) {
 
-		String registerUriJson = "{\"From\":" + "\"" + senderNumber + "\",\"To\":" + "\"" + receiverNumber + "\",\"Text\":" + "\"" + text + "\"" + "}";
+		String registerUriJson = "{\"To\":" + "\"" + receiverNumber + "\",\"Text\":" + "\"" + text + "\"" + "}";
 
-		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message", "POST", null);
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message/Send", "POST", false);
 		return serverResponse.getSuccess();
 	}
 

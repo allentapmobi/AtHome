@@ -790,7 +790,7 @@ int id btnSpeaker 0x7f05005c
 int id btnSubmit 0x7f0500bf
 int id btnSubscribe 0x7f050072
 int id btnTabLayout 0x7f050057
-int id btnVerify 0x7f050074
+int id btnVerify 0x7f050075
 int id buttonReferesh 0x7f0500aa
 int id checkBox1 0x7f050070
 int id comment 0x7f0500b3
@@ -809,7 +809,7 @@ int id etName 0x7f05006c
 int id etPassword 0x7f0500be
 int id etSipDomain 0x7f0500bc
 int id etUserName 0x7f0500ba
-int id etVerifyNumber 0x7f050075
+int id etVerifyNumber 0x7f050074
 int id firstTimeLinear 0x7f050098
 int id form 0x7f050063
 int id frame 0x7f05007b

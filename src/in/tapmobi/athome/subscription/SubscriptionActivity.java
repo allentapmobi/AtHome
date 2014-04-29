@@ -95,7 +95,7 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 						Toast.makeText(SubscriptionActivity.this, "Unable to reterive data", Toast.LENGTH_SHORT).show();
 					}
 				} catch (Exception e) {
-					myHandler.post(runnableReg);
+					// myHandler.post(runnableReg);
 				}
 				myHandler.post(runnableReg);
 			}
