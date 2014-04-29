@@ -166,4 +166,12 @@ public class ServerAPI {
 
 	}
 
+	public static Boolean sendSms(String senderNumber, String receiverNumber, String text) {
+
+		String registerUriJson = "{\"From\":" + "\"" + senderNumber + "\",\"To\":" + "\"" + receiverNumber + "\",\"Text\":" + "\"" + text + "\"" + "}";
+
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message", "POST", null);
+		return serverResponse.getSuccess();
+	}
+
 }
