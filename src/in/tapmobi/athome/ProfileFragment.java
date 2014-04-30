@@ -1,5 +1,6 @@
 package in.tapmobi.athome;
 
+import in.tapmobi.athome.server.ServerAPI;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.sip.SipRegisteration;
 import in.tapmobi.athome.util.ImageCropperUtil;
@@ -21,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore.MediaColumns;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
@@ -41,6 +43,13 @@ public class ProfileFragment extends Fragment {
 	Button btnReferesh;
 	SessionManager session;
 	String ValidDate;
+	String base64ProfileImage;
+	Bitmap bitmapProfile;
+
+	Handler myHandler = new Handler();
+	Runnable runnableUpdatePic;
+
+	String userName;
 
 	ImageView _image;
 	CameraOptions options;
@@ -77,7 +86,7 @@ public class ProfileFragment extends Fragment {
 		tvSubValidity = (TextView) rootView.findViewById(R.id.tvSubValidity);
 
 		SessionManager s = new SessionManager(getActivity());
-		String userName = s.getSipUserName();
+		userName = s.getSipUserName();
 		String regName = s.getName();
 		tvRegNumber.setText(userName);
 		tvRegName.setText(regName);
@@ -98,12 +107,18 @@ public class ProfileFragment extends Fragment {
 				Toast.makeText(getActivity(), ValidDate, Toast.LENGTH_SHORT).show();
 			}
 		});
-		if (Utility.GetBitmapFromFile("UserProfileImage") != null) {
-			_image.setImageBitmap(Utility.GetBitmapFromFile("UserProfileImage"));
-			// imageBitmap = Utility.GetBitmapFromFile("UserProfileImage");
-			// imageBitmap = Utility.getRoundedCornerImage(imageBitmap);
-			// _image.setImageBitmap(imageBitmap);
+		base64ProfileImage = s.getProfileImage();
+
+		if (!base64ProfileImage.equals("") && base64ProfileImage != null && !base64ProfileImage.equals("null")) {
+			bitmapProfile = Utility.decodeBase64(base64ProfileImage);
+			_image.setImageBitmap(bitmapProfile);
 		}
+		// if (Utility.GetBitmapFromFile("UserProfileImage") != null) {
+		// _image.setImageBitmap(Utility.GetBitmapFromFile("UserProfileImage"));
+		// // imageBitmap = Utility.GetBitmapFromFile("UserProfileImage");
+		// // imageBitmap = Utility.getRoundedCornerImage(imageBitmap);
+		// // _image.setImageBitmap(imageBitmap);
+		// }
 		_image.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -166,6 +181,8 @@ public class ProfileFragment extends Fragment {
 				cropperImage = ImageUtil.getScaledBitmap(options.getBitmapFile(), 960, 960);
 				startActivityForResult(cropper, RE_GET_CROPPED_IMAGE);
 				// Utility.SaveImage(cropperImage, "UserProfileImage");
+				base64ProfileImage = Utility.encodeTobase64(cropperImage);
+				uploadImageToServer(base64ProfileImage);
 			}
 
 			break;
@@ -186,7 +203,10 @@ public class ProfileFragment extends Fragment {
 				// cropper.putExtra("ImageBitmap", finalBitmapLogo);
 				cropperImage = bitmap;
 				startActivityForResult(cropper, RE_GET_CROPPED_IMAGE);
-				Utility.SaveImage(cropperImage, "UserProfileImage");
+
+				// Utility.SaveImage(cropperImage, "UserProfileImage");
+				base64ProfileImage = Utility.encodeTobase64(cropperImage);
+				uploadImageToServer(base64ProfileImage);
 			}
 
 			break;
@@ -206,6 +226,41 @@ public class ProfileFragment extends Fragment {
 		default:
 			break;
 		}
+
+	}
+
+	private void uploadImageToServer(String base64ProfileImage) {
+		final String profilePicBase64 = base64ProfileImage;
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				boolean success;
+				try {
+					success = ServerAPI.updateProfileImage(userName, profilePicBase64);
+					bitmapProfile = Utility.decodeBase64(profilePicBase64);
+
+					if (!success) {
+						Toast.makeText(getActivity(), "Unable to upload image to server.Please try again.", Toast.LENGTH_SHORT).show();
+					} else {
+						myHandler.post(runnableUpdatePic);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+
+		runnableUpdatePic = new Runnable() {
+
+			@Override
+			public void run() {
+
+				_image.setImageBitmap(bitmapProfile);
+			}
+		};
 
 	}
 

@@ -1,6 +1,5 @@
 package in.tapmobi.athome.registration;
 
-import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.CountriesListAdapter;
 import in.tapmobi.athome.models.ContactsModel;
@@ -46,10 +45,12 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 	Register mRegister;
 	String message;
 
-	Runnable updateUserVerifyRunnable, updateRunnable;
+	Runnable updateUserVerifyRunnable, updateRunnable, updateRunnableProfile, runnableReg, runnableVerify;
 	Handler myHandler = new Handler();
 	private String mServerResponse;
 	boolean success;
+	boolean isNumberReg = false;
+	String registeringMsisdn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +97,11 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 			Utility.hideSoftKeyboard(RegisterationActivity.this);
 
 			if (Utility.isNetworkAvailable(RegisterationActivity.this)) {
-
-				// mRegister.RegisterMsisdn(etMsisdn.getEditableText().toString());
-				registerNumber(etMsisdn.getEditableText().toString());
-
+				registeringMsisdn = etMsisdn.getEditableText().toString();
+				// getProfileForMsisdn(mEtMsisdn);
+				registerNumber(registeringMsisdn);
 			} else {
-
 				Toast.makeText(RegisterationActivity.this, "No Network connectivity.Please try later", Toast.LENGTH_SHORT).show();
-
 			}
 
 			break;
@@ -112,6 +110,56 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
+
+	// private void getProfileForMsisdn(final String mEtMsisdn) {
+	// new Thread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// try {
+	//
+	// UserProfile usrPofile = new UserProfile();
+	// usrPofile = ServerAPI.getUserProfile(mEtMsisdn);
+	//
+	// if (usrPofile.SipUsername != null) {
+	//
+	// // Store the profile in preferences locally
+	// session.createSipUserProfile(usrPofile);
+	//
+	// myHandler.post(runnableReg);
+	//
+	// } else {
+	// registerNumber(mEtMsisdn);
+	// }
+	// } catch (Exception e) {
+	// myHandler.post(runnableVerify);
+	// }
+	//
+	// }
+	// }).start();
+	//
+	// runnableReg = new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	//
+	// progressLayout.setVisibility(View.GONE);
+	// Intent i = new Intent(RegisterationActivity.this, MainActivity.class);
+	// startActivity(i);
+	// RegisterationActivity.this.finish();
+	//
+	// }
+	// };
+	//
+	// runnableVerify = new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// registerNumber(mEtMsisdn);
+	// }
+	// };
+	//
+	// }
 
 	private void registerNumber(final String phoneNumber) {
 
@@ -184,8 +232,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 						try {
 
 							if (success) {
-
-								session.createPhoneNumber(phoneNumber);
+								// session.createPhoneNumber(phoneNumber);
 								updateActivity();
 
 							}
@@ -216,6 +263,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 	private void updateActivity() {
 
 		Intent i = new Intent(RegisterationActivity.this, VerificationActivity.class);
+		i.putExtra("MSISDN", registeringMsisdn);
 
 		startActivity(i);
 		progressLayout.setVisibility(View.GONE);
@@ -241,6 +289,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
 				// TODO Auto-generated method stub
 				String CountryCode = null;
 				CountryCode = recourseList[pos];
@@ -251,9 +300,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 			}
 
 		});
-
 		dialog = alertDialog.show();
-
 	}
 
 	// Here we check if the number is verified and the sip user profile has been registered

@@ -1,5 +1,7 @@
 package in.tapmobi.athome.server;
 
+import in.tapmobi.athome.models.UserProfile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -157,6 +159,7 @@ public class ServerAPI {
 			user.SipPort = jObj.getString("SipPort");
 			user.SipServer = jObj.getString("SipServer");
 			user.SipUsername = jObj.getString("SipUsername");
+			user.Base64ProfilePhoto = jObj.getString("Base64ProfilePhoto");
 			// mUserProfile = new ArrayList<UserProfile>();
 			// mUserProfile.add(user);
 		} catch (JSONException e) {
@@ -166,12 +169,61 @@ public class ServerAPI {
 
 	}
 
+	public static UserProfile getUserProfile(String Msisdn) {
+
+		UserProfile usrProfile = new UserProfile();
+		String registerUriJson = "";
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Profile/Get?msisdn=" + Msisdn, "GET", false);
+
+		try {
+
+			System.out.println("" + serverResponse.getResponseString().toString());
+			JSONObject jObj = new JSONObject(serverResponse.getResponseString().toString());
+			usrProfile.Msisdn = jObj.getString("Msisdn");
+			usrProfile.Name = jObj.getString("Name");
+			usrProfile.Email = jObj.getString("Email");
+			usrProfile.SubscribedDate = jObj.getString("SubscribedDate");
+			usrProfile.ValidityDate = jObj.getString("ValidityDate");
+			usrProfile.SipPassword = jObj.getString("SipPassword");
+			usrProfile.SipPort = jObj.getString("SipPort");
+			usrProfile.SipServer = jObj.getString("SipServer");
+			usrProfile.SipUsername = jObj.getString("SipUsername");
+			usrProfile.Base64ProfilePhoto = jObj.getString("Base64ProfilePhoto");
+			// mUserProfile = new ArrayList<UserProfile>();
+			// mUserProfile.add(user);
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return usrProfile;
+	}
+
+	public static Boolean deleteUserProfile(String Msisdn) {
+
+		String registerUriJson = "";
+
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription/Delete?msisdn=" + Msisdn, "GET", false);
+
+		return serverResponse.getSuccess();
+	}
+
 	public static Boolean sendSms(String senderNumber, String receiverNumber, String text) {
 
 		String registerUriJson = "{\"To\":" + "\"" + receiverNumber + "\",\"Text\":" + "\"" + text + "\"" + "}";
 
 		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message/Send", "POST", false);
+
 		return serverResponse.getSuccess();
+	}
+
+	public static Boolean updateProfileImage(String msisdn, String Base64ProfilePhoto) {
+
+		String registerUriJson = "{\"Msisdn\":" + "\"" + msisdn + "\",\"Base64ProfilePhoto\":" + "\"" + Base64ProfilePhoto + "\"" + "}";
+
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Profile/Photo", "POST", false);
+
+		return serverResponse.getSuccess();
+
 	}
 
 }

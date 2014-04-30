@@ -2,8 +2,8 @@ package in.tapmobi.athome.subscription;
 
 import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.R;
+import in.tapmobi.athome.models.UserProfile;
 import in.tapmobi.athome.server.ServerAPI;
-import in.tapmobi.athome.server.UserProfile;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.util.Utility;
 import android.app.Activity;
@@ -105,6 +105,7 @@ public class SubscriptionActivity extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				Intent i = new Intent(SubscriptionActivity.this, MainActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
 				SubscriptionActivity.this.finish();
 

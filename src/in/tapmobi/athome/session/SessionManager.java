@@ -1,6 +1,6 @@
 package in.tapmobi.athome.session;
 
-import in.tapmobi.athome.server.UserProfile;
+import in.tapmobi.athome.models.UserProfile;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -43,6 +43,7 @@ public class SessionManager {
 	public static final String SIP_PASSWORD = "SipPassword";
 	public static final String SIP_DOMAIN = "SipDomian";
 	public static final String SIP_USERNAME = "SipUsername";
+	public static final String SIP_USERPROFIL_IMG = "SipProfilePicture";
 
 	// Constructor
 	@SuppressLint("CommitPrefEdits")
@@ -130,11 +131,13 @@ public class SessionManager {
 	 * **/
 	// Get Login State
 	public boolean isLoggedIn() {
+
 		return pref.getBoolean(IS_LOGIN, false);
 	}
 
 	// Get Login State
 	public boolean isMsisdnVerfied() {
+
 		return pref.getBoolean(IS_PHONE_NUMBER_VERIFIED, false);
 	}
 
@@ -165,12 +168,15 @@ public class SessionManager {
 		// Storing password
 		editor.putString(SIP_PASSWORD, usrProfile.SipPassword);
 
+		editor.putString(SIP_USERPROFIL_IMG, usrProfile.Base64ProfilePhoto);
+
 		// commit changes
 		editor.commit();
 	}
 
 	// Get Sip registeration state
 	public boolean isUserRegisteredinSip() {
+
 		return pref.getBoolean(IS_SIP_USER_REGISTERED, false);
 	}
 
@@ -178,6 +184,7 @@ public class SessionManager {
 	 * Get stored sip session user
 	 */
 	public String getSipUserName() {
+
 		String username = pref.getString(SIP_USERNAME, null);
 		editor.commit();
 
@@ -185,6 +192,7 @@ public class SessionManager {
 	}
 
 	public String getSipPassword() {
+
 		String password = pref.getString(SIP_PASSWORD, null);
 		editor.commit();
 
@@ -192,6 +200,7 @@ public class SessionManager {
 	}
 
 	public String getSipDomain() {
+
 		String domain = pref.getString(SIP_DOMAIN, null);
 		editor.commit();
 
@@ -199,6 +208,7 @@ public class SessionManager {
 	}
 
 	public String getSipPort() {
+
 		String port = pref.getString(SIP_PORT, null);
 		editor.commit();
 
@@ -206,6 +216,7 @@ public class SessionManager {
 	}
 
 	public String getName() {
+
 		String name = pref.getString(KEY_NAME, null);
 		editor.commit();
 
@@ -213,6 +224,7 @@ public class SessionManager {
 	}
 
 	public String getEmail() {
+
 		String email = pref.getString(KEY_EMAIL, null);
 		editor.commit();
 
@@ -220,6 +232,7 @@ public class SessionManager {
 	}
 
 	public String getSubscribedMsisdn() {
+
 		// Subscribed MSISDN = subMsisdn
 		String subMsisdn = pref.getString(SIP_MSISDN, null);
 		editor.commit();
@@ -228,9 +241,19 @@ public class SessionManager {
 	}
 
 	public String getValidityDate() {
+
 		String validUpto = pref.getString(KEY_VALIDITY_DATE, null);
 		editor.commit();
 
 		return validUpto;
+	}
+
+	public String getProfileImage() {
+
+		String profileImage = pref.getString(SIP_USERPROFIL_IMG, null);
+
+		editor.commit();
+
+		return profileImage;
 	}
 }
