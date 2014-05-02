@@ -54,13 +54,8 @@ public class VerificationActivity extends Activity {
 
 				if (code != null && !code.equals("") && code.equals("4004")) {
 					getProfileForMsisdn(Msisdn);
-
-					// RegisterationActivity reg = new RegisterationActivity();
-					// Intent i = new Intent(VerificationActivity.this, SubscriptionActivity.class);
-					// startActivity(i);
-					// VerificationActivity.this.finish();
-
-					// reg.finish();
+					// Save the registered and verified number in shared preferences.
+					session.createPhoneNumber(Msisdn);
 
 				} else {
 
@@ -86,7 +81,6 @@ public class VerificationActivity extends Activity {
 					usrPofile = ServerAPI.getUserProfile(msisdn);
 
 					if (usrPofile.SipUsername != null) {
-
 						// Store the profile in preferences locally
 						session.createSipUserProfile(usrPofile);
 

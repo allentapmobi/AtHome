@@ -56,6 +56,7 @@ public class CallLogsFragment extends Fragment {
 		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), Utility.CallLogs);
 		lvCallLogs = (ListView) rootView.findViewById(R.id.lvCallLogs);
 		lvCallLogs.setAdapter(mLogAdapter);
+		mLogAdapter.notifyDataSetChanged();
 
 		// Refresh call logs array.
 		lvCallLogs.invalidateViews();

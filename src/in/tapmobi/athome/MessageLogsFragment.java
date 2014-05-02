@@ -47,21 +47,9 @@ public class MessageLogsFragment extends Fragment {
 		btnNewCompose = (Button) rootView.findViewById(R.id.ComposeNewMsg);
 		lvMsgLogs = (ListView) rootView.findViewById(R.id.lvMsgLogs);
 		displayIfNoMsgs = (LinearLayout) rootView.findViewById(R.id.firstTimeLinear);
+		Utility.hideSoftKeyboard(getActivity());
 
-		// if (getMsgs.size() > 0 || getMsgs.size() == 0) {
-		// getMsgs.clear();
-		// getMsgs.addAll(db.getMsgLogs());
-		// }
-
-		// if (Utility.CallLogs.size() > 0)
-		// Utility.CallLogs.clear();
-		// Utility.CallLogs.addAll(Utility.getCallLogs());
-
-		if (Utility.sMsgs.size() > 0) {
-			Utility.sMsgs.clear();
-		}
-		Utility.sMsgs.addAll(Utility.getAllMsgs());
-
+		getAllMsgsFromDb();
 		// method 5 works finally hurreay
 
 		getMsgsFiltered = clearListFromDuplicateFirstName(Utility.sMsgs);
@@ -80,6 +68,7 @@ public class MessageLogsFragment extends Fragment {
 			btnNewCompose.setVisibility(View.GONE);
 			displayIfNoMsgs.setVisibility(View.VISIBLE);
 		}
+
 		mMsgLogAdapter = new MessageLogsAdapter(getActivity().getApplicationContext(), getMsgsFiltered);
 
 		lvMsgLogs.setAdapter(mMsgLogAdapter);
@@ -123,6 +112,14 @@ public class MessageLogsFragment extends Fragment {
 		return rootView;
 	}
 
+	public static void getAllMsgsFromDb() {
+		if (Utility.sMsgs.size() > 0) {
+			Utility.sMsgs.clear();
+		}
+		Utility.sMsgs.addAll(Utility.getAllMsgs());
+
+	}
+
 	// remove duplicates
 	private ArrayList<Message> clearListFromDuplicateFirstName(ArrayList<Message> list1) {
 
@@ -146,6 +143,8 @@ public class MessageLogsFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		getAllMsgsFromDb();
+
 		mMsgLogAdapter.notifyDataSetChanged();
 	}
 

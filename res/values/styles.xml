@@ -85,5 +85,11 @@
         <item name="android:minWidth">64dip</item>
         <item name="android:textColor">#000000</item>
     </style>
+    
+     <style name="ToggleAtHome" parent="android:Widget.Button.Toggle">
+      <item name="android:background">@drawable/athome_btn_toggle_holo_light</item>
+      <item name="android:minHeight">48dip</item>
+	  <item name="android:textColor">#000000</item>
+  </style>
 
 </resources>

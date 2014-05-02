@@ -30,9 +30,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.camera.library.CameraLibrary;
 import com.camera.library.CameraOptions;
@@ -43,8 +45,10 @@ public class ProfileFragment extends Fragment {
 	Button btnReferesh;
 	SessionManager session;
 	String ValidDate;
-	String base64ProfileImage;
+	String base64ProfileImage = null;
 	Bitmap bitmapProfile;
+	ToggleButton Activate;
+	public static boolean isActivated = false;
 
 	Handler myHandler = new Handler();
 	Runnable runnableUpdatePic;
@@ -84,6 +88,19 @@ public class ProfileFragment extends Fragment {
 		_image = (ImageView) rootView.findViewById(R.id.accImage);
 		btnReferesh = (Button) rootView.findViewById(R.id.buttonReferesh);
 		tvSubValidity = (TextView) rootView.findViewById(R.id.tvSubValidity);
+		Activate = (ToggleButton) rootView.findViewById(R.id.tbActivate);
+		Activate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					isActivated = true;
+				} else {
+					isActivated = false;
+				}
+
+			}
+		});
 
 		SessionManager s = new SessionManager(getActivity());
 		userName = s.getSipUserName();
@@ -111,7 +128,8 @@ public class ProfileFragment extends Fragment {
 
 		if (!base64ProfileImage.equals("") && base64ProfileImage != null && !base64ProfileImage.equals("null")) {
 			bitmapProfile = Utility.decodeBase64(base64ProfileImage);
-			_image.setImageBitmap(bitmapProfile);
+			if (bitmapProfile != null)
+				_image.setImageBitmap(bitmapProfile);
 		}
 		// if (Utility.GetBitmapFromFile("UserProfileImage") != null) {
 		// _image.setImageBitmap(Utility.GetBitmapFromFile("UserProfileImage"));
@@ -181,7 +199,8 @@ public class ProfileFragment extends Fragment {
 				cropperImage = ImageUtil.getScaledBitmap(options.getBitmapFile(), 960, 960);
 				startActivityForResult(cropper, RE_GET_CROPPED_IMAGE);
 				// Utility.SaveImage(cropperImage, "UserProfileImage");
-				base64ProfileImage = Utility.encodeTobase64(cropperImage);
+				Bitmap Image = Utility.ResizeBitmap(cropperImage);
+				base64ProfileImage = Utility.encodeTobase64(Image);
 				uploadImageToServer(base64ProfileImage);
 			}
 
@@ -205,7 +224,8 @@ public class ProfileFragment extends Fragment {
 				startActivityForResult(cropper, RE_GET_CROPPED_IMAGE);
 
 				// Utility.SaveImage(cropperImage, "UserProfileImage");
-				base64ProfileImage = Utility.encodeTobase64(cropperImage);
+				Bitmap Image = Utility.ResizeBitmap(cropperImage);
+				base64ProfileImage = Utility.encodeTobase64(Image);
 				uploadImageToServer(base64ProfileImage);
 			}
 

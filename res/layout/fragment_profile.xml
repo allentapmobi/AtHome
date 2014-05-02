@@ -133,11 +133,23 @@
         android:textColor="@color/theme_text"
         android:textSize="14sp" />
 
+    <ToggleButton
+        android:id="@+id/tbActivate"
+        style="@style/ToggleAtHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSubValidity"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:textOff="De-Activate"
+        android:textOn="Activitate" />
+
     <Button
         android:id="@+id/buttonReferesh"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvSubValidity"
+        android:layout_below="@id/tbActivate"
         android:layout_centerHorizontal="true"
         android:background="@drawable/athome_theme_button"
         android:text="Update Subscription"

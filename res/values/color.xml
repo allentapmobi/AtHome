@@ -10,6 +10,7 @@
     <color name="theme_text">#380B61</color>
     <color name="theme_sub_header_text">#7F7F7F</color>
     <color name="white">#FFFFFF</color>
+     <color name="athome_color">#786b9f</color>
     <color name="red">#FF0000</color>
     <color name="green">#01DF3A</color>
     <color name="transparent">#00000000</color>

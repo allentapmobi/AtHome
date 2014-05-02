@@ -25,6 +25,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -110,6 +111,7 @@ public class Utility {
 		Log.d("Insert: ", "Inserting into Database.");
 		// ADDING ALL THE VALUES FROM THE ARRAY TO DB
 		db.addCallLogs(new CallLog(UserName, Msisdn, currentTime, callType));
+
 	}
 
 	public static void regInMsgLogs(String name, String number, String txtMsg) {
@@ -380,8 +382,68 @@ public class Utility {
 	}
 
 	public static Bitmap decodeBase64(String input) {
-		byte[] decodedByte = Base64.decode(input, 0);
-		return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+
+		// byte[] decodedByte = Base64.decode(input, 0);
+		// System.out.println(input);
+		// System.out.println("" +decodedByte.length);
+		// return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+		try {
+			byte[] encodeByte = Base64.decode(input, Base64.DEFAULT);
+			Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+			return bitmap;
+		} catch (Exception e) {
+			System.out.println(""+e.getMessage());
+			return null;
+		}
+	}
+
+	public static Bitmap ResizeBitmap(Bitmap image) {
+		float imageSize;
+
+		// do {
+		imageSize = image.getRowBytes() * image.getHeight();
+		System.out.println("Before Image resize Byte size" + imageSize);
+		image = Bitmap.createScaledBitmap(image, 90, 90, true);
+		System.out.println("After Image resize Byte size - > " + image.getRowBytes() * image.getHeight());
+		// } while (imageSize >= 1200);
+		return image;
+	}
+
+	Bitmap ShrinkBitmap(Bitmap img, int width, int height) {
+
+		BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+		bmpFactoryOptions.inJustDecodeBounds = true;
+		// Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+		int heightRatio = (int) Math.ceil(bmpFactoryOptions.outHeight / (float) height);
+		int widthRatio = (int) Math.ceil(bmpFactoryOptions.outWidth / (float) width);
+
+		if (heightRatio > 1 || widthRatio > 1) {
+			if (heightRatio > widthRatio) {
+				bmpFactoryOptions.inSampleSize = heightRatio;
+			} else {
+				bmpFactoryOptions.inSampleSize = widthRatio;
+			}
+		}
+
+		bmpFactoryOptions.inJustDecodeBounds = false;
+		// bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+		byte[] imageInByte = stream.toByteArray();
+		System.out.println("Lenght of the bitmap before" + imageInByte.length);
+		// this gives the size of the compressed image in kb
+		long lengthbmp = imageInByte.length / 1024;
+
+		try {
+			img.compress(CompressFormat.JPEG, 100, new FileOutputStream(""));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return img;
 	}
 
 }

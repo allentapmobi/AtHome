@@ -1,5 +1,6 @@
 package in.tapmobi.athome.sip;
 
+import in.tapmobi.athome.ProfileFragment;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.subscription.SubscriptionActivity;
 import android.app.PendingIntent;
@@ -42,7 +43,9 @@ public class SipRegisteration {
 			mSipManager = SipManager.newInstance(mContext);
 
 		}
-		initializeLocalProfile();
+		if (ProfileFragment.isActivated) {
+			initializeLocalProfile();
+		}
 	}
 
 	/**
@@ -133,7 +136,7 @@ public class SipRegisteration {
 				mSipManager.close(mProfile.getUriString());
 			}
 		} catch (Exception ee) {
-			Log.d("WalkieTalkieActivity/onDestroy", "Failed to close local profile.", ee);
+			Log.d("onDestroy", "Failed to close local profile.", ee);
 		}
 	}
 
@@ -155,6 +158,7 @@ public class SipRegisteration {
 				@Override
 				public void onCallEstablished(SipAudioCall call) {
 					call.startAudio();
+					Log.i("InitiateCall", "Call Established");
 
 					// call.setSpeakerMode(true);
 					// call.toggleMute();
@@ -164,6 +168,7 @@ public class SipRegisteration {
 				@Override
 				public void onCallEnded(SipAudioCall call) {
 					sUpdateStatus = "Ready";
+					Log.i("InitiateCall", "Call Ended");
 				}
 			};
 
