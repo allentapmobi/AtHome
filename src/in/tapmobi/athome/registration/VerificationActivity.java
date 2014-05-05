@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
@@ -26,6 +27,7 @@ public class VerificationActivity extends Activity {
 	String Msisdn;
 	Handler myHandler = new Handler();
 	Runnable runnableReg, runnableVerify;
+	public static RelativeLayout progressLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class VerificationActivity extends Activity {
 	}
 
 	private void initViews() {
+
+		progressLayout = (RelativeLayout) findViewById(R.id.progress_layout);
+		progressLayout.setVisibility(View.GONE);
 		etVerificationCode = (FormEditText) findViewById(R.id.etVerifyNumber);
 		btnVerify = (Button) findViewById(R.id.btnVerify);
 
@@ -53,6 +58,7 @@ public class VerificationActivity extends Activity {
 				String code = etVerificationCode.getText().toString();
 
 				if (code != null && !code.equals("") && code.equals("4004")) {
+					progressLayout.setVisibility(View.VISIBLE);
 					getProfileForMsisdn(Msisdn);
 					// Save the registered and verified number in shared preferences.
 					session.createPhoneNumber(Msisdn);
@@ -91,6 +97,7 @@ public class VerificationActivity extends Activity {
 					}
 				} catch (Exception e) {
 					myHandler.post(runnableVerify);
+
 				}
 
 			}
@@ -100,8 +107,7 @@ public class VerificationActivity extends Activity {
 
 			@Override
 			public void run() {
-
-				// progressLayout.setVisibility(View.GONE);
+				progressLayout.setVisibility(View.GONE);
 				Intent i = new Intent(VerificationActivity.this, MainActivity.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
@@ -114,6 +120,7 @@ public class VerificationActivity extends Activity {
 
 			@Override
 			public void run() {
+				progressLayout.setVisibility(View.GONE);
 				Intent i = new Intent(VerificationActivity.this, SubscriptionActivity.class);
 				startActivity(i);
 				VerificationActivity.this.finish();

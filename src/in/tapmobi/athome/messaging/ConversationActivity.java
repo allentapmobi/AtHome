@@ -4,6 +4,7 @@ import in.tapmobi.athome.MessageLogsFragment;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.MessageAdapter;
 import in.tapmobi.athome.models.ChatConversation;
+import in.tapmobi.athome.server.ServerAPI;
 import in.tapmobi.athome.util.Utility;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -95,6 +96,14 @@ public class ConversationActivity extends SherlockActivity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			Utility.regInMsgLogs(Name, Number, txtMsg);
+			try {
+				boolean success = ServerAPI.sendSms(Number, Number, txtMsg);
+				if (success) {
+					Toast.makeText(getApplicationContext(), "Msg sent successfully", Toast.LENGTH_SHORT).show();
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			return null;
 		}
 

@@ -331,15 +331,17 @@ public class ContactsFragment extends Fragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Utility.regInCallLogs(Msisdn, 1);
-			MainActivity.initSipManager();
+			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
+				Utility.regInCallLogs(Msisdn, 1);
+				MainActivity.initSipManager();
+			}
 			return null;
 		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if (SipRegisteration.isRegisteredWithSip) {
+			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
 				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
 				i.putExtra("CONTACT_NAME", UserName);
 				i.putExtra("CONTACT_NUMBER", Msisdn);

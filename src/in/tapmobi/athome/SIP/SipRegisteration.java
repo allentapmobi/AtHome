@@ -43,7 +43,7 @@ public class SipRegisteration {
 			mSipManager = SipManager.newInstance(mContext);
 
 		}
-		if (ProfileFragment.isActivated) {
+		if (session.getToggleState()) {
 			initializeLocalProfile();
 		}
 	}

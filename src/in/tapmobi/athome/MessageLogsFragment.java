@@ -59,15 +59,7 @@ public class MessageLogsFragment extends Fragment {
 		// ------------------------------------------------------------------------------------------------------
 		Collections.sort(getMsgsFiltered, new Message.DateComparatorText());
 
-		if (getMsgsFiltered.size() > 0) {
-			displayIfNoMsgs.setVisibility(View.GONE);
-			lvMsgLogs.setVisibility(View.VISIBLE);
-			btnNewCompose.setVisibility(View.VISIBLE);
-		} else {
-			lvMsgLogs.setVisibility(View.GONE);
-			btnNewCompose.setVisibility(View.GONE);
-			displayIfNoMsgs.setVisibility(View.VISIBLE);
-		}
+		AddComposeViewVisible();
 
 		mMsgLogAdapter = new MessageLogsAdapter(getActivity().getApplicationContext(), getMsgsFiltered);
 
@@ -112,6 +104,19 @@ public class MessageLogsFragment extends Fragment {
 		return rootView;
 	}
 
+	private void AddComposeViewVisible() {
+		if (getMsgsFiltered.size() > 0) {
+			displayIfNoMsgs.setVisibility(View.GONE);
+			lvMsgLogs.setVisibility(View.VISIBLE);
+			btnNewCompose.setVisibility(View.VISIBLE);
+		} else {
+			lvMsgLogs.setVisibility(View.GONE);
+			btnNewCompose.setVisibility(View.GONE);
+			displayIfNoMsgs.setVisibility(View.VISIBLE);
+		}
+
+	}
+
 	public static void getAllMsgsFromDb() {
 		if (Utility.sMsgs.size() > 0) {
 			Utility.sMsgs.clear();
@@ -141,11 +146,11 @@ public class MessageLogsFragment extends Fragment {
 
 	@Override
 	public void onResume() {
+
 		// TODO Auto-generated method stub
 		super.onResume();
-		getAllMsgsFromDb();
 
-		mMsgLogAdapter.notifyDataSetChanged();
+		refresh();
 	}
 
 	// ---------------------------------------------------------------------------------------------
@@ -163,5 +168,17 @@ public class MessageLogsFragment extends Fragment {
 			}
 		}
 		return msgTxtNumber;
+	}
+
+	public void refresh() {
+
+		getAllMsgsFromDb();
+		getMsgsFiltered = clearListFromDuplicateFirstName(Utility.sMsgs);
+		Collections.sort(getMsgsFiltered, new Message.DateComparatorText());
+
+		mMsgLogAdapter = new MessageLogsAdapter(getActivity().getApplicationContext(), getMsgsFiltered);
+		lvMsgLogs.setAdapter(mMsgLogAdapter);
+
+		AddComposeViewVisible();
 	}
 }

@@ -44,6 +44,7 @@ public class SessionManager {
 	public static final String SIP_DOMAIN = "SipDomian";
 	public static final String SIP_USERNAME = "SipUsername";
 	public static final String SIP_USERPROFIL_IMG = "SipProfilePicture";
+	public static final String IS_TOGGLE_ACTIVE = "IsAppActive";
 
 	// Constructor
 	@SuppressLint("CommitPrefEdits")
@@ -255,5 +256,22 @@ public class SessionManager {
 		editor.commit();
 
 		return profileImage;
+	}
+
+	public void createToggleState(Boolean state) {
+		editor.putBoolean(IS_TOGGLE_ACTIVE, state);
+
+		editor.commit();
+
+	}
+
+	public boolean getToggleState() {
+		return pref.getBoolean(IS_TOGGLE_ACTIVE, false);
+	}
+
+	public void createProfileImage(String base64Image) {
+		editor.putString(SIP_USERPROFIL_IMG, base64Image);
+
+		editor.commit();
 	}
 }

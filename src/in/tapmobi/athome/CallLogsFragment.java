@@ -81,6 +81,7 @@ public class CallLogsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		refresh();
 		if (Utility.CallLogs.size() > 0)
 			Utility.CallLogs.clear();
 		Utility.CallLogs.addAll(Utility.getCallLogs());
@@ -93,16 +94,18 @@ public class CallLogsFragment extends Fragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Utility.regInCallLogs(Msisdn, 1);
-			MainActivity.initSipManager();
+			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
+				Utility.regInCallLogs(Msisdn, 1);
+				MainActivity.initSipManager();
+			}
 			return null;
 		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if (SipRegisteration.isRegisteredWithSip) {
-				sip.initiateCall(Msisdn);
+			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
+				// sip.initiateCall(Msisdn);
 				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
 				i.putExtra("CONTACT_NAME", ContactName);
 				i.putExtra("CONTACT_NUMBER", Msisdn);
@@ -121,5 +124,10 @@ public class CallLogsFragment extends Fragment {
 		if (db != null) {
 			db.close();
 		}
+	}
+
+	public void refresh() {
+		mLogAdapter = new CallLogsAdapter(getActivity().getApplicationContext(), Utility.CallLogs);
+		lvCallLogs.setAdapter(mLogAdapter);
 	}
 }

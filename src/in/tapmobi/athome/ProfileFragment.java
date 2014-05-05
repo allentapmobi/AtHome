@@ -43,17 +43,8 @@ public class ProfileFragment extends Fragment {
 	TextView tvRegNumber, tvRegisterationStatus, tvRegName, tvSubValidity;
 	ImageView ivRegIcon;
 	Button btnReferesh;
-	SessionManager session;
-	String ValidDate;
-	String base64ProfileImage = null;
 	Bitmap bitmapProfile;
 	ToggleButton Activate;
-	public static boolean isActivated = false;
-
-	Handler myHandler = new Handler();
-	Runnable runnableUpdatePic;
-
-	String userName;
 
 	ImageView _image;
 	CameraOptions options;
@@ -62,6 +53,21 @@ public class ProfileFragment extends Fragment {
 	private static final int RE_GET_LOGO_CAMERA = 777;
 	private static final int RE_GET_LOGO_GALLERY = 999;
 	private static final int RE_GET_CROPPED_IMAGE = 666;
+
+	public static boolean isprofileImageSet = false;
+
+	SessionManager session;
+
+	String ValidDate;
+	String base64ProfileImage = null;
+
+	public static boolean isActivated;
+
+	Handler myHandler = new Handler();
+	Runnable runnableUpdatePic;
+
+	String userName;
+
 	Date date;
 
 	@SuppressLint("SimpleDateFormat")
@@ -69,18 +75,18 @@ public class ProfileFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		session = new SessionManager(getActivity());
 		ValidDate = session.getValidityDate();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		System.out.println(ValidDate);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
 
 		try {
 			date = sdf.parse(ValidDate);
-			ValidDate = sdf.format(date);
-			System.out.println(date);
+			ValidDate = sdf1.format(date);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		Bitmap imageBitmap;
 		tvRegNumber = (TextView) rootView.findViewById(R.id.txtRegNumber);
 		tvRegisterationStatus = (TextView) rootView.findViewById(R.id.txtRegisterationStatus);
 		tvRegName = (TextView) rootView.findViewById(R.id.txtRegName);
@@ -89,22 +95,32 @@ public class ProfileFragment extends Fragment {
 		btnReferesh = (Button) rootView.findViewById(R.id.buttonReferesh);
 		tvSubValidity = (TextView) rootView.findViewById(R.id.tvSubValidity);
 		Activate = (ToggleButton) rootView.findViewById(R.id.tbActivate);
+
+		// Get the toggle state from preferences
+		isActivated = session.getToggleState();
+		Activate.setChecked(isActivated);
+
 		Activate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
+
 					isActivated = true;
+					session.createToggleState(isActivated);
+					MainActivity.initSipManager();
+
 				} else {
+
 					isActivated = false;
+					session.createToggleState(isActivated);
 				}
 
 			}
 		});
 
-		SessionManager s = new SessionManager(getActivity());
-		userName = s.getSipUserName();
-		String regName = s.getName();
+		userName = session.getSipUserName();
+		String regName = session.getName();
 		tvRegNumber.setText(userName);
 		tvRegName.setText(regName);
 		tvSubValidity.setText("Your validity expires on:" + ValidDate);
@@ -124,13 +140,10 @@ public class ProfileFragment extends Fragment {
 				Toast.makeText(getActivity(), ValidDate, Toast.LENGTH_SHORT).show();
 			}
 		});
-		base64ProfileImage = s.getProfileImage();
 
-		if (!base64ProfileImage.equals("") && base64ProfileImage != null && !base64ProfileImage.equals("null")) {
-			bitmapProfile = Utility.decodeBase64(base64ProfileImage);
-			if (bitmapProfile != null)
-				_image.setImageBitmap(bitmapProfile);
-		}
+		// Get image from shared preferences and set as profile image
+		setProfileImage();
+
 		// if (Utility.GetBitmapFromFile("UserProfileImage") != null) {
 		// _image.setImageBitmap(Utility.GetBitmapFromFile("UserProfileImage"));
 		// // imageBitmap = Utility.GetBitmapFromFile("UserProfileImage");
@@ -145,6 +158,18 @@ public class ProfileFragment extends Fragment {
 			}
 		});
 		return rootView;
+	}
+
+	private void setProfileImage() {
+		base64ProfileImage = session.getProfileImage();
+
+		if (!base64ProfileImage.equals("") && base64ProfileImage != null && !base64ProfileImage.equals("null")) {
+			if (!isprofileImageSet) {
+				bitmapProfile = Utility.decodeBase64(base64ProfileImage);
+				if (bitmapProfile != null)
+					_image.setImageBitmap(bitmapProfile);
+			}
+		}
 	}
 
 	public void changeImageSelection() {
@@ -202,6 +227,7 @@ public class ProfileFragment extends Fragment {
 				Bitmap Image = Utility.ResizeBitmap(cropperImage);
 				base64ProfileImage = Utility.encodeTobase64(Image);
 				uploadImageToServer(base64ProfileImage);
+				session.createProfileImage(base64ProfileImage);
 			}
 
 			break;
@@ -227,6 +253,7 @@ public class ProfileFragment extends Fragment {
 				Bitmap Image = Utility.ResizeBitmap(cropperImage);
 				base64ProfileImage = Utility.encodeTobase64(Image);
 				uploadImageToServer(base64ProfileImage);
+				session.createProfileImage(base64ProfileImage);
 			}
 
 			break;
@@ -279,6 +306,7 @@ public class ProfileFragment extends Fragment {
 			public void run() {
 
 				_image.setImageBitmap(bitmapProfile);
+				isprofileImageSet = true;
 			}
 		};
 

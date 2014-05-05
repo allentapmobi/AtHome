@@ -130,30 +130,41 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 			break;
 
 		case R.id.btnCall:
-			if (phoneNumber != null) {
+			txtPhoneNo.setText("");
+			if (phoneNumber != null && !phoneNumber.equals("")) {
 				new RegisterCallLogsAsync().execute();
-				txtPhoneNo.setText("");
 			}
 			break;
 		}
 
 	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		txtPhoneNo.setText("");
+	}
+
 	public class RegisterCallLogsAsync extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Utility.regInCallLogs(phoneNumber, 1);
-			MainActivity.initSipManager();
-			// Initialize SipManager
+			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
+
+				Utility.regInCallLogs(phoneNumber, 1);
+				MainActivity.initSipManager();
+				// Initialize SipManager
+			}
 			return null;
 		}
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			if (SipRegisteration.isRegisteredWithSip) {
-				sip.initiateCall(phoneNumber);
+			txtPhoneNo.setText("");
+			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
+				// sip.initiateCall(phoneNumber);
 				Intent i = new Intent(getActivity().getApplicationContext(), InCallActivity.class);
 				i.putExtra("CONTACT_NUMBER", phoneNumber);
 				startActivity(i);

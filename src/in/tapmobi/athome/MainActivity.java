@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.Window;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;
@@ -27,6 +28,7 @@ public class MainActivity extends FragmentActivity {
 	public IncomingCallReceiver callReceiver;
 
 	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);

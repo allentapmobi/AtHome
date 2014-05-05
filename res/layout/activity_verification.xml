@@ -52,4 +52,6 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <include layout="@layout/progress_dialog_custom" />
+
 </RelativeLayout>
