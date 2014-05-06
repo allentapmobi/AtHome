@@ -97,7 +97,9 @@ public class ConversationActivity extends SherlockActivity {
 		protected Void doInBackground(Void... params) {
 			Utility.regInMsgLogs(Name, Number, txtMsg);
 			try {
-				boolean success = ServerAPI.sendSms(Number, Number, txtMsg);
+				Number.replaceAll("[\\s\\-()]", "");
+				System.out.println(Number);
+				boolean success = ServerAPI.sendSms(Number, txtMsg);
 				if (success) {
 					Toast.makeText(getApplicationContext(), "Msg sent successfully", Toast.LENGTH_SHORT).show();
 				}

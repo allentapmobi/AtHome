@@ -5,10 +5,11 @@ import in.tapmobi.athome.R;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.edmodo.cropper.CropImageView;
 
 public class ImageCropperUtil extends SherlockActivity {
@@ -26,6 +27,7 @@ public class ImageCropperUtil extends SherlockActivity {
 	Bitmap originalImage;
 	CropImageView cropImageView;
 	ImageView ivPreview;
+	Button btnRotate, btnPreview, btnDone;
 
 	// Saves the state upon rotating the screen/restarting the activity
 	@Override
@@ -54,6 +56,9 @@ public class ImageCropperUtil extends SherlockActivity {
 			originalImage = ProfileFragment.cropperImage;
 
 		ivPreview = (ImageView) findViewById(R.id.ivPreview);
+		btnDone = (Button) findViewById(R.id.btnDone);
+		btnPreview = (Button) findViewById(R.id.btnPreview);
+		btnRotate = (Button) findViewById(R.id.btnRotate);
 
 		// Initialize components of the app
 		cropImageView = (CropImageView) findViewById(R.id.CropImageView);
@@ -62,13 +67,41 @@ public class ImageCropperUtil extends SherlockActivity {
 		cropImageView.setAspectRatio(DEFAULT_ASPECT_RATIO_VALUES, DEFAULT_ASPECT_RATIO_VALUES);
 		cropImageView.setImageBitmap(originalImage);
 
+		// Button Preview clicked and response.
+		btnPreview.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ivPreview.setImageDrawable(new RoundedImage(cropImageView.getCroppedImage()));
+
+			}
+		});
+
+		// Button Rotate and rotated image to be set as source.
+		btnRotate.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				cropImageView.rotateImage(ROTATE_NINETY_DEGREES);
+			}
+		});
+
+		// Button done and save the image and set it as profile Image
+		btnDone.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onBackPressed();
+			}
+		});
+
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		// Set title
-		//getSupportActionBar().setTitle("Cropper");
+		// getSupportActionBar().setTitle("Cropper");
 	}
 
 	@Override
@@ -77,40 +110,40 @@ public class ImageCropperUtil extends SherlockActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// app icon in action bar clicked; finish activity to go home
-			onBackPressed();
-			break;
-		case R.id.menu_rotate:
-			// Rotate
-			cropImageView.rotateImage(ROTATE_NINETY_DEGREES);
-			break;
-		case R.id.menu_crop:
-			// Crop
-			// DashBoardActivity.cropperImage = cropImageView.getCroppedImage();
-			// Intent intent = new Intent();
-			// setResult(RESULT_OK, intent);
-			// ImageCropperUtil.this.finish();
-			ivPreview.setImageDrawable(new RoundedImage(cropImageView.getCroppedImage()));
-
-			break;
-		// case R.id.menu_done:
-		// // Crop
-		// DashBoardActivity.cropperImage = cropImageView.getCroppedImage();
-		// Intent intent = new Intent();
-		// setResult(RESULT_OK, intent);
-		// ImageCropperUtil.this.finish();
-		// break;
-
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item) {
+	//
+	// switch (item.getItemId()) {
+	// case android.R.id.home:
+	// // app icon in action bar clicked; finish activity to go home
+	// onBackPressed();
+	// break;
+	// case R.id.menu_rotate:
+	// // Rotate
+	// cropImageView.rotateImage(ROTATE_NINETY_DEGREES);
+	// break;
+	// case R.id.menu_crop:
+	// // Crop
+	// // DashBoardActivity.cropperImage = cropImageView.getCroppedImage();
+	// // Intent intent = new Intent();
+	// // setResult(RESULT_OK, intent);
+	// // ImageCropperUtil.this.finish();
+	// ivPreview.setImageDrawable(new RoundedImage(cropImageView.getCroppedImage()));
+	//
+	// break;
+	// // case R.id.menu_done:
+	// // // Crop
+	// // DashBoardActivity.cropperImage = cropImageView.getCroppedImage();
+	// // Intent intent = new Intent();
+	// // setResult(RESULT_OK, intent);
+	// // ImageCropperUtil.this.finish();
+	// // break;
+	//
+	// default:
+	// break;
+	// }
+	// return super.onOptionsItemSelected(item);
+	// }
 
 	@Override
 	public void onBackPressed() {
@@ -120,7 +153,7 @@ public class ImageCropperUtil extends SherlockActivity {
 			setResult(RESULT_OK, intent);
 		}
 		super.onBackPressed();
-		//overridePendingTransition(R.anim.fade_out_main, R.anim.close_next);
+		// overridePendingTransition(R.anim.fade_out_main, R.anim.close_next);
 	}
 
 }

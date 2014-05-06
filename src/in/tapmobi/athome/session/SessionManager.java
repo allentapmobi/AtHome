@@ -45,6 +45,7 @@ public class SessionManager {
 	public static final String SIP_USERNAME = "SipUsername";
 	public static final String SIP_USERPROFIL_IMG = "SipProfilePicture";
 	public static final String IS_TOGGLE_ACTIVE = "IsAppActive";
+	public static final String VERIFICATION_CODE = "UserVerificationCode";
 
 	// Constructor
 	@SuppressLint("CommitPrefEdits")
@@ -273,5 +274,21 @@ public class SessionManager {
 		editor.putString(SIP_USERPROFIL_IMG, base64Image);
 
 		editor.commit();
+	}
+
+	public void createVerificationCode(String code) {
+
+		editor.putString(VERIFICATION_CODE, code);
+
+		editor.commit();
+	}
+
+	public String getVerificationCode() {
+
+		String verificationCode = pref.getString(VERIFICATION_CODE, null);
+
+		editor.commit();
+
+		return verificationCode;
 	}
 }

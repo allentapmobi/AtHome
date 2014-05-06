@@ -81,6 +81,8 @@ public class MessageLogsFragment extends Fragment {
 
 			}
 		});
+		
+		
 
 		btnCompose.setOnClickListener(new View.OnClickListener() {
 

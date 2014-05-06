@@ -56,8 +56,9 @@ public class VerificationActivity extends Activity {
 				Utility.hideSoftKeyboard(VerificationActivity.this);
 
 				String code = etVerificationCode.getText().toString();
+				String generatedCode = session.getVerificationCode();
 
-				if (code != null && !code.equals("") && code.equals("4004")) {
+				if (code != null && !code.equals("") && code.equals(generatedCode)) {
 					progressLayout.setVisibility(View.VISIBLE);
 					getProfileForMsisdn(Msisdn);
 					// Save the registered and verified number in shared preferences.

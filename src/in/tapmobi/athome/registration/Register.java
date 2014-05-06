@@ -161,7 +161,7 @@ public class Register {
 						new Thread(new Runnable() {
 							@Override
 							public void run() {
-								mServerResponse = ServerAPI.verifyMSISDN(message);
+								// mServerResponse = ServerAPI.verifyMSISDN(message);
 								myHandler.post(updateRunnable);
 							}
 

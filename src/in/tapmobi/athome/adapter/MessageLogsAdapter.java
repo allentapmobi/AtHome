@@ -42,13 +42,13 @@ public class MessageLogsAdapter extends BaseAdapter {
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return null;
+		return mMessage.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		return 0;
+		return position;
 	}
 
 	@SuppressLint("SimpleDateFormat")
@@ -81,7 +81,7 @@ public class MessageLogsAdapter extends BaseAdapter {
 		txtMsgs = msgsLogs.getTxtMsg();
 		if (Name != null) {
 			holder.ContactName.setText(Name);
-			holder.ContactNumber.setText("("+ number + ")");
+			holder.ContactNumber.setText("(" + number + ")");
 
 		} else {
 			holder.ContactName.setText(number);

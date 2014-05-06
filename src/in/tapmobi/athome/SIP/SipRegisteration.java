@@ -134,6 +134,7 @@ public class SipRegisteration {
 		try {
 			if (mProfile != null) {
 				mSipManager.close(mProfile.getUriString());
+				System.out.println("Closed local profile");
 			}
 		} catch (Exception ee) {
 			Log.d("onDestroy", "Failed to close local profile.", ee);

@@ -25,7 +25,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -377,7 +376,7 @@ public class Utility {
 		byte[] b = baos.toByteArray();
 		String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
-		Log.e("LOOK", imageEncoded);
+		Log.v("ENCODING IMAGE", imageEncoded);
 		return imageEncoded;
 	}
 
@@ -392,7 +391,7 @@ public class Utility {
 			Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
 			return bitmap;
 		} catch (Exception e) {
-			System.out.println(""+e.getMessage());
+			System.out.println("" + e.getMessage());
 			return null;
 		}
 	}
@@ -403,47 +402,10 @@ public class Utility {
 		// do {
 		imageSize = image.getRowBytes() * image.getHeight();
 		System.out.println("Before Image resize Byte size" + imageSize);
-		image = Bitmap.createScaledBitmap(image, 90, 90, true);
+		image = Bitmap.createScaledBitmap(image, 150, 150, true);
 		System.out.println("After Image resize Byte size - > " + image.getRowBytes() * image.getHeight());
 		// } while (imageSize >= 1200);
 		return image;
-	}
-
-	Bitmap ShrinkBitmap(Bitmap img, int width, int height) {
-
-		BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
-		bmpFactoryOptions.inJustDecodeBounds = true;
-		// Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-
-		int heightRatio = (int) Math.ceil(bmpFactoryOptions.outHeight / (float) height);
-		int widthRatio = (int) Math.ceil(bmpFactoryOptions.outWidth / (float) width);
-
-		if (heightRatio > 1 || widthRatio > 1) {
-			if (heightRatio > widthRatio) {
-				bmpFactoryOptions.inSampleSize = heightRatio;
-			} else {
-				bmpFactoryOptions.inSampleSize = widthRatio;
-			}
-		}
-
-		bmpFactoryOptions.inJustDecodeBounds = false;
-		// bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-		byte[] imageInByte = stream.toByteArray();
-		System.out.println("Lenght of the bitmap before" + imageInByte.length);
-		// this gives the size of the compressed image in kb
-		long lengthbmp = imageInByte.length / 1024;
-
-		try {
-			img.compress(CompressFormat.JPEG, 100, new FileOutputStream(""));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return img;
 	}
 
 }

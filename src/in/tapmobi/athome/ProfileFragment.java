@@ -57,6 +57,7 @@ public class ProfileFragment extends Fragment {
 	public static boolean isprofileImageSet = false;
 
 	SessionManager session;
+	SipRegisteration sipReg;
 
 	String ValidDate;
 	String base64ProfileImage = null;
@@ -78,6 +79,7 @@ public class ProfileFragment extends Fragment {
 		System.out.println(ValidDate);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
+		sipReg = new SipRegisteration(getActivity().getApplicationContext());
 
 		try {
 			date = sdf.parse(ValidDate);
@@ -111,7 +113,7 @@ public class ProfileFragment extends Fragment {
 					MainActivity.initSipManager();
 
 				} else {
-
+					sipReg.closeLocalProfile();
 					isActivated = false;
 					session.createToggleState(isActivated);
 				}
@@ -142,14 +144,10 @@ public class ProfileFragment extends Fragment {
 		});
 
 		// Get image from shared preferences and set as profile image
-		setProfileImage();
+		if (!isprofileImageSet) {
+			setProfileImage();
+		}
 
-		// if (Utility.GetBitmapFromFile("UserProfileImage") != null) {
-		// _image.setImageBitmap(Utility.GetBitmapFromFile("UserProfileImage"));
-		// // imageBitmap = Utility.GetBitmapFromFile("UserProfileImage");
-		// // imageBitmap = Utility.getRoundedCornerImage(imageBitmap);
-		// // _image.setImageBitmap(imageBitmap);
-		// }
 		_image.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -164,12 +162,22 @@ public class ProfileFragment extends Fragment {
 		base64ProfileImage = session.getProfileImage();
 
 		if (!base64ProfileImage.equals("") && base64ProfileImage != null && !base64ProfileImage.equals("null")) {
-			if (!isprofileImageSet) {
-				bitmapProfile = Utility.decodeBase64(base64ProfileImage);
-				if (bitmapProfile != null)
-					_image.setImageBitmap(bitmapProfile);
-			}
+
+			bitmapProfile = Utility.decodeBase64(base64ProfileImage);
+			if (bitmapProfile != null)
+				bitmapProfile = Utility.getRoundedCornerImage(bitmapProfile);
+
+			// businessLogo = new RoundedImage(cropperImage);
+			// final float scale = this.getResources().getDisplayMetrics().density;
+			// int pixels = (int) (68 * scale + 0.5f);
+			// _image.getLayoutParams().height = pixels;
+			// _image.getLayoutParams().width = pixels;
+			// _image.setImageDrawable(businessLogo);
+
+			_image.setImageBitmap(bitmapProfile);
+			isprofileImageSet = true;
 		}
+
 	}
 
 	public void changeImageSelection() {
@@ -316,6 +324,13 @@ public class ProfileFragment extends Fragment {
 	public void onPause() {
 		super.onPause();
 
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		setProfileImage();
 	}
 
 }

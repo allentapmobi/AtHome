@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.Window;
-import android.widget.TabHost.OnTabChangeListener;
 import android.widget.Toast;
 
 import com.viewpagerindicator.TabPageIndicator;

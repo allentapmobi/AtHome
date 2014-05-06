@@ -45,7 +45,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 	Dialog dialog;
 	Register mRegister;
-	String message;
+	String message, verificationCode;
 
 	Runnable updateUserVerifyRunnable, updateRunnable, updateRunnableProfile, runnableReg, runnableVerify;
 	Handler myHandler = new Handler();
@@ -113,56 +113,6 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	// private void getProfileForMsisdn(final String mEtMsisdn) {
-	// new Thread(new Runnable() {
-	//
-	// @Override
-	// public void run() {
-	// try {
-	//
-	// UserProfile usrPofile = new UserProfile();
-	// usrPofile = ServerAPI.getUserProfile(mEtMsisdn);
-	//
-	// if (usrPofile.SipUsername != null) {
-	//
-	// // Store the profile in preferences locally
-	// session.createSipUserProfile(usrPofile);
-	//
-	// myHandler.post(runnableReg);
-	//
-	// } else {
-	// registerNumber(mEtMsisdn);
-	// }
-	// } catch (Exception e) {
-	// myHandler.post(runnableVerify);
-	// }
-	//
-	// }
-	// }).start();
-	//
-	// runnableReg = new Runnable() {
-	//
-	// @Override
-	// public void run() {
-	//
-	// progressLayout.setVisibility(View.GONE);
-	// Intent i = new Intent(RegisterationActivity.this, MainActivity.class);
-	// startActivity(i);
-	// RegisterationActivity.this.finish();
-	//
-	// }
-	// };
-	//
-	// runnableVerify = new Runnable() {
-	//
-	// @Override
-	// public void run() {
-	// registerNumber(mEtMsisdn);
-	// }
-	// };
-	//
-	// }
-
 	private void registerNumber(final String phoneNumber) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(RegisterationActivity.this);
@@ -202,8 +152,8 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 				Random r = new Random();
 				int i1 = r.nextInt(max - min + 1) + min;
-				message = String.valueOf(i1);
-
+				message = "Please enter" + String.valueOf(i1) + "into @home app.";
+				verificationCode = String.valueOf(i1);
 				Thread thread = new Thread(new Runnable() {
 
 					@Override
@@ -211,7 +161,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 						try {
 
-							success = ServerAPI.sendSms(phoneNumber, null, message);
+							success = ServerAPI.sendSms(phoneNumber, message);
 							myHandler.post(updateRunnable);
 							// if (success) {
 							// updateActivity();
@@ -235,6 +185,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 							if (success) {
 								// session.createPhoneNumber(phoneNumber);
+								session.createVerificationCode(verificationCode);
 								updateActivity();
 
 							}

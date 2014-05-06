@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/accImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="50dp"
@@ -133,27 +133,44 @@
         android:textColor="@color/theme_text"
         android:textSize="14sp" />
 
-    <ToggleButton
-        android:id="@+id/tbActivate"
-        style="@style/ToggleAtHome"
+    <LinearLayout
+        android:id="@+id/ActivitateLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvSubValidity"
+        android:layout_below="@id/tvSubValidity"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:padding="10dp"
-        android:textOff="Activate"
-        android:textOn="De-Activate" />
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text=" @Home :"
+            android:textColor="@color/theme_text"
+            android:textSize="16sp" />
+
+        <ToggleButton
+            android:id="@+id/tbActivate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bgtoggle"
+            android:button="@null"
+            android:textOff=""
+            android:textOn="" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonReferesh"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tbActivate"
+        android:layout_below="@+id/ActivitateLayout"
         android:layout_centerHorizontal="true"
         android:background="@drawable/athome_theme_button"
         android:text="Update Subscription"
         android:textColor="@color/WhiteSmoke"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
 </RelativeLayout>

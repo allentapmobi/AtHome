@@ -3,6 +3,7 @@ package in.tapmobi.athome;
 import in.tapmobi.athome.adapter.ContactListAdapter;
 import in.tapmobi.athome.database.DataBaseHandler;
 import in.tapmobi.athome.models.CallLog;
+import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.registration.RegisterationActivity;
 import in.tapmobi.athome.sip.SipRegisteration;
 import in.tapmobi.athome.util.Utility;
@@ -168,14 +169,20 @@ public class ContactsFragment extends Fragment {
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Msisdn = RegisterationActivity.mContact.get(pos).getNumber();
-				UserName = RegisterationActivity.mContact.get(pos).getName();
+			public void onItemClick(AdapterView<?> parent, View arg1, int pos, long arg3) {
+
+				ContactsModel data = (ContactsModel) parent.getItemAtPosition(pos);
+				Msisdn = data.getNumber();
+				UserName = data.getName();
+				// Msisdn = RegisterationActivity.mContact.get(pos).getNumber();
+				// UserName = RegisterationActivity.mContact.get(pos).getName();
 				try {
 					// sPhotoUri = Utility.CallLogs.get(pos).getContactPhotoUri();
-					sPhotoUri = RegisterationActivity.mContact.get(pos).getContactPhotoUri();
+					// sPhotoUri = RegisterationActivity.mContact.get(pos).getContactPhotoUri();
+					sPhotoUri = data.getContactPhotoUri();
 					// sPhotoImg = Utility.CallLogs.get(pos).getContactPhoto();
-					sPhotoImg = RegisterationActivity.mContact.get(pos).getContactPhoto();
+					// sPhotoImg = RegisterationActivity.mContact.get(pos).getContactPhoto();
+					sPhotoImg = data.getContactPhoto();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

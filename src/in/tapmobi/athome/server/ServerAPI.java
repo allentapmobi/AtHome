@@ -25,18 +25,14 @@ import android.util.Log;
 public class ServerAPI {
 	public static ArrayList<UserProfile> mUserProfile;
 
-	private static String getServerUrlForOperation(String operation, Boolean flag) {
+	private static String getServerUrlForOperation(String operation) {
 		String url = null;
-		if (flag) {
-			url = "http://sonycrbt.tapmobi.in/ServiceV1/" + operation;
-		} else {
-			url = "http://homeapi.tapmobi.in/api/" + operation;
-		}
+		url = "http://homeapi.tapmobi.in/api/" + operation;
 		return url;
 	}
 
-	public static ServerResponse PostDataWithXml(String requestXml, String operation, String requestMethod, Boolean isRegisteration) {
-		String strUrl = getServerUrlForOperation(operation, isRegisteration);
+	public static ServerResponse PostDataWithXml(String requestXml, String operation, String requestMethod) {
+		String strUrl = getServerUrlForOperation(operation);
 		String finalResult = null;
 		ServerResponse sr = new ServerResponse();
 		HttpClient client = new DefaultHttpClient();
@@ -96,14 +92,14 @@ public class ServerAPI {
 		return sr;
 	}
 
-	// VERIFICATION
-	public static String verifyMSISDN(String guidCode) {
-
-		ServerResponse serverResponse = PostDataWithXml(null, "Msisdn/" + guidCode, "GET", true);
-
-		return serverResponse.getResponseString();
-
-	}
+	// // VERIFICATION
+	// public static String verifyMSISDN(String guidCode) {
+	//
+	// ServerResponse serverResponse = PostDataWithXml(null, "Msisdn/" + guidCode, "GET", true);
+	//
+	// return serverResponse.getResponseString();
+	//
+	// }
 
 	// ////////////////////////// MISC /////////////////////////////////
 	// private static Document getDomElement(String xml) {
@@ -144,7 +140,7 @@ public class ServerAPI {
 		UserProfile user = new UserProfile();
 		String registerUriJson = "{\"Msisdn\":" + "\"" + verifiedMsisdn + "\",\"Name\":" + "\"" + Name + "\",\"Email\":" + "\"" + Email + "\"" + "}";
 
-		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription/Create", "POST", false);
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription/Create", "POST");
 
 		// responseString = serverresponse.getResponseString();
 		try {
@@ -173,7 +169,7 @@ public class ServerAPI {
 
 		UserProfile usrProfile = new UserProfile();
 		String registerUriJson = "";
-		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Profile/Get?msisdn=" + Msisdn, "GET", false);
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Profile/Get?msisdn=" + Msisdn, "GET");
 
 		try {
 
@@ -202,16 +198,16 @@ public class ServerAPI {
 
 		String registerUriJson = "";
 
-		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription/Delete?msisdn=" + Msisdn, "GET", false);
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Subscription/Delete?msisdn=" + Msisdn, "GET");
 
 		return serverResponse.getSuccess();
 	}
 
-	public static Boolean sendSms(String senderNumber, String receiverNumber, String text) {
+	public static Boolean sendSms(String senderNumber, String text) {
 
-		String registerUriJson = "{\"To\":" + "\"" + receiverNumber + "\",\"Text\":" + "\"" + text + "\"" + "}";
+		String registerUriJson = "{\"To\":" + "\"" + senderNumber + "\",\"Text\":" + "\"" + text + "\"" + "}";
 
-		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message/Send", "POST", false);
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message/Send", "POST");
 
 		return serverResponse.getSuccess();
 	}
@@ -220,7 +216,7 @@ public class ServerAPI {
 
 		String registerUriJson = "{\"Msisdn\":" + "\"" + msisdn + "\",\"Base64ProfilePhoto\":" + "\"" + Base64ProfilePhoto + "\"" + "}";
 
-		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Profile/Photo", "POST", false);
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Profile/Photo", "POST");
 
 		return serverResponse.getSuccess();
 

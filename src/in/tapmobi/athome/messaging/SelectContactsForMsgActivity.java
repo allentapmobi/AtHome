@@ -4,6 +4,7 @@ import in.tapmobi.athome.MainActivity;
 import in.tapmobi.athome.MessageLogsFragment;
 import in.tapmobi.athome.R;
 import in.tapmobi.athome.adapter.ContactListAdapter;
+import in.tapmobi.athome.models.ContactsModel;
 import in.tapmobi.athome.registration.RegisterationActivity;
 import in.tapmobi.athome.util.Utility;
 import android.annotation.SuppressLint;
@@ -84,10 +85,14 @@ public class SelectContactsForMsgActivity extends Activity {
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			public void onItemClick(AdapterView<?> parent, View arg1, int pos, long arg3) {
 
-				String Name = RegisterationActivity.mContact.get(pos).getName();
-				String Number = RegisterationActivity.mContact.get(pos).getNumber();
+				ContactsModel data = (ContactsModel) parent.getItemAtPosition(pos);
+				String Name = data.getName();
+				String Number = data.getNumber();
+
+				// String Name = RegisterationActivity.mContact.get(pos).getName();
+				// String Number = RegisterationActivity.mContact.get(pos).getNumber();
 				MessageLogsFragment.msgBasedCtx = msgLogFrag.getMsgTxtBasedOnNumber(Number);
 				Intent i = new Intent(SelectContactsForMsgActivity.this, ConversationActivity.class);
 				i.putExtra("TEXT_NAME", Name);

@@ -10,20 +10,20 @@ public final class R {
 	public static final class drawable {
 		public static final int back = 0x7f020099;
 		public static final int back_icon = 0x7f02009a;
-		public static final int camera_capture = 0x7f0200ba;
-		public static final int camera_close = 0x7f0200bb;
-		public static final int capture_icon = 0x7f0200bc;
-		public static final int effects_icon = 0x7f0200ec;
-		public static final int exit = 0x7f0200f4;
-		public static final int flash_auto_icon = 0x7f0200fa;
-		public static final int flash_off_icon = 0x7f0200fb;
-		public static final int flash_on_icon = 0x7f0200fc;
-		public static final int flash_red_eye = 0x7f0200fd;
-		public static final int flash_torch = 0x7f0200fe;
-		public static final int order_bg_grey = 0x7f02016e;
-		public static final int settings_icon = 0x7f02019a;
-		public static final int zoom_block = 0x7f0201e2;
-		public static final int zoom_icon = 0x7f0201e3;
+		public static final int camera_capture = 0x7f0200bb;
+		public static final int camera_close = 0x7f0200bc;
+		public static final int capture_icon = 0x7f0200bd;
+		public static final int effects_icon = 0x7f0200ed;
+		public static final int exit = 0x7f0200f5;
+		public static final int flash_auto_icon = 0x7f0200fb;
+		public static final int flash_off_icon = 0x7f0200fc;
+		public static final int flash_on_icon = 0x7f0200fd;
+		public static final int flash_red_eye = 0x7f0200fe;
+		public static final int flash_torch = 0x7f0200ff;
+		public static final int order_bg_grey = 0x7f020171;
+		public static final int settings_icon = 0x7f02019d;
+		public static final int zoom_block = 0x7f0201e5;
+		public static final int zoom_icon = 0x7f0201e6;
 	}
 	public static final class id {
 		public static final int btnCapture = 0x7f05007d;
