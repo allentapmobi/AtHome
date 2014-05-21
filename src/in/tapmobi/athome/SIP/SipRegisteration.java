@@ -42,7 +42,7 @@ public class SipRegisteration {
 			mSipManager = SipManager.newInstance(mContext);
 
 		}
-		
+
 		if (session.getToggleState()) {
 			initializeLocalProfile();
 		}
@@ -84,10 +84,10 @@ public class SipRegisteration {
 				Intent i = new Intent();
 				i.setAction("android.AtHome.INCOMING_CALL");
 				PendingIntent pi = PendingIntent.getBroadcast(mContext, 0, i, Intent.FILL_IN_DATA);
-				try{
-				mSipManager.open(mProfile, pi, null);
-				}catch(Exception e){
-					
+				try {
+					mSipManager.open(mProfile, pi, null);
+				} catch (Exception e) {
+					System.out.println("SIP MANAGER ERROR" + e);
 				}
 
 				// This listener must be added AFTER manager.open is
@@ -165,7 +165,7 @@ public class SipRegisteration {
 					call.startAudio();
 					Log.i("InitiateCall", "Call Established");
 
-					// call.setSpeakerMode(true);
+					call.setSpeakerMode(true);
 					// call.toggleMute();
 					// updateStatus(mCall);
 				}

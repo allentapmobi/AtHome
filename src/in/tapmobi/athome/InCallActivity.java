@@ -119,6 +119,7 @@ public class InCallActivity extends Activity {
 					txtMute.setTextColor(getResources().getColor(R.color.WhiteSmoke));
 					isMute = false;
 					SipRegisteration.mCall.toggleMute();
+					
 				} else {
 					layoutMute.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
 					txtMute.setTextColor(getResources().getColor(R.color.black));
