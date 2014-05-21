@@ -1,6 +1,5 @@
 package in.tapmobi.athome.sip;
 
-import in.tapmobi.athome.ProfileFragment;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.subscription.SubscriptionActivity;
 import android.app.PendingIntent;
@@ -43,6 +42,7 @@ public class SipRegisteration {
 			mSipManager = SipManager.newInstance(mContext);
 
 		}
+		
 		if (session.getToggleState()) {
 			initializeLocalProfile();
 		}
@@ -84,7 +84,11 @@ public class SipRegisteration {
 				Intent i = new Intent();
 				i.setAction("android.AtHome.INCOMING_CALL");
 				PendingIntent pi = PendingIntent.getBroadcast(mContext, 0, i, Intent.FILL_IN_DATA);
+				try{
 				mSipManager.open(mProfile, pi, null);
+				}catch(Exception e){
+					
+				}
 
 				// This listener must be added AFTER manager.open is
 				// called,Otherwise the methods arent guaranteed to fire.

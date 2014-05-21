@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/form"
         android:layout_alignParentTop="true"
+         android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
         android:divider="@null"
         android:dividerHeight="0dp" >
     </ListView>
@@ -23,16 +25,18 @@
         android:layout_alignParentLeft="true"
         android:layout_centerInParent="true"
         android:background="#ffffff"
+        android:layout_marginBottom="5dp"
         android:orientation="vertical" >
 
         <EditText
             android:id="@+id/editMsgsBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_margin="5dp"
             android:layout_toLeftOf="@+id/ibSend"
+            android:padding="5dp"
+            android:background="#e4e4e4"
             android:ems="10"
             android:inputType="textMultiLine"
             android:textColor="@color/theme_text" />

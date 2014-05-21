@@ -64,6 +64,7 @@ public class MessageLogsFragment extends Fragment {
 		mMsgLogAdapter = new MessageLogsAdapter(getActivity().getApplicationContext(), getMsgsFiltered);
 
 		lvMsgLogs.setAdapter(mMsgLogAdapter);
+		
 		lvMsgLogs.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

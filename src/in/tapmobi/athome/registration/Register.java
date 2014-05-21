@@ -1,7 +1,6 @@
 package in.tapmobi.athome.registration;
 
 import in.tapmobi.athome.MainActivity;
-import in.tapmobi.athome.server.ServerAPI;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.subscription.SubscriptionActivity;
 import in.tapmobi.athome.util.Utility;

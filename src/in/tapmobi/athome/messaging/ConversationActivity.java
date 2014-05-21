@@ -61,7 +61,6 @@ public class ConversationActivity extends SherlockActivity {
 		mMsgList = (ListView) findViewById(R.id.listMsgs);
 		mMsgAdapter = new MessageAdapter(getApplicationContext(), R.layout.msg_list_item);
 		mMsgList.setAdapter(mMsgAdapter);
-
 		// Call ServerApi to initiate msgs
 
 		btnSend.setOnClickListener(new View.OnClickListener() {

@@ -27,7 +27,11 @@ public class ServerAPI {
 
 	private static String getServerUrlForOperation(String operation) {
 		String url = null;
-		url = "http://homeapi.tapmobi.in/api/" + operation;
+//		if(operation.contains("Verify")){
+		url="http://athome.elasticbeanstalk.com/api/"+operation;	
+		// }else{
+		// url = "http://homeapi.tapmobi.in/api/" + operation;
+		// }
 		return url;
 	}
 
@@ -211,6 +215,16 @@ public class ServerAPI {
 
 		return serverResponse.getSuccess();
 	}
+	
+	public static Boolean verify(String senderNumber, int code) {
+
+		String registerUriJson = "{\"To\":" + "\"" + senderNumber + "\",\"Code\":" + code  + "}";
+
+		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message/Verify", "POST");
+
+		return serverResponse.getSuccess();
+	}
+
 
 	public static Boolean updateProfileImage(String msisdn, String Base64ProfilePhoto) {
 

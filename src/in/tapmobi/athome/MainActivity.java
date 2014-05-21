@@ -33,6 +33,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		sipReg = new SipRegisteration(MainActivity.this);
+		
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		width = dm.widthPixels;
 		height = dm.heightPixels;

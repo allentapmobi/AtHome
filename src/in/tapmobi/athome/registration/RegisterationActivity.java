@@ -151,7 +151,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 				int max = 3000000;
 
 				Random r = new Random();
-				int i1 = r.nextInt(max - min + 1) + min;
+				final int i1 = r.nextInt(max - min + 1) + min;
 				message = "Please enter" + String.valueOf(i1) + "into @home app.";
 				verificationCode = String.valueOf(i1);
 				Thread thread = new Thread(new Runnable() {
@@ -161,7 +161,7 @@ public class RegisterationActivity extends Activity implements OnClickListener {
 
 						try {
 
-							success = ServerAPI.sendSms(phoneNumber, message);
+							success = ServerAPI.verify(phoneNumber, i1);
 							myHandler.post(updateRunnable);
 							// if (success) {
 							// updateActivity();

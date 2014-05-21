@@ -118,10 +118,12 @@ public class InCallActivity extends Activity {
 					layoutMute.setBackgroundColor(getResources().getColor(R.color.darkgrey));
 					txtMute.setTextColor(getResources().getColor(R.color.WhiteSmoke));
 					isMute = false;
+					SipRegisteration.mCall.toggleMute();
 				} else {
 					layoutMute.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
 					txtMute.setTextColor(getResources().getColor(R.color.black));
 					isMute = true;
+					SipRegisteration.mCall.toggleMute();
 				}
 
 			}
@@ -152,10 +154,12 @@ public class InCallActivity extends Activity {
 					layoutSpeaker.setBackgroundColor(getResources().getColor(R.color.darkgrey));
 					txtSpeaker.setTextColor(getResources().getColor(R.color.WhiteSmoke));
 					isSpeaker = false;
+					SipRegisteration.mCall.setSpeakerMode(false);
 				} else {
 					layoutSpeaker.setBackgroundColor(getResources().getColor(R.color.theme_button_selector));
 					txtSpeaker.setTextColor(getResources().getColor(R.color.black));
 					isSpeaker = true;
+					SipRegisteration.mCall.setSpeakerMode(true);
 				}
 
 			}

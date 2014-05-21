@@ -119,7 +119,7 @@ public class ContactsFragment extends Fragment {
 
 			} else {
 				letterTextView.setText(alphabet.charAt(i) + "");
-				letterTextView.setTextSize(14f);
+				letterTextView.setTextSize(12f);
 				letterTextView.setGravity(Gravity.CENTER);
 				LayoutParams params = new LinearLayout.LayoutParams(28, 0, 1.0f);
 				letterTextView.setLayoutParams(params);
