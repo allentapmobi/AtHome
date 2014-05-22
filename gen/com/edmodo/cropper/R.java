@@ -15,24 +15,24 @@ public final class R {
 		public static final int imageResource = 0x7f010004;
 	}
 	public static final class color {
-		public static final int black_translucent = 0x7f060000;
+		public static final int black_translucent = 0x7f070000;
 	}
 	public static final class id {
-		public static final int CropOverlayView = 0x7f050085;
-		public static final int ImageView_image = 0x7f050084;
-		public static final int off = 0x7f050002;
-		public static final int on = 0x7f050000;
-		public static final int onTouch = 0x7f050001;
+		public static final int CropOverlayView = 0x7f060081;
+		public static final int ImageView_image = 0x7f060080;
+		public static final int off = 0x7f060002;
+		public static final int on = 0x7f060000;
+		public static final int onTouch = 0x7f060001;
 	}
 	public static final class layout {
 		public static final int crop_image_view = 0x7f030023;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f070000;
+		public static final int app_name = 0x7f080000;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f080000;
-		public static final int AppTheme = 0x7f080001;
+		public static final int AppBaseTheme = 0x7f090000;
+		public static final int AppTheme = 0x7f090001;
 	}
 	public static final class styleable {
 		public static final int[] CropImageView = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004 };

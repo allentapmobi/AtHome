@@ -14,7 +14,8 @@ import com.viewpagerindicator.IconPagerAdapter;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
 
-	private static final String[] CONTENT = { "Call Logs", "DialPad", "Contacts", "Messages", "Profile" };
+//	private static final String[] CONTENT = { "Call Logs", "DialPad", "Contacts", "Messages", "Profile" };
+	private static final String[] CONTENT = { "", "", "", "", "" };
 	private static final int[] ICONS = new int[] { R.drawable.pager_icon_clogs, R.drawable.pager_icon_dialpad, R.drawable.pager_icon_contacts, R.drawable.pager_icon_message,
 			R.drawable.pager_icon_profile };
 

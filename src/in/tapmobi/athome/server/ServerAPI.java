@@ -27,8 +27,8 @@ public class ServerAPI {
 
 	private static String getServerUrlForOperation(String operation) {
 		String url = null;
-//		if(operation.contains("Verify")){
-		url="http://athome.elasticbeanstalk.com/api/"+operation;	
+		// if(operation.contains("Verify")){
+		url = "http://athome.elasticbeanstalk.com/api/" + operation;
 		// }else{
 		// url = "http://homeapi.tapmobi.in/api/" + operation;
 		// }
@@ -99,7 +99,8 @@ public class ServerAPI {
 	// // VERIFICATION
 	// public static String verifyMSISDN(String guidCode) {
 	//
-	// ServerResponse serverResponse = PostDataWithXml(null, "Msisdn/" + guidCode, "GET", true);
+	// ServerResponse serverResponse = PostDataWithXml(null, "Msisdn/" +
+	// guidCode, "GET", true);
 	//
 	// return serverResponse.getResponseString();
 	//
@@ -131,7 +132,8 @@ public class ServerAPI {
 
 	// private static String getTagValue(String sTag, Element eElement) {
 	// String response = null;
-	// NodeList nList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
+	// NodeList nList =
+	// eElement.getElementsByTagName(sTag).item(0).getChildNodes();
 	// if (eElement.getNodeType() == Node.ELEMENT_NODE) {
 	// if (nList != null && nList.getLength() > 0) {
 	// response = nList.item(0).getNodeValue();
@@ -215,16 +217,15 @@ public class ServerAPI {
 
 		return serverResponse.getSuccess();
 	}
-	
+
 	public static Boolean verify(String senderNumber, int code) {
 
-		String registerUriJson = "{\"To\":" + "\"" + senderNumber + "\",\"Code\":" + code  + "}";
+		String registerUriJson = "{\"To\":" + "\"" + senderNumber + "\",\"Code\":" + code + "}";
 
 		ServerResponse serverResponse = PostDataWithXml(registerUriJson, "Message/Verify", "POST");
 
 		return serverResponse.getSuccess();
 	}
-
 
 	public static Boolean updateProfileImage(String msisdn, String Base64ProfilePhoto) {
 
@@ -234,6 +235,30 @@ public class ServerAPI {
 
 		return serverResponse.getSuccess();
 
+	}
+
+	public static UserProfile updateSubscription(String Msisdn) {
+		UserProfile usrProfile = new UserProfile();
+		ServerResponse serverResponse = PostDataWithXml(null, "Subscription/Update?msisdn=" + Msisdn, "GET");
+		try {
+
+			System.out.println("" + serverResponse.getResponseString().toString());
+			JSONObject jObj = new JSONObject(serverResponse.getResponseString().toString());
+			usrProfile.Msisdn = jObj.getString("Msisdn");
+			usrProfile.Name = jObj.getString("Name");
+			usrProfile.Email = jObj.getString("Email");
+			usrProfile.SubscribedDate = jObj.getString("SubscribedDate");
+			usrProfile.ValidityDate = jObj.getString("ValidityDate");
+			usrProfile.SipPassword = jObj.getString("SipPassword");
+			usrProfile.SipPort = jObj.getString("SipPort");
+			usrProfile.SipServer = jObj.getString("SipServer");
+			usrProfile.SipUsername = jObj.getString("SipUsername");
+			usrProfile.Base64ProfilePhoto = jObj.getString("Base64ProfilePhoto");
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return usrProfile;
 	}
 
 }

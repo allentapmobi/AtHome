@@ -66,34 +66,33 @@
 
         <TableRow>
 
-            <LinearLayout
-                android:id="@+id/layoutMuteButton"
-                android:layout_width="0dp"
+            <ToggleButton
+                android:id="@+id/toggleMute"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="2"
-                android:background="@drawable/custom_button_selector"
-                android:clickable="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:background="@drawable/athome_btn_toggle_holo_light"
+                android:checked="true"
+                android:padding="15dp"
+                android:textOff="UnMute"
+                android:textOn="Mute"
+                android:textSize="14sp" />
 
-                <ImageButton
-                    android:id="@+id/btnMute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:contentDescription="@string/app_name"
-                    android:padding="10dp"
-                    android:src="@drawable/mute" />
+            <ToggleButton
+                android:id="@+id/toggleSpeaker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="2"
+                android:background="@drawable/athome_btn_toggle_holo_light"
+                android:checked="true"
+                android:padding="15dp"
+                android:textOff="Speaker Off"
+                android:textOn="Speaker On"
+                android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/txtMute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mute"
-                    android:textColor="@color/theme_sub_header_text" />
-            </LinearLayout>
-
+            <!--
             <LinearLayout
                 android:id="@+id/layoutSpeakerButton"
                 android:layout_width="0dp"
@@ -121,6 +120,8 @@
                     android:text="Speaker"
                     android:textColor="@color/theme_sub_header_text" />
             </LinearLayout>
+            -->
+
         </TableRow>
 
         <TableRow>

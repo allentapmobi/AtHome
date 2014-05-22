@@ -1,5 +1,6 @@
 package in.tapmobi.athome;
 
+import in.tapmobi.athome.models.UserProfile;
 import in.tapmobi.athome.server.ServerAPI;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.sip.SipRegisteration;
@@ -15,6 +16,7 @@ import java.util.Date;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore.MediaColumns;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,18 +61,19 @@ public class ProfileFragment extends Fragment {
 
 	SessionManager session;
 	SipRegisteration sipReg;
-
+	ProgressDialog pd;
 	String ValidDate;
 	String base64ProfileImage = null;
 
 	public static boolean isActivated;
 
 	Handler myHandler = new Handler();
-	Runnable runnableUpdatePic;
+	Runnable runnableUpdatePic, runnableUpdate;
 
 	String userName;
-
+	Boolean result;
 	Date date;
+	UserProfile user;
 
 	@SuppressLint("SimpleDateFormat")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +83,8 @@ public class ProfileFragment extends Fragment {
 		System.out.println(ValidDate);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		SimpleDateFormat sdf1 = new SimpleDateFormat("MM-dd-yyyy");
-		sipReg = new SipRegisteration(getActivity().getApplicationContext());
+		// sipReg = new SipRegisteration(getActivity().getApplicationContext(),getParent());
+		sipReg = new SipRegisteration(getActivity().getApplicationContext(), getActivity());
 
 		try {
 			date = sdf.parse(ValidDate);
@@ -97,7 +102,7 @@ public class ProfileFragment extends Fragment {
 		btnReferesh = (Button) rootView.findViewById(R.id.buttonReferesh);
 		tvSubValidity = (TextView) rootView.findViewById(R.id.tvSubValidity);
 		Activate = (ToggleButton) rootView.findViewById(R.id.tbActivate);
-
+		_image.setImageBitmap(Utility.decodeBase64(session.getProfileImage()));
 		// Get the toggle state from preferences
 		isActivated = session.getToggleState();
 		Activate.setChecked(isActivated);
@@ -139,7 +144,9 @@ public class ProfileFragment extends Fragment {
 		btnReferesh.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getActivity(), ValidDate, Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getActivity(), ValidDate,
+				// Toast.LENGTH_SHORT).show();
+				Update();
 			}
 		});
 
@@ -158,24 +165,55 @@ public class ProfileFragment extends Fragment {
 		return rootView;
 	}
 
+	protected void Update() {
+
+		pd = ProgressDialog.show(getActivity(), "", "Updating..", false, false);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (session.getUserPhoneNumber() != null)
+					user = ServerAPI.updateSubscription(session.getUserPhoneNumber());
+				myHandler.post(runnableUpdate);
+			}
+		}).start();
+
+		runnableUpdate = new Runnable() {
+
+			@Override
+			public void run() {
+				if (user != null) {
+					Toast.makeText(getActivity(), "Updated", Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getActivity(), "Updation failed.try Agian Later", Toast.LENGTH_SHORT).show();
+				}
+				pd.dismiss();
+			}
+		};
+	}
+
 	private void setProfileImage() {
 		base64ProfileImage = session.getProfileImage();
 
 		if (!base64ProfileImage.equals("") && base64ProfileImage != null && !base64ProfileImage.equals("null")) {
+			try {
+				bitmapProfile = Utility.decodeBase64(base64ProfileImage);
+				if (bitmapProfile != null)
+					bitmapProfile = Utility.getRoundedCornerImage(bitmapProfile);
 
-			bitmapProfile = Utility.decodeBase64(base64ProfileImage);
-			if (bitmapProfile != null)
-				bitmapProfile = Utility.getRoundedCornerImage(bitmapProfile);
+				// businessLogo = new RoundedImage(cropperImage);
+				// final float scale =
+				// this.getResources().getDisplayMetrics().density;
+				// int pixels = (int) (68 * scale + 0.5f);
+				// _image.getLayoutParams().height = pixels;
+				// _image.getLayoutParams().width = pixels;
+				// _image.setImageDrawable(businessLogo);
 
-			// businessLogo = new RoundedImage(cropperImage);
-			// final float scale = this.getResources().getDisplayMetrics().density;
-			// int pixels = (int) (68 * scale + 0.5f);
-			// _image.getLayoutParams().height = pixels;
-			// _image.getLayoutParams().width = pixels;
-			// _image.setImageDrawable(businessLogo);
-
-			_image.setImageBitmap(bitmapProfile);
-			isprofileImageSet = true;
+				_image.setImageBitmap(bitmapProfile);
+				isprofileImageSet = true;
+			} catch (Exception e) {
+				Toast.makeText(getActivity(), "Base64 decoding failed..", Toast.LENGTH_LONG).show();
+			}
 		}
 
 	}
@@ -209,6 +247,7 @@ public class ProfileFragment extends Fragment {
 				startActivityForResult(intent, RE_GET_LOGO_CAMERA);
 			}
 		});
+
 		builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
@@ -232,10 +271,6 @@ public class ProfileFragment extends Fragment {
 				cropperImage = ImageUtil.getScaledBitmap(options.getBitmapFile(), 960, 960);
 				startActivityForResult(cropper, RE_GET_CROPPED_IMAGE);
 				// Utility.SaveImage(cropperImage, "UserProfileImage");
-				Bitmap Image = Utility.ResizeBitmap(cropperImage);
-				base64ProfileImage = Utility.encodeTobase64(Image);
-				uploadImageToServer(base64ProfileImage);
-				session.createProfileImage(base64ProfileImage);
 			}
 
 			break;
@@ -258,10 +293,11 @@ public class ProfileFragment extends Fragment {
 				startActivityForResult(cropper, RE_GET_CROPPED_IMAGE);
 
 				// Utility.SaveImage(cropperImage, "UserProfileImage");
-				Bitmap Image = Utility.ResizeBitmap(cropperImage);
-				base64ProfileImage = Utility.encodeTobase64(Image);
-				uploadImageToServer(base64ProfileImage);
-				session.createProfileImage(base64ProfileImage);
+				/*
+				 * Bitmap Image = Utility.ResizeBitmap(cropperImage); base64ProfileImage = Utility.encodeTobase64(Image); int len =
+				 * base64ProfileImage.length(); Log.d("Length of Base64", String.valueOf(len)); uploadImageToServer(base64ProfileImage);
+				 * session.createProfileImage(base64ProfileImage);
+				 */
 			}
 
 			break;
@@ -275,6 +311,12 @@ public class ProfileFragment extends Fragment {
 				_image.getLayoutParams().height = pixels;
 				_image.getLayoutParams().width = pixels;
 				_image.setImageDrawable(businessLogo);
+				Bitmap Image = Utility.ResizeBitmap(cropperImage);
+				base64ProfileImage = Utility.encodeTobase64(Image);
+				int len = base64ProfileImage.length();
+				Log.d("Length of Base64", String.valueOf(len));
+				uploadImageToServer(base64ProfileImage);
+				session.createProfileImage(base64ProfileImage);
 			}
 
 			break;

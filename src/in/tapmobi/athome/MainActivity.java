@@ -32,8 +32,8 @@ public class MainActivity extends FragmentActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
-		sipReg = new SipRegisteration(MainActivity.this);
-		
+		sipReg = new SipRegisteration(MainActivity.this, MainActivity.this);
+
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		width = dm.widthPixels;
 		height = dm.heightPixels;
@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity {
 
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.pager_title_strip);
 		indicator.setViewPager(mViewPager);
-
+		initSipManager();
 	}
 
 	public static void initSipManager() {
@@ -94,7 +94,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		initSipManager();
+		// initSipManager();
 	}
 
 	@Override

@@ -26,9 +26,9 @@ public final class R {
 		public static final int zoom_icon = 0x7f0201e6;
 	}
 	public static final class id {
-		public static final int btnCapture = 0x7f05007d;
-		public static final int btnClose = 0x7f05007c;
-		public static final int frame = 0x7f05007b;
+		public static final int btnCapture = 0x7f060079;
+		public static final int btnClose = 0x7f060078;
+		public static final int frame = 0x7f060077;
 	}
 	public static final class layout {
 		public static final int camera_main = 0x7f03001f;

@@ -27,7 +27,7 @@ public class CallLogsFragment extends Fragment {
 	ListView lvCallLogs;
 	CallLogsAdapter mLogAdapter;
 	DataBaseHandler db;
-	SipRegisteration sip;
+	// SipRegisteration sip;
 	ArrayList<ContactsModel> mContacts = new ArrayList<ContactsModel>();
 	public static ArrayList<CallLog> logs = new ArrayList<CallLog>();
 	// HashMap<String, CallLogs> groupedCallLogs = new HashMap<String,
@@ -44,9 +44,10 @@ public class CallLogsFragment extends Fragment {
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_calllogs, container, false);
-		// Init Sip Manager
+		// Init Sip Manager for the first time if not it will not register.
+		MainActivity.initSipManager();
 
-		sip = new SipRegisteration(getActivity().getApplicationContext());
+		// sip = new SipRegisteration(getActivity().getApplicationContext());
 		db = new DataBaseHandler(getActivity().getApplicationContext());
 
 		if (Utility.CallLogs.size() > 0)
@@ -96,7 +97,7 @@ public class CallLogsFragment extends Fragment {
 		protected Void doInBackground(Void... params) {
 			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
 				Utility.regInCallLogs(Msisdn, 1);
-				MainActivity.initSipManager();
+				// MainActivity.initSipManager();
 			}
 			return null;
 		}

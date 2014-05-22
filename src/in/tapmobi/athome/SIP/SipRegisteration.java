@@ -1,7 +1,9 @@
 package in.tapmobi.athome.sip;
 
+import in.tapmobi.athome.InCallActivity;
 import in.tapmobi.athome.session.SessionManager;
 import in.tapmobi.athome.subscription.SubscriptionActivity;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +13,14 @@ import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
 import android.net.sip.SipRegistrationListener;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SipRegisteration {
 
 	public Context mContext;
+	public Activity mActivity;
 	public static String sipAddress = null;
 
 	public static SipManager mSipManager = null;
@@ -24,6 +29,8 @@ public class SipRegisteration {
 	public static String sUpdateStatus = null;
 	public static boolean isRegisteredWithSip;
 
+	final Handler handler = new Handler();
+
 	private SessionManager session;
 
 	// private static final int CALL_ADDRESS = 1;
@@ -31,8 +38,9 @@ public class SipRegisteration {
 	// private static final int UPDATE_SETTINGS_DIALOG = 3;
 	// private static final int HANG_UP = 4;
 
-	public SipRegisteration(Context ctx) {
+	public SipRegisteration(Context ctx, Activity activity) {
 		this.mContext = ctx;
+		this.mActivity = activity;
 		session = new SessionManager(mContext);
 
 	}
@@ -42,7 +50,7 @@ public class SipRegisteration {
 			mSipManager = SipManager.newInstance(mContext);
 
 		}
-
+		// Checks from the preferences wether the sip profile has been activated or deactivated.
 		if (session.getToggleState()) {
 			initializeLocalProfile();
 		}
@@ -146,9 +154,22 @@ public class SipRegisteration {
 	}
 
 	/**
-	 * Make an outgoing call.
+	 * Make an outgoing call.with a post delayed of 4 seconds. You can not call initiateCall() right after initializeManager(). You have to wait about
+	 * 4 seconds when the SIP components have initialized.
 	 */
-	public void initiateCall(String msisdn) {
+	public void initiateCall(final String msisdn) {
+		Log.v("INITIATE CALL", "initiate call timer starts");
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				Log.v("Timed CALL", "initiate call timer ends");
+				makeOutGoingCall(msisdn);
+			}
+		}, 4000);
+
+	}
+
+	private void makeOutGoingCall(String msisdn) {
 
 		sipAddress = msisdn + "@home.tapmobi.in";
 		// ProfileFragment.updateStatus(sipAddress);
@@ -162,20 +183,73 @@ public class SipRegisteration {
 				// established.
 				@Override
 				public void onCallEstablished(SipAudioCall call) {
-					call.startAudio();
-					Log.i("InitiateCall", "Call Established");
 
-					call.setSpeakerMode(true);
+					// Getting the beeper to play and stop before call getting established
+					// InCallActivity.beeper.stop();
+					// InCallActivity.beeper.release();
+					InCallActivity.txtCallStatus.setText("In Call...");
+
+					call.startAudio();
+					Log.v("InitiateCall", "Call Established");
+
 					// call.toggleMute();
 					// updateStatus(mCall);
+					// Start the timer in IncallActivity
+					InCallActivity.StartTimer();
 				}
 
 				@Override
 				public void onCallEnded(SipAudioCall call) {
 					sUpdateStatus = "Ready";
-					Log.i("InitiateCall", "Call Ended");
+					Log.v("InitiateCall", "Call Ended" + call.getPeerProfile().getDisplayName());
+					// ((Activity) mContext).finish();
+					mActivity.finish();
+					InCallActivity.txtCallStatus.setText("Call ended...");
+				}
+
+				@Override
+				public void onCalling(SipAudioCall call) {
+					// TODO Auto-generated method stub
+					super.onCalling(call);
+					Log.v("on Calling Method Listener", "Calling tring tring");
+
+				}
+
+				@Override
+				public void onError(SipAudioCall call, int errorCode, String errorMessage) {
+					// TODO Auto-generated method stub
+					super.onError(call, errorCode, errorMessage);
+					Log.v("onCall Error", errorMessage);
+					Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
+					// ((InCallActivity) mContext).finish();
+					mActivity.finish();
+
+				}
+
+				@Override
+				public void onCallBusy(SipAudioCall call) {
+					// TODO Auto-generated method stub
+					super.onCallBusy(call);
+					Log.v("onCallBusy", "Call Busy");
+				}
+
+				@Override
+				public void onCallHeld(SipAudioCall call) {
+					// TODO Auto-generated method stub
+					super.onCallHeld(call);
+					Log.v("onCallHeld", "Call is on Hold");
+				}
+
+				@Override
+				public void onChanged(SipAudioCall call) {
+					// TODO Auto-generated method stub
+					super.onChanged(call);
+					Log.v("onChanged", "Call changed");
 				}
 			};
+			Log.v("Profile---->", mProfile.getUriString());
+			Log.v("Sip Address---->", sipAddress);
+			Log.v("Listener---->", listener.toString());
 
 			mCall = mSipManager.makeAudioCall(mProfile.getUriString(), sipAddress, listener, 30);
 
@@ -193,6 +267,7 @@ public class SipRegisteration {
 				mCall.close();
 			}
 		}
+
 	}
 
 	public void endCall() {

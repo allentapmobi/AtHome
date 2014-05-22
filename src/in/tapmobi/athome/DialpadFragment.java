@@ -26,7 +26,8 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 	String UserName = null;
 	Utility util;
 	DialpadAdapter dialAdapter;
-	SipRegisteration sip;
+
+	// SipRegisteration sip;
 
 	// ArrayList<CallLogs> sLogs = new ArrayList<CallLogs>();
 	// int count = 0;
@@ -34,7 +35,7 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_dialpad, container, false);
 
-		sip = new SipRegisteration(getActivity().getApplicationContext());
+		// sip = new SipRegisteration(getActivity().getApplicationContext());
 
 		txtPhoneNo = (EditText) rootView.findViewById(R.id.txtPhoneNo);
 		txtPhoneNo.setText("");
@@ -153,7 +154,7 @@ public class DialpadFragment extends Fragment implements View.OnClickListener {
 			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
 
 				Utility.regInCallLogs(phoneNumber, 1);
-				MainActivity.initSipManager();
+				// MainActivity.initSipManager();
 				// Initialize SipManager
 			}
 			return null;

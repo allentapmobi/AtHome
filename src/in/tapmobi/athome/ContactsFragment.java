@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -95,33 +96,33 @@ public class ContactsFragment extends Fragment {
 		for (int i = 0; i < alphabet.length(); i++) {
 
 			TextView letterTextView = new TextView(getActivity().getApplicationContext());
-			if (MainActivity.height > 480) {
+			if (MainActivity.height > 800) {
 
 				letterTextView.setText(alphabet.charAt(i) + "");
-				letterTextView.setTextSize(14f);
+				// letterTextView.setTextSize(12f);
+				letterTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (MainActivity.height * 2.2 / 100));
 				letterTextView.setGravity(Gravity.CENTER);
-				LayoutParams params = new LinearLayout.LayoutParams(28, 0, 1.0f);
+				LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				letterTextView.setLayoutParams(params);
-				letterTextView.setPadding(4, 0, 2, 0);
+				// letterTextView.setPadding(4, 0, 2, 0);
 				mIndexerLayout.addView(letterTextView);
 				mIndexerLayout.setBackgroundResource(R.drawable.letterslist_bg);
 
 			} else if (MainActivity.height <= 480) {
 				// TODO:NEED TO DISABLE SCROLL HERE
 				letterTextView.setText(alphabet.charAt(i) + "");
-				letterTextView.setTextSize(10f);
+				letterTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (MainActivity.height * 1.5 / 100));
 				letterTextView.setGravity(Gravity.CENTER);
-				LayoutParams params = new LinearLayout.LayoutParams(20, 0, 1.0f);
+				LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				letterTextView.setLayoutParams(params);
-				letterTextView.setPadding(4, 0, 2, 0);
 				mIndexerLayout.addView(letterTextView);
 				mIndexerLayout.setBackgroundResource(R.drawable.letterslist_bg);
 
 			} else {
 				letterTextView.setText(alphabet.charAt(i) + "");
-				letterTextView.setTextSize(12f);
+				letterTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) (MainActivity.height * 1.67 / 100));
 				letterTextView.setGravity(Gravity.CENTER);
-				LayoutParams params = new LinearLayout.LayoutParams(28, 0, 1.0f);
+				LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				letterTextView.setLayoutParams(params);
 				letterTextView.setPadding(4, 0, 2, 0);
 				mIndexerLayout.addView(letterTextView);
@@ -340,7 +341,7 @@ public class ContactsFragment extends Fragment {
 		protected Void doInBackground(Void... params) {
 			if (ProfileFragment.isActivated && SipRegisteration.isRegisteredWithSip) {
 				Utility.regInCallLogs(Msisdn, 1);
-				MainActivity.initSipManager();
+				// MainActivity.initSipManager();
 			}
 			return null;
 		}
